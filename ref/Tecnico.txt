@@ -1,0 +1,235 @@
+Evolução Projeto Vindex 
+Proposta Inicial 
+O “Projeto Vindex” tem como proposta o monitoramento de motociclistas e em 
+caso de acidente, uma imagem do contexto para possível indicação de culpabilidade e 
+um alerta para um contato favorito indicando acidente e o local.  
+A princípio, em caso de freada brusca e inclinação da moto – o que indica 
+acidente, o hardware “Vindex” dispararia uma sequência de imagens (modo burst) 
+para captar o contexto do acidente. Também teria features como telemetria do veículo 
+para acompanhamento do comportamento do motorista.  
+O hardware envolvido inicialmente contava com um nodeMCU (ESP32) para 
+monitoramento do sensor acelerômetro/giroscópio e um computador de placa única 
+(Raspberry Pi Zero 2W) para monitoramento da câmera e envio da evidência do 
+acidente a um aplicativo desenvolvido nativamente para dispositivos iOS, que além de 
+monitorar e disparar o alerta, seria responsável pelo processamento da evidência e 
+possível captação de placas de veículos brasileiros (modelo cinza ou MERCOSUL) 
+envolvidos no acidente.  
+Agosto/Setembro – Fase I:  Esqueleto do app 
+O trabalho se iniciou com a integração da biblioteca do Telegram, chamada 
+TDLib ao Xcode (IDE para desenvolvimento iOS) para o disparo da mensagem de 
+alerta ao contato favorito, no entanto isso acabou se tornando um fracasso total. A 
+biblioteca TDLib está desatualizada, com inúmeras incompatibilidades com o ambiente 
+Xcode, e mesmo após cerca de 3 semanas tentando integrá-la ao projeto para testar o 
+envio de mensagens pelo aplicativo, após recorrer, inclusive, ao StackOverflow para 
+ajuda, a integração ainda sim não foi possível. As imagens a seguir ilustram a 
+dificuldade de integração com a biblioteca: 
+Post do Stack OverFlow relatando o problema 
+A biblioteca seria útil e necessária porque, devido às diretrizes de privacidade 
+dos sistemas operacionais Android e iOS, o envio automático de mensagens não é 
+permitido por aplicativos de mensagem como Telegram e Whatsapp, tampouco por 
+SMS. Uma solução alternativa seria “clonar” o próprio Telegram para dentro do 
+aplicativo “Vindex” iOS e o próprio aplicativo se comportar em partes como o 
+mensageiro. Contudo, essa ideia foi abandonada devido a sua dificuldade de 
+implementação e os erros persistentes mencionados acima.  
+Fase II: alternativas ao uso da TDLib – Telegram e desenvolvimento do app 
+Vindex com banco de dados 
+Para contornar o problema anterior, foi aventada a possibilidade de criar um 
+aplicativo iOS com dois perfis distintos: Motorista ou Guardião. O Guardião apenas 
+receberia as notificações em caso de acidente, e no aplicativo o “Guardião” ou 
+“Motorista” estariam vinculados entre si com um número de série do hardware do 
+dispositivo. Porém, esbarramos em uma limitação: a Apple só permite notificações 
+push em aplicativos em desenvolvimento para contas de desenvolvimento pagas 
+cuja taxa é de 99 dólares ao ano, a despeito de uma extrema burocracia para 
+ativar pagando em Real. Essa ideia, inclusive, está em “standby” para uma possível 
+evolução do Vindex como produto.  
+Para contornar essa limitação, cogitamos criar um sistema de autenticação 
+rápido e totalmente “user-friendly”, então surgiu a ideia de criar um bot chamado 
+“Alertas Vindex” no Telegram. Geralmente, quando se trabalha com bots, o usuário 
+precisa do nome de usuário do outro aparelho e isso no final se torna uma bagunça. 
+Portanto, pensamos em algo que fosse o mais simples possível. O funcionamento 
+seria da seguinte forma: 
+1) O motorista entra no app “Vindex”, para adicionar um Guardião.  
+O app automaticamente gera esse código de pareamento.  
+2) O contato favorito (Guardião) entra no mensageiro Telegram, procura por 
+@Vindex e informa o código fornecido pelo Motorista  
+3) Pronto! O usuário recebe instantaneamente a mensagem de que o seu 
+Telegram está vinculado como contato de emergência para o motorista. 
+4) O app “Vindex”mostra os guardiões configurados em Meus Guardiões. 
+5) Em caso de acidente, sem absolutamente nenhuma intervenção do usuário, 
+será disparado um alerta com uma mensagem personalizada e sua localização 
+para esse contato favorito (Guardião).  
+Obs.: Ao enviar um alerta de teste para atestar que o sistema está 
+operacional, no ato é possível ver a notificação push do Telegram com a 
+notificação do app “Vindex”. O app notifica o backend no banco de dados 
+Supabase e o próprio sistema do banco de dados envia o alerta ao 
+Telegram.  
+Design 
+As imagens e a estrutura geral da interface do aplicativo estão sendo 
+constantemente atualizadas. Entretanto, o início foi tão simples quanto possível, 
+apenas com uma tela de boas-vindas e a disposição de algumas informações básicas.  
+Outubro - Fase III: Comunicação do app com o hardware 
+Essa foi uma fase extremamente complicada do desenvolvimento. A 
+comunicação do app “Vindex”com o hardware proposto foi extremamente 
+problemática. Mesmo em modo “headless” (sem a interface desktop), o Raspberry Pi 
+utilizado para dar conseguir lidar com a câmera e enviar as imagens de evidência ao 
+aplicativo possui inúmeros problemas de comunicação via Bluetooth Low Energy 
+(BLE). A ideia inicial se desenvolveu no seguinte fluxo:  
+Porém, esbarramos em certos problemas, são eles:  
+1) Mesmo em modo headless, o RPi levou cerca de 15 segundos para ser 
+“acordado” pelo nodeMCU (ESP32) em simulações de acidente por software. 
+Num contexto real de acidente, outros veículos envolvidos já estariam a muitos 
+metros de distância. Mesmo com tentativas de refinamento de software, não foi 
+possível conseguir um tempo de boot melhor.  
+2) O RPi seria o encarregado de enviar as evidências (fotos e dados) ao app para 
+processamento (YOLO, OPENCV, OCR) no dispositivo celular. No entanto, a 
+sua conexão é muito instável por Bluetooth. Em todo caso, o que, de fato, 
+determinou que o RPi não poderia se conectar via Bluetooth foi que, após 
+múltiplas tentativas de diferentes bibliotecas para estabilizar a conexão, tais 
+como “bleak”, “blueZ” e “bless”, nenhuma delas se mostrou capaz de manter 
+uma conexão ativa com o app em segundo plano.  
+Ao minimizar o aplicativo, a conexão entre hardware e software é 
+instantaneamente eliminada, ou seja, o hardware jamais se conectaria via 
+Bluetooth ao smartphone com a aplicação em segundo plano para envio da 
+evidência.  E isso não ocorre com nodeMCU, que mantém o monitoramento 
+constante mesmo com o app em segundo plano, bem como com a tela do 
+smartphone bloqueada. 
+Treinamento da IA 
+Com os prazos apertados e sem um produto-base pronto para podermos 
+apresentar e discutir ideias, a comunicação foi deixada de lado temporariamente e 
+partimos para a integração das bibliotecas de processamento YOLO (You Only Look 
+Once) para detectar as placas, OPENCV para planificar a imagem e OCR (usando 
+framework Vision da Apple) para reconhecimento de caracteres. 
+Foi replicado um dataset de imagens (cerca de 4 mil imagens) da plataforma 
+“Roboflow” de placas padrão MERCOSUL e cinza (modelo antigo) que circulam pelo 
+país para treinar o YOLO com data augmentations para captar as placas em qualquer 
+posição ou ângulo e com blur de pixels.  
+Ao todo, foram 18 horas para treinar o modelo, que felizmente se saiu bem. Na 
+impossibilidade de usar o RPi para a parte mais importante do projeto (envio da 
+evidência), cogitou-se a alteração de fluxo e hardware para poder testar o 
+processamento. Primeiramente, fizemos testes com ESP32-CAM, que apresentou 
+bons resultados em captar imagens de placas mesmo em ambientes com baixa 
+luminosidade. Em seu firmware, foi criado um loop para disparar uma simulação de 
+acidente a cada 1 minuto, uma sequência de 5 fotos era tirada e o aplicativo escolhia a 
+melhor pra processar.   
+Aqui já temos o YOLO + OPENCV + OCR trabalhando conjuntamente e 
+reconhecendo as placas efetivamente, porém com um pouco mais de luz, complicou 
+bastante: 
+Como as placas do novo modelo possuem textos extras como “Brasil” e “BR”, a 
+solução suficiente foi criar parâmetros no algoritmo do OCR para eliminar esses 
+caracteres e através deles distinguir se a placa é do novo modelo, isto é, do modelo 
+MERCOSUL, ou do antigo. Assim, uma das primeiras regras utilizadas foi sempre 
+devolver o padrão LLLNLNN (novo) e LLLNNNN (antigo) quando captado o hífen 
+presente somente nos modelos antigos, cinza, de placa. Sendo L = Letra e N = 
+Número. Isso melhorou o reconhecimento, mas ainda não estava 100%.  
+Outubro/Novembro – Fase IV: Nova troca de hardware  
+O ESP32-CAM estava funcionando, como mostram as imagens anteriores. 
+Conexão estável, funcionando em segundo plano, envio rápido de imagens para o 
+aplicativo, onde é feito o processamento com a IA. Entretanto, em verdade, as 
+imagens estáticas são mais facilmente trabalhadas pelos algoritmos de 
+reconhecimento, e, no mundo real, o fluxo proposto se tornou falho, mesmo que o 
+acelerômetro disparasse o acidente e as imagens fossem captadas em uma fração de 
+segundos, as imagens captadas em sequência não podem fornecer o contexto do 
+acidente.  
+Se saíssemos correndo na rua com o “Vindex”, baseado em ESP32-CAM com 
+fotos estáticas, mesmo em modo burst, com várias imagens captadas em sequência, 
+não seria possível conseguir imagens adequadas para análise, foi o que se constatou 
+em quando a simulação era disparada. Pior seria em um veículo trafegando a pelo 
+menos 50 km/h.  
+A partir desse problema, cogitou-se a troca de hardware. Como os 
+microcontroladores da família ESP32 são confiáveis e estáveis, optou-se pelo chip 
+com maior poder de fogo da família, o ESP32-S3 com câmera OV5647 de 5MP.  
+A ideia aqui era criar um buffer circular de vídeo de aproximadamente 5 
+segundos, que pudesse captar o acidente antes, durante e após o evento, no caso o 
+acidente. Dessa maneira, quando o acelerômetro captasse o acidente, existiria um 
+delay de 2 segundos, aí entraria o comando para o buffer salvar os últimos 5 segundos 
+do buffer, e esse buffer ficaria lá rodando o dia inteiro, em loops de 5 segundos, 
+salvando na memória volátil e descartando em seguida.  
+O hardware funcionou bem, captou imagens razoavelmente boas. Mas 
+infelizmente o OCR não foi capaz de fazer qualquer reconhecimento nos vídeos 
+apresentados. O culpado era óbvio: os vídeos tinham baixa qualidade. Com uma 
+qualidade razoável para o OCR, 640x480, só era possível armazenar 5 segundos de 
+vídeo (~ 6 MB) a 2 frames por segundo. O total da PSRAM do ESP32-S3 é 8 MB.  
+Em função desse gargalo, infelizmente, não seria possível contornar essa 
+dificuldade e para solucionar o problema foram elaboradas inúmeras tentativas. Como 
+o ESP32-S3 não possui poder para rodar um encoder de vídeo, os formatos RAW, 
+RGB565 E YUV422 foram tentados sem sucesso.  
+Nas imagens abaixo percebemos que se o processamento não foi capaz de 
+identificar uma placa visível como essa com a câmera quase estática, muito pior seria 
+em testes em campo. 
+A partir daqui, estava claro que seria necessário retornar ao RPi, pois seria o 
+único hardware minimamente capaz de gravar um vídeo em buffer circular com 
+qualidade suficiente para processamento. O RPi roda com encoder .h264 e tem poder 
+de sobra para converter para .mp4 para o processamento, tornando o vídeo pequeno 
+suficiente para uma análise rápida. Por outro lado, no entanto, ainda assim é 
+impraticável a transferência via Bluetooth, pois o RPi tem problemas sérios de 
+conexão como relatados anteriormente. 
+Além do problema de não manter e não iniciar a conexão Bluetooth com o app 
+em segundo plano, a transferência via BLE é virtualmente impossível. Sua taxa de 
+transmissão máxima não passa de 45 KB/s, e a experiência de perdas de pacotes, 
+corrupção de dados e travamento do aplicativo foram constantes.  
+Cogitou-se a possibilidade de criar um sistema dual-mode, com BLE para 
+monitoramento (eliminando o ESP32) e Bluetooth Clássico para o envio do arquivo. A 
+Apple só permite conexões dual-mode em dispositivos que ela certifica como MFi 
+(Made for iPhone). Logo, a cadeia de transmissão foi abandonada pois era 
+completamente inviável.  
+Então, considerando-se todo esse contexto, o fluxo foi novamente repensado: 
+o ESP32-C3 voltaria a fazer o monitoramento do acelerômetro e do giroscópio 
+conectado ao app no iPhone; o ESP32-C3 só avisaria pro RPi parar de gravar o buffer 
+circular; reduzimos a CPU para trabalhar em 700 MHz ao invés dos 1 GHz habituais e 
+muitos serviços foram desativados no RPi para economizar energia.  
+Assim, a saída seria manter o fluxo ESP32-C3 + RPi da seguinte forma: ao 
+avisar o RPi para gravar o buffer circular, o usuário entra na tela de evidência do 
+acidente para analisar o ocorrido, pressiona um botão para baixar a evidência. 
+Esse botão enviaria um comando ao ESP32-C3 para solicitar ao RPi que 
+entrasse em modo AP (Access Point) criando uma rede wifi para download 
+automático da evidência. O problema desse fluxo é que a Apple não permite que o 
+app se conecte automaticamente à rede criada pelo RPi, então deveria existir a 
+intervenção do usuário. O problema desse fluxo é que raramente o RPi criou o Access 
+Point adequadamente. Mesmo tendo configurado servidor nginx, e uma porção de 
+outros pormenores, o vídeo nunca era servido adequadamente. E aí, após dias 
+trabalhando nesse fluxo, a ideia foi abandonada para tentarmos algo mais robusto e 
+fácil para o usuário.  
+Novembro - FASE V: Fluxo de hardware final e repaginação do app 
+Como já estamos trabalhando com o Supabase (banco de dados em nuvem) 
+desde o início para cuidar dos alertas de acidentes para o contato favorito (Guardião), 
+cogitou-se a possibilidade de se usar o banco de dados para entregar os vídeos das 
+evidências. A estratégia era a mais robusta e atual possível e, assim, eliminava toda a 
+bagunça local de Access Point e conexões instáveis. 
+Assim, o novo fluxo leva em consideração que o ESP32-C3 monitora o 
+acelerômetro e giroscópio; quando o acidente ocorre, o ESP32-C3 avisa, com um 
+delay de 5 segundos, para o RPi gravar os últimos 8 segundos do buffer (captando 
+antes, durante e após acidente), o salva em “.mp4” e envia para a nuvem. No mesmo 
+instante quando o upload é feito, a partir do RPi, é enviado um aviso para o ESP32-C3 
+que, por sua vez, dá um OK pro app: “vídeo pronto”. Dessa forma, o evento aparece 
+automaticamente no app e o usuário apenas clica para baixar o vídeo da nuvem e o 
+processamento inicia sozinho.  
+Esse fluxo dura, ao todo, em torno de 2 minutos ou menos. O vídeo 
+comprimido é enviado em excelente qualidade 720p para a nuvem, a 25 quadros por 
+segundo, o que é suficiente para o OCR, com um tamanho estimado de  
+aproximadamente 3.5 MB, irrisório para as conexões de internet modernas.  
+Imagem anterior mostra cada evento que o Vindex fez upload para a base de 
+dados. A quantidade de MB é irrisória e o upload extremamente rápido e eficiente. 
+Telemetria  
+A telemetria do veículo foi algo que discutimos com o senhor no nosso 
+encontro pra falar do escopo do projeto. Fazer a coleta de dados e sinalizar a um 
+empregador ou companhia de seguros a qualidade de direção do seu motociclista ou 
+segurado é bastante importante. Além disso, esses dados não podem ser apagados 
+pelo usuário. Abaixo temos telas reais do aplicativo com essa funcionalidade 
+totalmente operacional.  
+Aqui temos telas reais do aplicativo Vindex. A tela inicial mostra a sua 
+localização, que será utilizada em caso de acidente. A área logo abaixo mostra dados 
+do Vindex (hardware), como o nível de bateria real, a calibração do giroscópio (5 
+segundos parado numa posição faz com que o sensor se auto calibre usando aquela 
+posição como referência), conexão ao hotspot do aparelho (WiFi), a pontuação e a 
+lista de eventos com possíveis placas detectadas.  
+Na área de pontuação do motorista, abre-se um menu com as corridas feitas e 
+uma breve estatística do período. Por fim, o relatório gerado de cada corrida, muito útil 
+em situações de acidente, uma vez que em uma viagem específica o motorista poderá 
+comprovar que estava andando de maneira responsável por todo o trajeto. Há, 
+inclusive, um heatmap no trajeto indicando onde a velocidade passou dos 50 km/h da 
+cidade de São Paulo. As viagens são criadas automaticamente sem nenhuma 
+intervenção do usuário e são encerradas após 5 minutos contínuos, pois não há 
+semáforo em São Paulo que leve todo esse tempo.  
+A seguir, com todo o fluxo funcional estabelecido, é necessário ir a campo e 
+testar o Vindex em situações de trânsito real, de modo a realizar as coletas de dados 
+para análise, assim como testar a efetividade de suas funcionalidades.   

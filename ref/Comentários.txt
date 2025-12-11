@@ -1,0 +1,71 @@
+FEEDBACK E REVISÃO COMPLETA DA MONOGRAFIA
+
+1. ASPECTOS INICIAIS, METADADOS E FORMATAÇÃO GERAL
+- [CRÍTICO] Faltou colocar os nomes do Autor e do Orientador.
+- [CRÍTICO] Agradecimentos: Citar o orientador como primeira pessoa é incoerente dado o distanciamento no semestre. Remover ou reescrever com sinceridade/cautela.
+- Gramática: Os textos de "Agradecimentos" e "Dedicatória" estão todos no singular (ajustar).
+- Abstract: No código consta apenas "english". Verificar se o texto em inglês está presente.
+- Estilo dos Títulos: Títulos possuem fonte diferente do resto do texto (causa estranheza). Padronizar (sugestão: Times New Roman em tudo).
+- Listas Especiais: "Lista de Listagens" - verificar se é necessário (não existia no 1º semestre).
+- Sumário: Uso excessivo de negrito em todos os termos. Usar com moderação.
+- [CRÍTICO] Formatação de Parágrafos: Todos os parágrafos iniciais de cada seção não possuem o recuo (distanciamento) necessário à esquerda, diferente dos parágrafos seguintes.
+- Bug de Formatação: Mudança abrupta de formatação entre as páginas 19-20 e 29-30 (margem esquerda altera e depois retorna). Verificar se é bug do LaTeX.
+
+2. ESTILO DE ESCRITA E "CARA DE IA"
+- Negrito: Uso excessivo (ex: Seção 1.4). Usar apenas para destaque de termos importantes ou optar por itálico.
+- Listas com Marcadores: Evitar o uso excessivo de listas (bullet points), pois gera "desconfiança" de texto gerado por IA (ex: Seção 1.5 e 2.2.4). Transformar em parágrafos fluídos.
+- Estrutura de Frases: Evitar estruturas repetitivas ou listas numeradas dentro de parágrafos que não são comuns na norma culta.
+
+3. COMENTÁRIOS POR SEÇÃO
+
+### Seção 1 (Introdução e Definições)
+- Título 1.5 "Declaração da Necessidade": Título estranho e redundante. Verificar se foi instrução, caso contrário, alterar.
+- Seção 1.6: O termo "Baixo Falso Alarme" é confuso. Reescrever.
+- Seção 1.7 (Tabelas):
+    - Tabela 1 tem uma linha "sobrando" no final.
+    - Tabela 2 preenche a página até o limite inferior (único caso no doc).
+    - O texto desta seção é redundante e parece "encher linguiça".
+    - Sugestão: Unificar tópicos 1.7, 1.7.1 e 1.7.2 em um texto único e objetivo.
+- Seção 1.8 (Árvore de Objetivos):
+    - A versão atual é muito mais simples ("simplória") que a do 1º semestre e incoerente com o dispositivo real.
+    - Sugestão: Usar uma IMAGEM em vez de renderizar via código LaTeX para evitar bugs visuais.
+
+### Seção 2 (Estado da Arte)
+- Formatação: Texto muito "blocado". Separar parágrafos para assuntos distintos (ex: eCall UE vs EUA).
+- Conteúdo "eCall": Expandir a parte jurídica/obrigação na UE antes de falar dos EUA.
+- Referências Ausentes:
+    - Faltou o link da notícia correspondente à estatística da Bosch (redução de 50% no tempo de resposta).
+    - [CRÍTICO] Faltam ARTIGOS CIENTÍFICOS. A seção foca muito em mercado e pouco em pesquisa acadêmica.
+    - Seção 2.2.3 cita "Khan et al. (2023)" mas sem link e sem constar nas referências.
+- Exemplos de Mercado:
+    - OnStar, SiriusXM, iBump, RideSafe: Estão subdesenvolvidos. Faltam links e detalhes.
+    - Sistema Israelense: Mencionado na apresentação oral, mas ausente no texto. Precisa ser incluído com destaque (é o concorrente mais similar).
+    - V2X: Faltam links ou pesquisas relacionadas.
+
+### Seção 3 (Materiais e Métodos) - PRIORIDADE MÁXIMA
+- [CRÍTICO] Cronologia e Evolução: O texto ignora as fases 1 e 2 do "Vindex Log". As informações estão dispersas e sem ordem cronológica. É imprescindível relatar a evolução, erros e mudanças.
+- 3.1 (Perguntas de Pesquisa): As respostas atuais são genéricas e incoerentes (diz que testou separado para responder questões de integração, o que não faz sentido). Requer dados de campo reais.
+- Smartphone e App: O texto atual está distante da realidade descrita no Log. Precisa ser reescrito.
+- Arquitetura Geral: Confusa e genérica. Deixar para resumir *após* descrever hardware/software detalhadamente.
+- Componentes e Hardware:
+    - Não explica as *razões* das mudanças (principalmente as várias trocas de ESP32).
+    - Câmera: Informações conflitantes (mistura a antiga com a nova). Explicar a mudança do cabo/case.
+    - Terminologia: Usar "nodeMCU" (para o ESP) e "Computador de Placa Única" (para o RPi).
+    - Dados Falsos: Remover menção à "medição de corrente durante compressão" se isso não foi feito.
+    - Bateria: Revisar descrição (não inventar "compartimento único" se não viu a montagem).
+- Software Embarcado:
+    - [CRÍTICO] Falta a "Saga do Telegram": Explicar o fracasso da biblioteca TDLib, incompatibilidade com iOS e por que mudou a arquitetura. Sem explicar o erro anterior, a solução atual não faz sentido.
+- 3.3 (Montagem): Descreve montagem física incorretamente.
+- Testes de Detecção: Seção inútil antes dos testes de campo reais desta semana.
+
+### Funcionalidades Faltantes ou Subdesenvolvidas
+- Telemetria: Função vital e funcional (com score de motorista), mas quase não mencionada. Merece seção própria.
+- Visão Computacional (OpenCV): Não mencionado. Explicar a divisão (Yolo vs OCR). Relatar que o OCR falhou pela qualidade da imagem, motivando a mudança de hardware.
+
+### Seção 4 (Resultados)
+- Listados de forma arbitrária. Precisam ser coerentes, reais e separados por funcionalidade.
+
+4. REFERÊNCIAS
+- Faltam referências para os componentes de hardware (exceto um).
+- Adicionar dados de órgãos públicos (Polícia, etc) para dar credibilidade às estatísticas de acidentes.
+- Verificar links quebrados ou ausentes citados no texto.

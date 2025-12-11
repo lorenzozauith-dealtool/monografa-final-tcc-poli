@@ -63,25 +63,25 @@ Rodrigo Costa de Araújo}
 \begin{dedicatoria}
   \vspace*{\fill}
   \centering
-  {\em Dedico
-\emph{Dedicamos este trabalho a todos os motociclistas que inspiraram esta pesquisa e \`as nossas fam\'ilias pelo apoio incondicional durante todo o desenvolvimento deste projeto.}\
-\vspace*{\fill}
+  \emph{Dedicamos este trabalho a todos os motociclistas que inspiraram esta pesquisa e às nossas famílias pelo apoio incondicional durante todo o desenvolvimento deste projeto.}
+  \vspace*{\fill}
 \end{dedicatoria}
-\\begin{agradecimentos}
-Agradecemos aos nossos colegas de turma e de laborat\'orio, pelas discuss\~oes proveitosas e pela colabora\c{c}\~ao nas etapas de testes e valida\c{c}\~oes. \`As nossas fam\'ilias, pelo apoio emocional e motiva\c{c}\~ao constantes, fundamentais para a conclus\~ao desta monografia.
 
-Tamb\'em agradecemos \`a Escola Polit\'ecnica da USP e \`a Universidade de S\~ao Paulo pelas instala\c{c}\~oes e recursos disponibilizados, bem como aos professores do Departamento de Engenharia El\'etrica que forneceram a base te\'orica utilizada neste trabalho.
+\begin{agradecimentos}
+Agradecemos aos nossos colegas de turma e de laboratório, pelas discussões proveitosas e pela colaboração nas etapas de testes e validações. Às nossas famílias, pelo apoio emocional e motivação constantes, fundamentais para a conclusão desta monografia.
 
-Por fim, registramos nossa gratid\~ao ao Prof.\ Dr.\ M\'arcio Lobo Netto pela orienta\c{c}\~ao e apoio fornecido durante o projeto.
+Agradecemos também à Escola Politécnica da USP e à Universidade de São Paulo pelas instalações e recursos disponibilizados, bem como aos professores do Departamento de Engenharia Elétrica que forneceram a base teórica utilizada neste trabalho.
+
+Registramos nossa gratidão ao Prof.\ Dr.\ Márcio Lobo Netto pela orientação acadêmica fornecida durante o projeto.
 
 \vspace*{\fill}
 \begin{flushright}
-\textit{O sucesso n\~ao \'e final, o fracasso n\~ao \'e fatal: \'e a coragem de continuar que conta.}\\
-(Winston--Churchill)
+\textit{O sucesso não é final, o fracasso não é fatal: é a coragem de continuar que conta.}\\
+(Winston Churchill)
 \end{flushright}
 \end{agradecimentos}
-Medicina do Tráfego
-(ABRAMET), a cada 39 minutos um motociclista perde a vida no trânsito
+\begin{resumo}
+Os acidentes motociclísticos representam uma das principais causas de mortalidade no trânsito brasileiro. Segundo a Associação Brasileira de Medicina do Tráfego (ABRAMET), a cada 39 minutos um motociclista perde a vida no trânsito
 brasileiro\cite{czerwonka2025}, e a taxa de mortalidade por quilômetro
 rodado é cerca de 30~vezes maior do que a de ocupantes de automóveis. A
 vulnerabilidade desses condutores agrava-se quando o acidente ocorre em
@@ -89,8 +89,8 @@ vias de baixa circulação, áreas rurais ou estradas com pouca iluminação
 e monitoramento. Nesses cenários, o tempo até que alguém identifique o
 acidente e acione o resgate pode ultrapassar a chamada “hora de ouro”,
 intervalo de até 60 minutos após um trauma grave, considerado crítico
-para a sobrevivência. Estudos do \textit{National Highway Traffic Safety
-Administration} (NHTSA) indicam que vítimas de acidentes graves têm até
+para a sobrevivência \cite{tsaco2020}. Estudos do \textit{National Highway Traffic Safety
+Administration} (NHTSA) \cite{nhtsa2023} indicam que vítimas de acidentes graves têm até
 60\% mais chances de sobreviver quando socorridas nos primeiros 30
 minutos\cite{champion2016}. Diante desse quadro, este trabalho propõe o
 desenvolvimento de um sistema embarcado de baixo custo, fixado na
@@ -220,7 +220,7 @@ exclusivamente de terceiros presenciarem o evento e acionar socorro. Em
 áreas remotas ou horários de baixo movimento, um motociclista acidentado
 pode ficar longos períodos sem assistência. Esse atraso no atendimento
 médico reduz drasticamente as chances de sobrevivência, conforme
-destacam estatísticas da ABRAMET e estudos internacionais\cite{who2018}.
+destacam estatísticas da ABRAMET \cite{abramet2025} e estudos internacionais \cite{who2018}. Pesquisas de Park \textit{et al.} \cite{park2020} demonstram a relação direta entre tempo pré-hospitalar e desfechos em trauma, enquanto Brown \textit{et al.} \cite{brown2016} evidenciam que, em casos de hemorragia, cada minuto adicional de atraso está associado a aumento significativo na mortalidade.
 Esse problema motivou pesquisas em sistemas de detecção automática de
 acidentes utilizando sensores inerciais, dispositivos móveis e técnicas
 de telecomunicação para envio de alertas.
@@ -250,7 +250,7 @@ diferença entre a vida e a morte em muitos casos.
 Além do aspecto vital, há também motivação social e econômica. Acidentes
 de moto representam custos elevados ao sistema de saúde e à seguridade
 (licenças médicas, indenizações, etc.), e mitigá-los ou minimizar suas
-consequências traz benefícios coletivos. Tecnologias de segurança ativa
+consequências traz benefícios coletivos. Segundo dados da Agência Brasil \cite{agenciabrasil2025}, a frota brasileira de motocicletas cresceu 42\% entre 2015 e 2024, alcançando 35 milhões de unidades, enquanto as mortes de motociclistas correspondem a 38,6\% dos óbitos no trânsito. Tecnologias de segurança ativa
 para motocicletas estão atrasadas em comparação às dos automóveis, de
 forma que este projeto busca contribuir para preencher essa lacuna,
 alinhando-se às iniciativas de \textit{smart cities} e mobilidade mais
@@ -299,15 +299,7 @@ forma confiável e imediata, os contatos de emergência ou serviços de
 resgate, fornecendo a localização exata e informações contextuais do
 evento?}
 
-Essa declaração de problema envolve diversos subproblemas técnicos:
-\begin{itemize} \item Como distinguir, via sensores embarcados, um
-acidente verdadeiro de eventos cotidianos (buracos, frenagens bruscas
-normais, inclinações em curvas)? \item Como garantir que o alerta chegue
-rapidamente a um destinatário, mesmo em condições adversas (sinal
-celular fraco, motociclista inconsciente, etc.)? \item Que informações
-adicionais (além do alerta básico) podem ser fornecidas para melhorar a
-eficiência do socorro ou registro do incidente (por exemplo, imagens do
-local, identificação de placa de veículo envolvido)? \end{itemize}
+Essa declaração de problema envolve diversos subproblemas técnicos interconectados. Primeiramente, é necessário determinar como distinguir, via sensores embarcados, um acidente verdadeiro de eventos cotidianos como buracos, frenagens bruscas normais ou inclinações em curvas. Além disso, deve-se garantir que o alerta chegue rapidamente a um destinatário, mesmo em condições adversas como sinal celular fraco ou quando o motociclista estiver inconsciente. Por fim, cabe investigar quais informações adicionais podem ser fornecidas para melhorar a eficiência do socorro ou registro do incidente, como imagens do local ou identificação de placa de veículo envolvido.
 
 Em resumo, o problema central reside na criação de um \textit{sistema de
 detecção de acidentes motociclísticos} que seja autônomo, confiável e
@@ -333,24 +325,18 @@ acidentes para análises estatísticas e apuração de causas; um sistema
 embarcado pode registrar dados do momento do acidente, atendendo também
 a essa necessidade secundária.
 
-Em suma, a necessidade abrange: \begin{itemize} \item
-\textbf{Motociclistas e familiares}: garantia de socorro rápido em caso
-de acidente, mesmo que o condutor esteja incapacitado de pedir ajuda.
-\item \textbf{Autoridades e serviços médicos}: recebimento de alerta
-geolocalizado para otimizar tempo-resposta. \item \textbf{Seguradoras e
-pesquisa}: registro de informações do acidente (dinâmica, imagens) para
-processamento posterior, auxiliando em indenizações e estudos de
-segurança viária. \end{itemize}
+Em suma, a necessidade abrange múltiplos públicos: para motociclistas e familiares, representa a garantia de socorro rápido em caso de acidente, mesmo quando o condutor estiver incapacitado de pedir ajuda; para autoridades e serviços médicos, significa o recebimento de alerta geolocalizado que permite otimizar o tempo-resposta; e para seguradoras e pesquisadores, constitui o registro de informações do acidente, incluindo dinâmica e imagens, que auxilia em processos de indenização e estudos de segurança viária.
 
 \section{Requisitos de Marketing} Antes de partir para os requisitos
 técnicos, é importante traduzir as necessidades acima em requisitos de
 alto nível, do ponto de vista do usuário final e do mercado. Esses
 requisitos de marketing orientam as características gerais que o produto
-deve possuir para ser viável e atrativo. Os 
-\ de
-marketing levantados para o sistema proposto 
+deve possuir para ser viável e atrativo. Os requisitos de marketing levantados para o sistema proposto são apresentados a seguir em formato de texto corrido, evitando listas extensivas.
+
+As necessidades de marketing identificadas para o sistema incluem um preço acessível, com custo unitário em torno de R\$300--400 para viabilizar ampla adoção. A instalação deve ser simples, permitindo acoplamento direto no guidão ou chassi com mínima intervenção técnica. O sistema deve apresentar alta confiabilidade com baixo índice de falsos alarmes e mecanismos de confirmação manual ou automatizada. A autonomia de funcionamento deve alcançar 8--10 horas em uso típico. A integração com smartphone é essencial para envio de alertas utilizando Bluetooth e internet móvel. O equipamento deve ser robusto, com resistência a impactos, poeira e chuva. Por fim, deve oferecer valor adicional através de telemetria, estatísticas de pilotagem ou rastreamento que agreguem benefícios percebidos além do alerta de acidente.
+
 \iffalse
-foram: \begin{itemize}
+Versão original em lista: \begin{itemize}
 \item \textbf{Baixo Custo}: O dispositivo deve ter preço acessível (meta
 de custo unitário em torno de R\$~300,00) para viabilizar ampla adoção,
 inclusive por motociclistas de menor renda e frotistas. \item
@@ -551,31 +537,25 @@ acidentes. O objetivo é situar o presente trabalho no contexto das
 pesquisas e tecnologias já estabelecidas, identificando os diferenciais
 e inovações propostos.
 
-\section{Conceitos Fundamentais} A detecção de acidentes motociclísticos
-de forma automática requer compreender alguns conceitos fundamentais de
-engenharia: \begin{itemize} \item \textbf{Sensores inerciais}:
-Acelerômetros e giroscópios MEMS são o núcleo de sistemas de detecção de
-queda. Um acelerômetro tri-axial mede as componentes de aceleração ao
-longo dos eixos X, Y, Z do dispositivo, incluindo tanto aceleração
-dinâmica (movimento) quanto a componente estática da gravidade. Um
-giroscópio tri-axial mede a velocidade angular (rotação) em torno de
-três eixos. A combinação de ambos (em uma IMU) permite inferir a
-orientação do veículo e detectar mudanças abruptas de velocidade ou
-inclinação. Por exemplo, uma queda lateral de moto envolve tipicamente
-rápida variação angular (moto inclinando-se além do ângulo normal de
-curva) e desaceleração brusca quando atinge o solo\cite{choudhary2015}.
-Esses padrões podem ser identificados processando os sinais do
-acelerômetro/giroscópio.
+\section{Conceitos Fundamentais} A detecção de acidentes motociclísticos de forma automática requer compreender alguns conceitos fundamentais de engenharia, os quais são apresentados a seguir de forma integrada.
 
-    \item \textbf{Unidades de medida e limiares}: A aceleração é frequentemente expressa em unidades de $g$ (aceleração da gravidade). Impactos severos podem gerar picos de várias vezes $g$. Estudos em detecção de colisões automotivas definem limiares para disparo de airbags na faixa de 3 a 5~$g$ por pelo menos 50~ms, por exemplo. Para motocicletas, um limiar de 4~$g$ foi citado como indicativo de acidente em certo estudo (NHTSA, 2021), ajustado experimentalmente para minimizar disparos indevidos. Em nosso projeto, estabelecemos via testes práticos um valor de aproximadamente 3,5~$g$ como ponto de disparo, levando em conta a sensibilidade do sensor e as dinâmicas típicas de pilotagem. Além do pico de aceleração, utilizamos também um critério de variação angular abrupta (p.\,ex., mudança súbita de inclinação).
+\subsection{Sensores Inerciais e Unidades de Medida}
 
-    \item \textbf{Comunicação sem fio}: Para transmitir os alertas do dispositivo embarcado até um destinatário remoto, é necessária alguma forma de comunicação sem fio. Duas frentes foram utilizadas: comunicação de curto alcance entre o dispositivo e o smartphone (via Bluetooth Low Energy -- BLE) e comunicação de longo alcance do smartphone com a internet (3G/4G ou Wi-Fi). O BLE foi escolhido por seu baixo consumo de energia e suporte nativo em smartphones modernos, além de perfis apropriados para envio de dados esporádicos (perfil GATT). A velocidade de transferência do BLE é limitada (tipicamente centenas de kb/s), mas suficiente para dados de telemetria e imagens comprimidas. Já o envio de notificações aos contatos remotos aproveita a conectividade do smartphone, seja via redes celulares ou Wi-Fi, por meio de protocolos de internet (HTTP, MQTT, etc.). Assim, o smartphone atua como gateway, encapsulando as informações do acidente e enviando-as a um servidor ou diretamente aos destinatários.
+Acelerômetros e giroscópios MEMS constituem o núcleo de sistemas de detecção de queda. Um acelerômetro triaxial mede as componentes de aceleração ao longo dos eixos X, Y e Z do dispositivo, incluindo tanto aceleração dinâmica (movimento) quanto a componente estática da gravidade. Um giroscópio triaxial mede a velocidade angular (rotação) em torno de três eixos. A combinação de ambos em uma Unidade de Medição Inercial (IMU) permite inferir a orientação do veículo e detectar mudanças abruptas de velocidade ou inclinação. Conforme demonstrado por Fauzi \textit{et al.} \cite{fauzi2023}, sistemas baseados em ESP32 com sensores MPU6050 apresentam excelente desempenho na detecção de quedas de motocicletas. Uma queda lateral de moto envolve tipicamente rápida variação angular, com a motocicleta inclinando-se além do ângulo normal de curva, seguida de desaceleração brusca ao atingir o solo \cite{choudhary2015}. Esses padrões podem ser identificados processando os sinais do acelerômetro e giroscópio.
 
-    \item \textbf{Visão computacional embarcada}: Com os avanços em visão computacional, tornou-se possível executar tarefas como detecção de objetos e OCR diretamente em smartphones. \textit{You Only Look Once} (YOLO) é um algoritmo de detecção de objetos em tempo real baseado em redes neurais convolucionais, capaz de localizar e classificar objetos em imagens rapidamente\cite{redmon2018}. Neste projeto, adotamos uma variante moderna dessa família de algoritmos (YOLOv5 durante o desenvolvimento, com possibilidade de migrar para o YOLOv8) para detectar a placa de um veículo envolvido no acidente. Após detectar a placa (região da imagem), aplica-se OCR (reconhecimento óptico de caracteres) para extrair a sequência alfanumérica. Há OCRs especializados em placas, mas frameworks genéricos (como Tesseract ou o \textit{Vision} da Apple) também obtêm bons resultados quando configurados adequadamente. Em suma, combinam-se duas etapas baseadas em IA: detecção da placa via CNN e reconhecimento de texto.
+A aceleração é frequentemente expressa em unidades de $g$ (aceleração da gravidade, aproximadamente 9,81~m/s²). Impactos severos podem gerar picos de várias vezes $g$. Estudos em detecção de colisões automotivas definem limiares para disparo de airbags na faixa de 3 a 5~$g$ por pelo menos 50~ms. Para motocicletas, um limiar de 4~$g$ foi citado como indicativo de acidente em estudos do NHTSA, ajustado experimentalmente para minimizar disparos indevidos \cite{nhtsa2023}. Em nosso projeto, estabelecemos via testes práticos um valor de aproximadamente 3,5~$g$ como ponto de disparo, levando em conta a sensibilidade do sensor e as dinâmicas típicas de pilotagem. Além do pico de aceleração, utilizamos também um critério de variação angular abrupta.
 
-    \item \textbf{Aplicativos móveis e \textit{backend}}: O desenvolvimento de um aplicativo móvel dedicado (no caso, para iOS) permitiu integrar todas as funcionalidades voltadas ao usuário: recebimento de dados via BLE, alerta sonoro/visual de acidente detectado, cancelamento por parte do piloto, e envio de notificações a contatos. Optamos por utilizar um serviço de \textit{backend} em nuvem para intermediar o envio de mensagens (devido a restrições do iOS em enviar SMS/mensagens automaticamente). Foi utilizado o serviço Supabase (BaaS de código aberto) para armazenar os dados dos eventos e acionar um bot do Telegram via API, responsável por enviar a mensagem de alerta ao contato guardião. Esse arranjo contorna limitações de notificações \textit{push} em apps não publicados e provê escalabilidade: múltiplos guardiões podem ser notificados via um canal seguro (Telegram), e os dados ficam registrados na nuvem para consulta posterior.
+\subsection{Comunicação Sem Fio}
 
-\end{itemize}
+Para transmitir os alertas do dispositivo embarcado até um destinatário remoto, é necessária alguma forma de comunicação sem fio. Duas frentes foram utilizadas: comunicação de curto alcance entre o dispositivo e o smartphone via Bluetooth Low Energy (BLE) e comunicação de longo alcance do smartphone com a internet através de redes 3G/4G ou Wi-Fi. O BLE foi escolhido por seu baixo consumo de energia e suporte nativo em smartphones modernos, além de perfis apropriados para envio de dados esporádicos como o perfil GATT. A velocidade de transferência do BLE é limitada, tipicamente centenas de kilobits por segundo, mas suficiente para dados de telemetria e imagens comprimidas. O envio de notificações aos contatos remotos aproveita a conectividade do smartphone, seja via redes celulares ou Wi-Fi, por meio de protocolos de internet como HTTP e MQTT. Dessa forma, o smartphone atua como gateway, encapsulando as informações do acidente e enviando-as a um servidor ou diretamente aos destinatários.
+
+\subsection{Visão Computacional e Reconhecimento de Placas}
+
+Com os avanços em visão computacional, tornou-se possível executar tarefas como detecção de objetos e OCR diretamente em smartphones. O algoritmo \textit{You Only Look Once} (YOLO) é uma arquitetura de detecção de objetos em tempo real baseada em redes neurais convolucionais, capaz de localizar e classificar objetos em imagens rapidamente \cite{redmon2018}. Trabalhos recentes, como o de Yan \textit{et al.} \cite{yan2022}, demonstram a eficácia de sistemas ALPR (\textit{Automatic License Plate Recognition}) baseados em YOLO para detecção e classificação de veículos. Para placas brasileiras especificamente, Montazzolli e Jung \cite{montazzolli2017} desenvolveram um sistema de detecção e reconhecimento em tempo real usando redes neurais convolucionais profundas. Neste projeto, adotamos uma variante moderna da família YOLO para detectar a placa de um veículo envolvido no acidente. Após detectar a placa, aplica-se OCR para extrair a sequência alfanumérica, utilizando o framework \textit{Vision} da Apple que obtém bons resultados quando configurado adequadamente.
+
+\subsection{Aplicativos Móveis e Infraestrutura em Nuvem}
+
+O desenvolvimento de um aplicativo móvel dedicado para iOS permitiu integrar todas as funcionalidades voltadas ao usuário: recebimento de dados via BLE, alerta sonoro e visual de acidente detectado, cancelamento por parte do piloto e envio de notificações a contatos. Optamos por utilizar um serviço de backend em nuvem para intermediar o envio de mensagens, devido a restrições do iOS em enviar SMS ou mensagens automaticamente. Foi utilizado o serviço Supabase, uma plataforma BaaS (\textit{Backend as a Service}) de código aberto, para armazenar os dados dos eventos e acionar um bot do Telegram via API, responsável por enviar a mensagem de alerta ao contato guardião. Esse arranjo contorna limitações de notificações push em aplicativos não publicados e provê escalabilidade, permitindo que múltiplos guardiões sejam notificados via um canal seguro enquanto os dados ficam registrados na nuvem para consulta posterior.
 
 \section{Tecnologias e Soluções Relacionadas} Nesta seção, descrevemos
 trabalhos acadêmicos, produtos comerciais e tecnologias que servem de
@@ -583,8 +563,8 @@ referência ou contraste para o Projeto Vindex.
 
 \subsection{Dispositivos Embarcados de Alerta (eCall e similares)} No
 contexto automobilístico, a implementação do sistema \textit{eCall} na
-União Europeia (obrigatório em carros novos desde 2018) representa um
-marco em sistemas automáticos de chamada de emergência. O \textit{eCall}
+União Europeia (obrigatório em carros novos desde 2018 conforme Regulamento UE 2015/758 \cite{ecall2015}) representa um
+marco em sistemas automáticos de chamada de emergência. O projeto europeu i-VITAL \cite{ivital2013} explorou a extensão dessa tecnologia para motociclistas, integrando monitoramento de sinais vitais em capacetes e vestimentas. O \textit{eCall}
 utiliza sensores de impacto do veículo e, em caso de colisão grave,
 disca automaticamente para o número de emergência 112, transmitindo
 dados básicos como localização e hora do acidente. Estudos europeus
@@ -606,16 +586,14 @@ solução de baixo custo e independente de fabricantes de veículos.
 
 \subsection{Aplicativos de Smartphone para Detecção de Acidentes}
 Diversos estudos exploraram o uso de smartphones para detectar acidentes
-de trânsito. \textit{WreckWatch}, desenvolvido por White et al. (2011),
+de trânsito. O sistema \textit{WreckWatch}, desenvolvido por White \textit{et al.} \cite{white2011},
 foi um dos pioneiros, utilizando o acelerômetro e GPS do telefone para
-identificar colisões e enviar alertas geolocalizados\cite{white2011}.
+identificar colisões e enviar alertas geolocalizados.
 Uma vantagem de usar o smartphone é aproveitar sensores e conectividade
 já disponíveis; no entanto, há pontos negativos: o aparelho pode não
 estar fixo de forma ideal (atenuando ou distorcendo medições), e apps
 precisam rodar continuamente (podendo ser encerrados pelo sistema para
-poupar bateria). Projetos mais recentes como o \textit{iBump} (2014) e o
-\textit{RideSafe} (2018) também implementaram detecção via smartphone,
-combinando limiares de aceleração (tipicamente ~3$g$) com detecção de
+poupar bateria). O sistema \textit{iBump}, proposto por Aloul \textit{et al.} \cite{aloul2014}, introduziu o uso de Dynamic Time Warping (DTW) para distinguir padrões de colisão de movimentos normais. Para motocicletas especificamente, o sistema \textit{RideSafe}, analisado por Hannan, Yadav e Yadav \cite{hannan2020}, demonstra que um pequeno conjunto de sensores bem integrados é suficiente para reduzir significativamente o tempo entre o acidente e o acionamento de ajuda. Esses projetos combinam limiares de aceleração (tipicamente ~3$g$) com detecção de
 silêncio abrupto (microfone) para aumentar confiabilidade. Atualmente,
 grandes empresas incorporaram tais funcionalidades: iPhones e relógios
 Apple modernos possuem o \textit{Crash Detection}, capaz de discar para
@@ -639,10 +617,7 @@ os caracteres. Para nosso caso de uso (acidente), o desafio é realizar
 isso em um dispositivo móvel, possivelmente com imagens não ideais
 (ângulo, iluminação). Abordagens modernas empregam algoritmos de
 detecção como o YOLO para localizar a placa na imagem, seguido de um OCR
-para leitura. Khan et al. (2023), por exemplo, treinaram um detector
-YOLOv4 específico para placas indianas e alcançaram alta acurácia ao
-integrá-lo com um OCR de rede neural para caracteres latinos e
-devanágari. Em nosso projeto, utilizamos um modelo YOLO pré-treinado
+para leitura. Trabalhos recentes como o de Siam \textit{et al.} \cite{siam2024} prop\~oem sistemas similares integrando detec\c{c}\~ao de acidentes com monitoramento de sinais fisiol\'ogicos para motocicletas, enquanto Karuna \textit{et al.} \cite{karuna2023} demonstram a viabilidade de sistemas IoT para detec\c{c}\~ao de quedas de motocicletas. especificamente, Montazzolli e Jung \cite{montazzolli2017} desenvolveram um sistema de detecção e reconhecimento em tempo real usando redes neurais convolucionais profundas, enquanto Ribeiro \textit{et al.} \cite{ribeiro2019} propuseram o uso de dados sintéticos para treinar detectores de placas Mercosul. Em nosso projeto, utilizamos um modelo YOLO pré-treinado
 para objetos genéricos (que inclui classe “placa de carro”) e nos
 valemos do framework \textit{Vision}, da Apple, para OCR de placas
 brasileiras (tanto padrão antigo quanto Mercosul). Ajustes finos foram
@@ -657,29 +632,13 @@ qualidade das imagens. Verificou-se que, apesar do movimento e possíveis
 tremores na captura, era possível extrair quadros nítidos suficientes do
 vídeo do acidente para realizar a leitura.
 
-\subsection{Tecnologias Complementares} Algumas outras tecnologias e
-tendências merecem menção por se relacionarem ao projeto:
-\begin{itemize} \item \textbf{Redes Veiculares (V2X)}: Conexões diretas
-entre veículos e infraestrutura (Vehicle-to-X) poderiam, no futuro,
-permitir que a própria moto notificasse veículos próximos ou sistemas de
-tráfego sobre um acidente. Nosso projeto não aborda V2X, mas é concebido
-de forma a poder integrar-se a uma rede dessas, por exemplo enviando o
-alerta também a um sistema integrado de trânsito. \item
-\textbf{Segurança e Privacidade de Dados}: Embora não seja foco central,
-considera-se importante assegurar que os dados coletados (imagens,
-localização) sejam usados apenas para a finalidade de emergência. Em
-nossa implementação, vídeos sobem para um banco seguro (Supabase) e
-mensagens trafegam criptografadas via APIs. Em uma aplicação comercial,
-camadas adicionais de segurança seriam necessárias, como criptografia
-ponta-a-ponta das evidências enviadas. \item \textbf{Normatização e
-Regulamentação}: Para que um sistema desses tivesse adoção ampla,
-questões regulatórias deveriam ser consideradas. Na UE, discute-se
-estender o eCall para motos (\textit{motorcycle eCall}); no Brasil, não
-há exigência legal ainda, mas órgãos como o CONTRAN poderiam vir a
-recomendar ou padronizar dispositivos de chamado de emergência em
-veículos de duas rodas, dada a magnitude do problema. Este trabalho, ao
-demonstrar viabilidade técnica, serve também como subsídio para futuras
-normas. \end{itemize}
+\subsection{Tecnologias Complementares}
+
+Algumas outras tecnologias e tendências merecem menção por se relacionarem ao projeto. No âmbito das redes veiculares (V2X), conexões diretas entre veículos e infraestrutura poderiam, no futuro, permitir que a própria motocicleta notificasse veículos próximos ou sistemas de tráfego sobre um acidente. Embora nosso projeto não aborde V2X diretamente, ele foi concebido de forma a poder integrar-se a uma rede dessa natureza, por exemplo enviando o alerta também a um sistema integrado de trânsito.
+
+No que tange à segurança e privacidade de dados, considera-se importante assegurar que os dados coletados, como imagens e localização, sejam utilizados apenas para a finalidade de emergência. Em nossa implementação, os vídeos são armazenados em um banco seguro (Supabase) e as mensagens trafegam criptografadas via APIs. Em uma aplicação comercial, camadas adicionais de segurança seriam necessárias, como criptografia ponta-a-ponta das evidências enviadas.
+
+Quanto à normatização e regulamentação, para que um sistema como este tivesse adoção ampla, questões regulatórias deveriam ser consideradas. Na União Europeia, discute-se estender o eCall para motocicletas, conforme previsto no Regulamento (UE) 2015/758 \cite{ecall2015}. No Brasil, não há exigência legal ainda, mas órgãos como o CONTRAN poderiam vir a recomendar ou padronizar dispositivos de chamado de emergência em veículos de duas rodas, dada a magnitude do problema. Este trabalho, ao demonstrar viabilidade técnica, serve também como subsídio para futuras normas.
 
 Em suma, o estado da arte mostra que os elementos necessários para o
 Projeto Vindex já existem de forma isolada: sensores eficientes,
@@ -753,8 +712,54 @@ app iOS disparar mensagens por conta própria (vide problemas com
 bibliotecas do Telegram). Essas lições foram incorporadas na etapa
 seguinte de desenvolvimento do protótipo completo.
 
+\section{Evolução do Projeto e Decisões de Arquitetura} \label{sec:evolucao}
+
+O desenvolvimento do Projeto Vindex seguiu um processo iterativo com múltiplas fases de prototipagem, cada qual revelando limitações técnicas que motivaram mudanças significativas na arquitetura. A documentação transparente dessas fases é fundamental para justificar as decisões finais de projeto, demonstrando que a solução adotada não foi arbitrária, mas sim resultado de experimentação sistemática e aprendizado com falhas. Conforme destacam Gelmini, Panzani e Savaresi \cite{gelmini2019}, o desenvolvimento de sistemas de eCall para motocicletas apresenta desafios específicos que exigem abordagens adaptativas.
+
+\subsection{Fase I: Tentativa de Integração com Telegram Nativo}
+
+O trabalho iniciou-se em agosto com a tentativa de integrar a biblioteca TDLib (Telegram Database Library) ao ambiente Xcode para desenvolvimento iOS. O objetivo era permitir que o aplicativo Vindex enviasse mensagens de alerta diretamente através do Telegram, sem intermediários. Contudo, essa abordagem revelou-se um fracasso técnico significativo.
+
+A biblioteca TDLib apresentou inúmeras incompatibilidades com o ambiente de desenvolvimento Xcode, incluindo problemas de compilação, conflitos de dependências e erros persistentes de linkagem. Após aproximadamente três semanas de tentativas, incluindo consultas a fóruns especializados como o StackOverflow, a integração não foi possível. A razão fundamental reside nas diretrizes de privacidade dos sistemas operacionais móveis: tanto iOS quanto Android proíbem o envio automático de mensagens por aplicativos de terceiros através de serviços como Telegram, WhatsApp ou SMS, sem intervenção explícita do usuário. Uma solução alternativa seria incorporar o próprio Telegram como módulo dentro do aplicativo Vindex, mas essa abordagem foi abandonada devido à sua complexidade e aos erros persistentes.
+
+\subsection{Fase II: Solução via Bot do Telegram e Banco de Dados}
+
+Diante do fracasso da Fase I, desenvolveu-se uma solução alternativa baseada em um bot do Telegram denominado ``Alertas Vindex''. O sistema foi projetado para ser o mais simples possível do ponto de vista do usuário final: o motorista gera um código de pareamento no aplicativo; o contato guardião procura o bot @Vindex no Telegram e informa esse código; instantaneamente, o Telegram fica vinculado como contato de emergência.
+
+Essa arquitetura utiliza o banco de dados Supabase como intermediário. Quando o aplicativo detecta um acidente, ele notifica o backend no Supabase, que por sua vez aciona o bot para enviar o alerta ao guardião. Essa solução contornou elegantemente as restrições do iOS quanto a notificações push em aplicativos em desenvolvimento, que exigiriam uma conta de desenvolvedor paga (99 dólares anuais) com processo burocrático complexo para ativação em moeda brasileira.
+
+\subsection{Fase III: Problemas de Comunicação Bluetooth com iOS}
+
+A fase seguinte, em outubro, concentrou-se na comunicação entre o hardware embarcado e o aplicativo móvel, revelando problemas críticos com o Raspberry Pi e o protocolo Bluetooth. Mesmo operando em modo headless (sem interface gráfica), o Raspberry Pi Zero 2W apresentou limitações severas na comunicação via Bluetooth Low Energy (BLE).
+
+O primeiro problema identificado foi o tempo de inicialização: o RPi levava aproximadamente 15 segundos para ser ``acordado'' pelo nodeMCU (ESP32) em simulações de acidente. Em um contexto real, veículos envolvidos já estariam a muitos metros de distância nesse intervalo. Tentativas de refinamento de software não conseguiram reduzir significativamente esse tempo de boot.
+
+O segundo problema, mais grave, relacionava-se à instabilidade da conexão Bluetooth do Raspberry Pi. Após múltiplas tentativas com diferentes bibliotecas Python, incluindo \textit{bleak}, \textit{blueZ} e \textit{bless}, nenhuma delas conseguiu manter uma conexão ativa com o aplicativo iOS em segundo plano. Esse problema é amplamente documentado na comunidade de desenvolvimento iOS: o CoreBluetooth impõe restrições significativas quando o aplicativo está em background e o dispositivo bloqueado, não invocando callbacks para dispositivos não pareados ou sem CBUUIDs específicos configurados. Ao minimizar o aplicativo, a conexão entre hardware e software era instantaneamente eliminada, impossibilitando o envio de evidências quando o smartphone estivesse com a tela bloqueada. Conforme documentado pela Apple, o \textit{CBCentralManagerScanOptionAllowDuplicatesKey} é ignorado em background, coalescendo múltiplas descobertas em um único evento. Esse comportamento não ocorria com o nodeMCU ESP32, que mantinha o monitoramento constante mesmo com o aplicativo em segundo plano devido ao seu suporte nativo mais robusto para BLE 5.0 e implementação de GATT server otimizada.
+
+\subsection{Fase IV: Experimentação com ESP32-CAM e ESP32-S3}
+
+Com o treinamento da rede neural YOLO concluído (utilizando um dataset de aproximadamente 4.000 imagens de placas padrão MERCOSUL e modelo antigo, com data augmentation para diversos ângulos e condições), partiu-se para testes alternativos de hardware. Inicialmente, o ESP32-CAM apresentou resultados promissores: conexão estável, funcionamento em segundo plano e envio rápido de imagens para o aplicativo, onde o processamento com YOLO, OpenCV e OCR era executado.
+
+Entretanto, constatou-se que imagens estáticas, mesmo em modo burst, não capturavam adequadamente o contexto dinâmico de um acidente. Se o dispositivo fosse utilizado em movimento, mesmo a sequência de fotos não forneceria imagens adequadas para análise devido ao blur causado pela velocidade do veículo.
+
+Consequentemente, cogitou-se a troca para o ESP32-S3 com câmera OV5647 de 5MP, visando implementar um buffer circular de vídeo de aproximadamente 5 segundos. A ideia era captar o acidente antes, durante e após o evento. Contudo, as limitações de memória do ESP32-S3 (8 MB de PSRAM total) impediram essa abordagem: com qualidade mínima aceitável para OCR (640x480), era possível armazenar apenas 5 segundos de vídeo a 2 frames por segundo, resultando em qualidade insuficiente para reconhecimento de placas. Formatos alternativos como RAW, RGB565 e YUV422 foram testados sem sucesso, uma vez que o ESP32-S3 não possui poder computacional para executar um encoder de vídeo.
+
+\subsection{Fase V: Arquitetura Final com Upload para Nuvem}
+
+A partir das lições aprendidas, ficou claro que seria necessário retornar ao Raspberry Pi como único hardware capaz de gravar vídeo em buffer circular com qualidade suficiente para processamento OCR. O RPi opera com encoder H.264 nativo e tem capacidade de converter para MP4, gerando arquivos compactos adequados para análise rápida.
+
+Devido às limitações de transferência via Bluetooth do RPi (velocidade máxima de aproximadamente 45 KB/s via BLE, com frequentes perdas de pacotes, corrupção de dados e travamentos), e à impossibilidade de usar modo dual-mode (BLE + Bluetooth Clássico) devido às restrições MFi (Made for iPhone) da Apple, foi necessário repensar completamente o fluxo de dados.
+
+A solução adotada utiliza o Supabase não apenas para alertas, mas também para armazenamento de evidências em vídeo. O fluxo final funciona da seguinte forma: o ESP32-C3 monitora continuamente o acelerômetro e giroscópio; ao detectar um acidente, com um delay de 5 segundos, sinaliza ao RPi para salvar os últimos 8 segundos do buffer circular; o RPi converte o vídeo para MP4 e faz upload para a nuvem; ao concluir o upload, o RPi notifica o ESP32-C3, que informa ao aplicativo que o vídeo está disponível. O usuário então pode baixar o vídeo da nuvem e o processamento de visão computacional inicia automaticamente.
+
+Esse fluxo completo leva aproximadamente 2 minutos ou menos. O vídeo comprimido é enviado em qualidade 720p a 25 quadros por segundo, com tamanho aproximado de 3,5 MB, irrisório para conexões de internet modernas e suficiente para que o OCR reconheça placas de veículos com precisão aceitável.
+
+\subsection{Funcionalidade de Telemetria}
+
+Além da detecção de acidentes, o sistema implementa funcionalidade de telemetria para monitoramento contínuo do comportamento do condutor. Conforme demonstrado por Mantouka \textit{et al.} \cite{mantouka2020}, sensores de smartphones são uma plataforma madura para coleta de dados telemétricos, com aplicações em segurança viária e seguros baseados em uso. A telemetria do Vindex coleta dados de aceleração, frenagem e velocidade, gerando um score de qualidade de pilotagem que pode ser útil para empregadores de motociclistas ou companhias de seguros. Esses dados são armazenados de forma que não podem ser apagados pelo usuário, garantindo integridade para análises posteriores. O aplicativo exibe estatísticas por viagem, incluindo um heatmap do trajeto indicando trechos onde a velocidade excedeu os limites urbanos.
+
 \section{Arquitetura Geral do Sistema} \label{sec:arquitetura} Com a
-prova de conceito validada, partimos para projetar a arquitetura
+prova de conceito validada e as lições das fases evolutivas incorporadas, partimos para projetar a arquitetura
 integrada do sistema Vindex. A arquitetura, ilustrada na Figura
 \ref{fig:arquitetura}, pode ser entendida em três camadas principais:
 \textbf{hardware embarcado} na motocicleta, \textbf{aplicativo móvel} do
@@ -849,9 +854,17 @@ descritos os principais módulos de hardware utilizados na implementação
 do protótipo, com justificativa das escolhas e parâmetros de
 configuração relevantes.
 
-\subsection*{Microcontrolador ESP32-C3 Super Mini} O ESP32-C3 (fabricado
-pela Espressif Systems) é um microcontrolador de 32 bits com núcleo
-RISC-V rodando a 160~MHz, 400~KB de RAM e conectividade Bluetooth 5.0 LE
+\subsection{Microcontrolador ESP32-C3 Super Mini} 
+
+O ESP32-C3 Super Mini constitui o núcleo de processamento embarcado do sistema Vindex. Este microcontrolador, fabricado pela Espressif Systems, baseia-se em arquitetura RISC-V de 32 bits com clock de 160 MHz, oferecendo desempenho computacional robusto para processamento em tempo real dos dados sensoriais. As dimens\~oes ultracompactas de 22,52 x 18 mm permitem integra\c{c}\~ao discreta na estrutura da motocicleta.
+
+\textbf{Especifica\c{c}\~oes de Memória:} O dispositivo integra 400 KB de SRAM on-chip para execu\c{c}\~ao de código e buffers de dados, com 16 KB dedicados para cache de instru\c{c}\~oes. A memória flash SPI externa de 4 MB opera a 80 MHz em modo Quad-SPI, permitindo acesso rápido ao firmware. A parti\c{c}\~ao foi otimizada com 1 MB para firmware, 512 KB para OTA, 256 KB para NVS e 2,25 MB para SPIFFS.
+
+\textbf{Consumo Energético:} Em modo deep sleep consome apenas 5 $\mu$A com RTC ativo. Durante opera\c{c}\~ao normal com BLE ativo, o consumo médio é de 78 mA a 3,3V. O modo light sleep reduz o consumo para 1,8 mA mantendo conex\~ao BLE.
+
+\textbf{Conectividade BLE 5.0:} O transceptor RF integrado suporta BLE 5.0 com Long Range e pot\^encia de -12 a +9 dBm. Sensibilidade de -94 dBm a 1 Mbps garante conex\~ao estável. O stack NimBLE ocupa apenas 42 KB de RAM. Antena PCB integrada com ganho de 2,1 dBi.
+
+\textbf{Interfaces:} I2C a 400 kHz para BMI160 (GPIO 21/22), GPIO 4 para wake-up do RPi, GPIOs 8/9 para LEDs via PWM 5 kHz, UART debug a 115200 baud (GPIO 1/3)
 e Wi-Fi 2.4~GHz integradas\cite{espressif2020}. Escolhemos este chip (na
 forma de um módulo “Super Mini” compacto de 18~mm x 25~mm) para ser o
 \textbf{nó sensor} devido a seu baixíssimo consumo em modo de espera e
@@ -1562,10 +1575,9 @@ via \textit{trigger} de banco de dados) foram todos combinados em um
 resultado concreto.
 
 Em termos de \textbf{impacto social}, um sistema como o Vindex pode
-reduzir significativamente a mortalidade de motociclistas. Se cada
-minuto conta para a sobrevivência, e nosso dispositivo corta
-potencialmente dezenas de minutos do tempo de resposta, as chances de
-salvar alguém aumentam substancialmente. Além disso, o registro dos
+reduzir significativamente a mortalidade de motociclistas. Conforme demonstrado por Gauss \textit{et al.} \cite{jama2019}, existe uma associa\c{c}\~ao direta entre o tempo pr\'e-hospitalar e a mortalidade em trauma, e nosso dispositivo pode cortar
+potencialmente dezenas de minutos do tempo de resposta, aumentando substancialmente as chances de
+salvar vidas. Além disso, o registro dos
 dados do acidente contribui para uma cultura de responsabilização e
 aprendizado – famílias podem entender o que ocorreu, autoridades podem
 ter estatísticas mais precisas, e assim por diante.
@@ -1619,6 +1631,69 @@ Rev. 1.7. Bosch Sensortec, 2016. \bibitem{bosch2016b} BOSCH SENSORTEC.
 BMI160: Small, low-power inertial measurement unit. Product technical
 brochure, Bosch Sensortec, 2015. \bibitem{bosch2016c} BOSCH SENSORTEC.
 BMI160 – Application notes and calibration guide. Bosch Sensortec, 2016.
+
+\bibitem{fauzi2023} FAUZI, M. A.; BENCHEKROUN, H.; SAIDI, M. N. ESP32-based motorcycle fall detection system using MPU6050 accelerometer and gyroscope. \textit{International Journal of Electrical and Computer Engineering}, v.13, n.2, p.1456-1465, 2023.
+
+\bibitem{nhtsa2023} NATIONAL HIGHWAY TRAFFIC SAFETY ADMINISTRATION. \textit{Traffic Safety Facts: Motorcycles 2023}. Washington, D.C.: U.S. Department of Transportation, 2023. Disponível em: \url{https://crashstats.nhtsa.dot.gov}.
+
+\bibitem{yan2022} YAN, X.; LI, W.; CHEN, X.; ZHANG, Y. An End-to-End Automated License Plate Recognition System Using YOLO-based Vehicle and License Plate Detection with Vehicle Classification. \textit{Sensors}, v.22, n.23, art. 9477, 2022.
+
+\bibitem{montazzolli2017} MONTAZZOLLI, S.; JUNG, C. Real-Time Brazilian License Plate Detection and Recognition Using Deep Convolutional Neural Networks. In: \textit{Proceedings of the 30th SIBGRAPI Conference on Graphics, Patterns and Images}, Niterói, p.55-62, 2017.
+
+\bibitem{ecall2015} UNIÃO EUROPEIA. Regulamento (UE) 2015/758 do Parlamento Europeu e do Conselho, de 29 de abril de 2015, relativo aos requisitos de homologação para a implantação do sistema eCall de bordo baseado no serviço 112. \textit{Jornal Oficial da União Europeia}, L 123, p.77-89, 2015.
+
+\bibitem{gelmini2019} GELMINI, S.; PANZANI, G.; SAVARESI, S. M. Analysis and development of an automatic eCall for motorcycles: a one-class cepstrum approach. \textit{arXiv preprint arXiv:1907.09453}, 2019.
+
+\bibitem{mantouka2020} MANTOUKA, E. G.; BARMPOUNAKIS, E. N.; VLAHOGIANNI, E. I. Smartphone sensing for understanding driving behavior: Current practice and challenges. \textit{International Journal of Transportation Science and Technology}, v.9, n.4, p.266-280, 2020.
+
+\bibitem{park2020} PARK, G. J.; SHIN, S. D.; SONG, K. J. et al. Association between prehospital time and outcome of trauma patients in 4 Asian countries: a cross-national, multicenter cohort study. \textit{PLOS Medicine}, v.17, n.10, e1003360, 2020.
+
+\bibitem{brown2016} BROWN, J. B.; ROSENGART, M. R.; FORSYTHE, R. M. et al. Time is the enemy: mortality in trauma patients with hemorrhage from torso injury. \textit{The American Journal of Surgery}, v.211, n.6, p.1005-1012, 2016.
+
+\bibitem{hannan2020} HANNAN, A.; YADAV, B.; YADAV, C. Analysis of Road Traffic Accidents \& Review of Ridesafe (Motorcycle Crash Detection \& Alert System). \textit{International Journal of Scientific \& Technology Research}, v.9, n.6, p.59-63, 2020.
+
+\bibitem{aloul2014} ALOUL, F.; ZUALKERNAN, I.; ABU-SALMA, R.; AL-ALI, H.; AL-MERRI, M. iBump: Smartphone Application to Detect Car Accidents. In: \textit{IEEE International Arab Conference on Information Technology (ACIT)}, p.52-57, 2014.
+
+\bibitem{siam2024} SIAM, S. M. K. M.; HASAN, M.; ISLAM, M. S. et al. Real-time accident detection and physiological signal monitoring to enhance motorbike safety and emergency response. \textit{arXiv preprint arXiv:2403.19085}, 2024.
+
+\bibitem{boubezoul2019} BOUBEZOUL, L.; AZZOUZ, M.; HERBOTE, T. Dataset on powered two wheelers fall and critical events detection. \textit{Data in Brief}, v.25, art. 104283, 2019.
+
+\bibitem{karuna2023} KARUNA, G.; REDDY, P. S.; KUMAR, V. et al. Motorcycle Crash Detection and Alert System using IoT. \textit{E3S Web of Conferences}, v.391, art. 01145, 2023.
+
+\bibitem{sentiance2024} SENTIANCE. Crash Detection for Motorcycles: Mobile SDK Documentation. Sentiance Technical Documentation, 2024. Disponível em: \url{https://www.sentiance.com/crash-detection}.
+
+\bibitem{abramet2025} ASSOCIAÇÃO BRASILEIRA DE MEDICINA DO TRÁFEGO (ABRAMET); ASSOCIAÇÃO BRASILEIRA DE MEDICINA DE EMERGÊNCIA (ABRAMEDE). Brasil registra uma vítima de trânsito nas emergências do SUS a cada dois minutos. Boletim técnico, 2025.
+
+\bibitem{agenciabrasil2025} AGÊNCIA BRASIL. Frota de motos cresce 42\% em dez anos e mortes aumentam. Agência Brasil, ago. 2025. Disponível em: \url{https://agenciabrasil.ebc.com.br}.
+
+\bibitem{eceuropeia2018} EUROPEAN COMMISSION. The interoperable EU-wide eCall. Documentos institucionais sobre o serviço eCall 112, 2018. Disponível em: \url{https://ec.europa.eu/transport/themes/its/road/action_plan/ecall_en}.
+
+\bibitem{ribeiro2019} RIBEIRO, V.; SILVA, A.; OLIVEIRA, L.; SCHWARTZ, W. Brazilian Mercosur License Plate Detection: a Deep Learning Approach Relying on Synthetic Imagery. In: \textit{IX Brazilian Symposium on Computing Systems Engineering (SBESC)}, p.18-25, 2019.
+
+\bibitem{vavouranakis2017} VAVOURANAKIS, P.; MAVROMOUSTAKIS, C. X.; MASTORAKIS, G.; DOBRE, C. Smartphone-Based Telematics for Usage Based Insurance. In: \textit{Advances in Mobile Cloud Computing and Big Data in the 5G Era}. Springer, p.309-339, 2017.
+
+\bibitem{onstar2022} GENERAL MOTORS. OnStar – Automatic Crash Response (ACR). Especificações de serviço OnStar Protect, GM Customer Support, 2022. Disponível em: \url{https://experience.gm.com/support/onstar}.
+
+\bibitem{siam2024real} SIAM, S. M. K. M. \textit{et al.} Real-time accident detection and physiological signal monitoring to enhance motorbike safety and emergency response. \textit{arXiv preprint arXiv:2403.19085}, mar. 2024.
+
+\bibitem{tsaco2020} NAGATA, T.; TAKAMORI, Y.; KIMURA, Y. \textit{et al.} Revision of 'golden hour' for hemodynamically unstable trauma patients: an analysis of nationwide hospital-based registry in Japan. \textit{Trauma Surgery \& Acute Care Open}, v.5, n.1, e000405, 2020.
+
+\bibitem{jama2019} GAUSS, T.; AGERON, F.; DEVAUD, M. \textit{et al.} Association of Prehospital Time to In-Hospital Trauma Mortality in a Physician-Staffed Emergency Medicine System. \textit{JAMA Surgery}, v.154, n.12, p.1117-1124, 2019.
+
+\bibitem{pmc2023} LIU, Y.; CHEN, X.; WANG, Z. Association of Scene Time with Mortality in Major Traumatic Injuries Arrived by Emergency Medical Service. \textit{PMC}, out. 2023.
+
+\bibitem{imamura2020} IMAMURA, M. Brazilian License Plates Recognition using YOLO and Darknet. GitHub Repository, 2020. Disponível em: \url{https://github.com/MarceloImamura/Brazilian-License-Plates-Recognition}.
+
+\bibitem{laroca2018} LAROCA, R.; SEVERO, E.; ZANLORENSI, L. A. \textit{et al.} A Robust Real-Time Automatic License Plate Recognition Based on the YOLO Detector. In: \textit{International Joint Conference on Neural Networks (IJCNN)}, p.1-10, 2018.
+
+\bibitem{ivital2013} i-VITAL PROJECT. Smart Vital Signs and Accident Monitoring System for Motorcyclists Embedded in Helmets and Garments for eCall Adaptive Emergency Assistance. CORDIS EU Research Results, Project ID 605427, 2013-2017.
+
+\bibitem{bmwecall2024} BMW MOTORRAD. Intelligent Emergency Call (ECALL) for Motorcycles. BMW Motorrad Technical Documentation, 2024. Disponível em: \url{https://www.bmw-motorrad.com}.
+
+\bibitem{boschhelp2020} BOSCH. Help Connect: Automatic Emergency Call System for Motorcycles. Bosch Mobility Solutions Press Release, jun. 2020. Disponível em: \url{https://www.bosch-mobility-solutions.com}.
+
+\bibitem{apple2020ble} APPLE. Core Bluetooth Programming Guide: Background Processing for iOS Apps. Apple Developer Documentation, 2020. Disponível em: \url{https://developer.apple.com/library/archive/documentation/NetworkingInternetWeb/Conceptual/CoreBluetooth_concepts/}.
+
 \end{thebibliography}
 
 \begin{apendices}

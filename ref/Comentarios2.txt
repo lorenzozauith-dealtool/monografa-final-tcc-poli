@@ -1,0 +1,272 @@
+Eu tentei acessar o conteúdo do OverLeaf anterior, mas o link me retorna 
+"Project not found". Alguém mexeu nele, excluindo sem querer aparentemente. Na 
+sexta, eu lembro de ter conseguido ter acesso (espero não ter sido eu que acabei 
+quebrando o project). Lorenzo, se você puder buscá-lo no moodle por favor. 
+Agradeço.
+Então, eu fui lendo e pontuando as coisas da monografia e a seguir vou 
+deixar minha revisão, sugestões e comentários gerais.
+Bom, primeiramente, faltou colocar os nossos nomes e o do orientador. 
+Outra coisa, citá-lo como a primeira pessoa em “Agradecimentos” é, no mínimo, 
+incoerente, considerando o distanciamento que tivemos ao longo do semestre. 
+Confesso, sinceramente eu não iria fazer nenhum comentário a respeito, na 
+verdade eu pretendia ignorar essas partes e ir direto para o conteúdo, mas voltei 
+atrás e acabei lendo. Imagino que o Lobo possa fazer o mesmo, então... Enfim, se 
+for o caso, procure escrever algo sincero ou, por enquanto, remova essa parte para 
+colocarmos só no final mesmo, bem como outras. 
+Os textos de "Agradecimentos", da "Dedicatória" e outros estão todos no 
+singular. É secundário, óbvio, mas estou pontuando para não esquecermos. Além 
+disso, no início, no lugar do "Abstract" você deixou apenas "english". 
+Por qual razão os títulos possuem uma fonte diferente do restante do texto? 
+Isso provoca uma certa estranheza, o mesmo ocorre com a listagem das "Listas de 
+ilustrações" e "Lista de tabelas" em contraste com o "Sumário". Neste, inclusive 
+consta a presença predominante de negrito em todos os termos, por favor use com 
+moderação. Creio ser coerente fazer uso do “Times New Roman”, ou outra fonte, 
+em todo o texto, apenas. Há alguma razão pela qual você deixou dessa forma? 
+Alguma orientação, talvez? 
+Outra coisa, "Lista de Listagens", isso está certo? Há essa parte no 
+documento do primeiro semestre? 
+Um aspecto fundamental a respeito da formatação é que todos os parágrafos 
+iniciais de cada seção não possuem o distanciamento necessário da extremidade da 
+esquerda, o qual, aliás, está presente em todos os parágrafos seguintes, o que causa 
+estranheza.
+Aparentemente, existe uma mudança abrupta da página 19, até então 
+seguindo o padrão da ABNT, para a 20 em diante, com outra formatação diferente. 
+Posteriormente, então, ela também subitamente retorna ao padrão correto.
+Seção 1.4 possui um negrito muito destacado, seja mais parcimonioso, por 
+favor, use-o para destaque de termos importantes somente, opte por itálico 
+também. 
+Da seção 1.5... Esse título"Declaração da Necessidade" foi alguma instrução 
+dos professores no último semestre? É um pouco estranho, não? Além disso, 
+parece significativamente redundante em relação àquilo que foi escrito 
+anteriormente. Muito cuidado com o uso de listas com marcadores, sabemos que é 
+típico das IAs e colocam extrema artificialidade no texto, pode gerar desconfiança 
+com os professores, procure fazer parágrafos mesmo. Fica com uma leitura melhor 
+e mais fluída e evitará uma eventual desconfiança que não podemos arriscar nesse 
+momento. 
+Seção 1.6, aqui a lista de marcadores está melhor utilizada, por exemplo. O 
+termo "Baixo Falso Alarme", por outro lado, é confuso. 
+Seção 1.7 faz menção às Tabelas 1 e 2, que estão mal formatadas. A tabela 1 
+possui ao final uma linha que não aparece anteriormente em nenhuma outra 
+página. A tabela 2 não possui a mesma linha, porém o conteúdo preenche 
+totalmente a página, ou seja, o texto vai até o limite inferior, um caso único em 
+todo documento. O próprio texto em si me parece ruim, é novamente redundante e 
+parece feito com a única finalidade de preencher espaço, perdão pela sinceridade. 
+O mesmo pode ser dito dos tópicos 1.7.1 e 1.7.2., acho melhor reunir esses três 
+tópicos em um único com uma linguagem mais objetiva. 
+Ainda a respeito das tabelas, a seção 1.8 trata da árvore de objetivos que, 
+salvo engano, foi feita por mim no último semestre. Enfim, ela é totalmente 
+diferente da que consta na primeira monografia, qual a razão da mudança? 
+De fato, em função das alterações introduzidas no projeto ao longo do 
+semestre, seria mesmo necessário reestruturá-la. Entretanto, a árvore no 
+documento é muito mais simples, quiçá simplória, e, em relação ao que realmente 
+importa, é incoerente com o funcionamento do dispositivo em qualquer aspecto 
+real, da coisa em si. Ademais, acho razoável colocar uma imagem ao invés de 
+"renderizar" com o código puro do LaTeX, imagino que evite esses bugs de 
+sobreposição. 
+Outra coisa, reafirmo o pedido de cuidado com listagens e o uso do negrito 
+em excesso, isso transmite enorme desconfiança ao leitor. Embora, neste caso, não 
+tenha sido feito uma lista com marcadores, o efeito é o mesmo em função dos 
+números presentes e a estrtura dos períodos, esta estrutura, por sinal, embora eu 
+não saiba se é aceita na língua portuguesa formal, está sim presente no dia-a-dia e 
+até em artigos, mas como há muita lintagem no documento, é melhor reduzir e 
+usar melhor, com parcimônia. 
+Outra coisa, reafirmo o pedido de cuidado com listagens e o uso do negrito 
+em excesso, isso transmite enorme desconfiança ao leitor. Embora, neste caso, não 
+tenha sido feita uma lista com marcadores, o efeito é o mesmo em função dos 
+números presentes e a estrutura dos períodos que compõem o parágrafo. Esta 
+estrutura, por sinal, mesmo que esteja presente no dia-a-dia e até em artigos, deve 
+ser evitada por não ser frequente na norma culta. Em todo caso, além disso, como 
+há muita listagem no documento, é melhor reduzir o uso, limitando-se a casos 
+específicos e com parcimônia. 
+Lembremos, esse texto, no melhor dos mundos, será lido e avaliado pelo 
+Lobo em breve. Não podemos dar margem a qualquer tipo de má interpretação ou 
+suspeita do uso indevido do ChatGPT ou DeepSeek para ele. 
+Novamente, entre a página 29 e 30 ocorre uma mudança abrupta na 
+formatação; especificamente, no que tange o distanciamento da extremidade 
+esquerda. Isso deveria acontecer mesmo? Porque o LaTeX em geral não permite 
+isso, será um bug? 
+Com relação ao tópico de "Estado da arte". Especialmente, "Tecnologias e 
+Soluções Relacionadas", acho que melhorou bastante em relação ao do último 
+semestre, que, no meu entendimento, estava bem ruim. Gostei dos exemplos 
+citados, há um outro que vou passar para ser incluído que pode ajudar nesta parte e 
+na motivação. Eu e o Rodrigo falamos sobre isso há poucos dias, mas não lembro 
+qual o nome exatamente. Depois falo. 
+Por favor, tente separar em parágrafos estas seções, está tudo muito 
+"blocado". Os assuntos são relativamente distantes entre si, separá-los é positivo, 
+ajuda na compreensão e, sobretudo, com assuntos técnicos, como é o caso. Sobre o 
+"eCall", por exemplo, o início do texto menciona decisões de obrigatoriedade da 
+UE e posteriormente menciona outras soluções, provenientes dos EUA, segundo o 
+texto. Se possível, desenvolva mais essa primeira menção, inclusive com aspectos 
+jurídicos, os quais são muito presentes lá (na Europa) e acho que contribuem para 
+a mensagem geral do texto. Assim, haverá conteúdo para deixar o caso dos 
+americanos em outro parágrafo. Pode-se dizer o mesmo para os demais textos 
+dessa seção. 
+Em "Estudos europeus estimam que sistemas desse tipo podem reduzir o 
+tempo de resposta dos socorristas em até 50%, especialmente em áreas rurais[4]", 
+o link aponta para a publicação da Bosch, citada em seguida, você esqueceu de 
+colocar a notícia correspondente, pelo que vi. 
+Minha crítica maior é, na realidade, a respeito da ausência de artigos 
+científicos relativos ao tema. Essa seção deve conter também o que foi feito e 
+construído na área acadêmica, ou seja, na pesquisa e na esfera de estudos, não 
+apenas do mercado. Em particular, isso me incomodou da outra vez, fiz algumas 
+buscas antes que não cheguei a concluir por falta de tempo na ocasião, a gente 
+correu em uma semana e tudo mais, etc. Entre tudo dessa parte de revisão do que 
+foi feito, acho que é o mais importante. Incluir artigos, pesquisas, publicações e 
+tudo mais e aprofundar. No 2.2.2 foi feito exatamente isso com o WreckWatch. Em 
+2.2.3, há menção a "Khan et al. (2023)", porém não há link, tampouco consta nas 
+referências. Esta seção precisa ser reescrita, o texto está confuso. Lá estão 
+presentes informações provenientes do log que talvez seja melhor deixar para 
+aparecer depois, não nesta seção. A menção a Khan parece promissora, mas está 
+faltando o link. 
+São citados o "OnStar" e "SiriusXM Guardian", eles são ótimos, mas foram 
+pouco desenvolvidos. Comente mais sobre, são exemplos excelentes pouco 
+aproveitados, nem sequer links para informações extras estão presentes. O mesmo 
+para o iBump (esse eu achei um link) e o RideSafe na seção 2.2.2, também 
+excelentes e foram pouco aproveitados. 
+https://www.aloul.net/Papers/faloul_iaict14.pdf 
+A gente comentou especificamente de um sistema israelense na 
+apresentação, ele é um desses? Caso contrário, ele precisa ser adicionado e é 
+preciso construir um texto completo sobre, pois se trata de um detalhe crítico, é o 
+que existe de mais parecido com o nosso.
+Li o 2.2.4 por alto, parece bom e acho que não tinha antes. Porém, preciso 
+reiterar os mesmos comentários, foi feito o uso excessivo de listagem e negrito, 
+que é sugestivo de IA. Não há, por óbvio, nenhum empecilho ao uso dela, mas 
+deve ser um recurso de pesquisa etc. e tal, não podemos deixar que o pensamento 
+passe na cabeça dos professores, mesmo que seja o texto seja genuíno. 
+Ahh, outra coisa, faltou os links, alguma coisa que use V2X ou 
+preferencialmente uma pesquisa relacionada. "Segurança e Privacidade de Dados" 
+não precisa, claro. 
+Tá, aqui (materiais e metódos) é o que importa mesmo, todo o resto é 
+secundário nesse momento e você pode revisar depois. Por enquanto, vamos focar 
+nessa parte em diante, porque é a prioridade, relativo a tudo que foi, de fato, 
+desenvolvido no segundo semestre. 
+Você esqueceu um "(??)". Era alguma coisa importante? 
+Esse 3.1 o texto não faz, em parte, sentido com o que foi feito, ele estabelece 
+perguntas, mas coloca respostas genéricas que pouco ou nada têm a ver com a 
+coisa real, no sentido cronológico acima de tudo. Por exemplo, são feitas as 
+seguintes perguntas:
+1) "Os sensores escolhidos conseguem detectar de forma confiável um 
+evento de queda/colisão?"
+Diga-se de passagem, evite estruturas como "alpha/beta", isto é, com a barra. 
+Não é aceitável na norma culta. Pode deixar, "queda e colisão", não muda nada, 
+mas é um detalhe. 
+2) É possível acionar e operar a câmera e transmitir imagens dentro de um 
+tempo aceitável após o gatilho do acidente?
+3) A comunicação entre dispositivos (ESP32, Raspberry Pi e smartphone) 
+funciona como esperado e os dados (imagens, texto) são transferidos sem erros?
+Em seguida, é dito que, para responder a essas questões, os componentes 
+foram testados separadamente. Ora, isso é absurdo. Primeiro, para as três 
+perguntas, é preciso antes ter o hardware em conjunto com o software, em alguma 
+medida, ambos funcionando, para responder os questionamentos de forma ampla 
+ou mesmo minimamente, etc... 
+A primeira questão, embora pertinente, nem sequer foi, em tese, respondida 
+ainda, porque precisaria dos dados de campo que faremos nesta semana. A 
+segunda é a mais razoável para responder dessa maneira, mas mesmo assim, não 
+faz sentido com o processo que foi feito, o mesmo para a terceira. Se a prova de 
+conceito consiste em "verificar a viabilidade técnica fundamental antes de partir 
+para a construção do protótipo integrado", como é dito no texto, então isso tudo 
+não poderia ser posto desta forma. Em particular, a listagem dos materiais da 
+ESP32 e RPi perde sentido. Sugiro ler atentamente o log e desenvolver o texto em 
+função da concatenação de ideias lá apresentada, será coerente com o que 
+aconteceu e com aquilo que foi passado ao Lobo recentemente. 
+O tópico "Smartphone e App Móvel" precisa ser refeito. Ele tá muito fora, 
+desculpa. A conclusão desta parte também, totalmente distante. Novamente, o log 
+descreve de maneira geral o funcionamento do aplicativo, pouco disso está 
+presente aqui.
+Imagino que você teve que preencher aquilo que não sabia com incertezas, 
+óbvio, e tudo bem. Contudo, se você reler o arquivo do log, acredito que vai 
+conseguir escrever melhor e notar essa incoerência. Em suma, vamos precisar 
+refazer essa parte inteira, praticamente. 
+Quanto à "Arquitetura Geral do Sistema", posso mencionar os mesmos 
+comentários feitos anteriormente em relação à "imagem" (da "árvore de 
+objetivos") e redação do texto. Não acho que esteja inaceitável, mas... Melhor 
+deixar para refazer essa para depois das descrições de hardware e software, e lá 
+explicamos melhor, em função do que for escrito em detalhe. Do jeito que está, é 
+confuso demais, amplo e genérico. É, dentro da sugestão, um resumo do 
+funcionamento, então é melhor deixar para sintetizar as ideias e apresentá-las de 
+maneira concisa depois da exposição minuciosa desses fatores. 
+"Componentes e Hardware" não explica as razões das mudanças de 
+componentes ao longo do semestre, sobretudo da ESP32, talvez um dos pontos 
+mais importantes e centrais no projeto, e, aliás, bastante comentada no log, a qual 
+mudou várias vezes, por diversas razões, todas precisam ser descritas com bastante 
+cautela, elas ditam o ritmo do andamento em muitos aspectos. É, com certeza, um 
+fator bastante importante. A parte da câmera tem informações conflitantes, ela 
+mudou em função do cabo e do dimensionamento do circuito com o case, isso não 
+foi comentado; pior, confunde informações da antiga câmera com a nova, como se 
+fossem uma só. 
+Observação: é conveniente usar o nome "nodeMCU", como está no log, para 
+a ESP e "computador de placa única" para o RPi com maior regularidade, evitará 
+problemas de especificidade, ajudando com a organização do fluxo de ideias. 
+Há informações inexistentes, como a medição de corrente durante a 
+compressão e upload do vídeo(?). Isso é ruim, evite colocar informações que não 
+correspondem a dados reais do projeto, prejudica a credibilidade sem necessidade. 
+Quando tiver dúvida, pergunte no grupo, não procure preencher as lacunas que vão 
+existir com dados irreais, se o Lobo encanar com algo assim vai ser horrível. 
+A bateria sempre foi um ponto importante, depois vemos isso com mais 
+cuidado. 
+"Desenvolvimento de Software Embarcado e Aplicativo" é fundamental 
+seguir aquilo que comentei, é preciso descrever: "quando os recursos foram 
+usados", "como foi usado", "como eles se relacionam com o hardware e os outros 
+sistemas com os quais ele se comunica", "o que aconteceu", "o porquê deu certo 
+ou não" e "o que foi feito depois" etc... Uma parte que deu muita dor de cabeça e 
+que empacou o projeto por muitas semanas foi a comunicação com o Telegram. 
+Suas restrições, em muitos aspectos semelhantes com o WhatsApp, 
+proporcionaram impossibilidades de compartilhamento e envio de informações, 
+bem como o uso de notificações push, e a seção correspondente não menciona 
+nada disso. A biblioteca TDLib não está presente. Todos esses aspectos são 
+fundamentais por serem as razões de diversas modificações feitas. Em suma, para 
+explicar o próximo passo é, necessário, antes, explicar o anterior, por isso minha 
+insistência. 
+A parte 3.3 tem coisas sem sentido. A título de exemplo, é comentado a 
+respeito da montagem do hardware, que teria sido feita de forma única, no entanto 
+se você não viu como ficou o hardware, por que escreveu essa parte? Está escrito 
+coisas como a bateria ter um compartimento único, como assim? 
+No mesmo sentido, qual a razão de ser de "Testes de Detecção de Acidentes 
+e Alarmes"? A gente vai para o campo pela primeira vez essa semana, seria melhor 
+ter usado o tempo disposto nesta parte em outras seções mais importantes nesse 
+momento. 
+Cara, muita coisa... Deliberadamente, eu não vou comentar todos os pontos, 
+muitos deles serão corrigidos naturalmente com o ajuste dos demais, mas... 
+Enfim... 
+A telemetria, em especial, é uma função super importante, lá foram 
+entregues alguns dos melhores e mais interessantes resultados, ela merece uma 
+seção apenas para ela e praticamente nenhum comentário específico foi feito. O 
+mesmo pode ser dito para a questão do treinamento das imagens, o OpenCV não 
+está nem sequer escrito nas 60 páginas de documento, tampouco a divisão das 
+funcionalidades. O que o Yolo faz? O que o OCR faz? Porque são usados ambos, 
+não apenas um só? Em certo momento, o OCR não conseguia fazer sua função 
+devido à qualidade das imagens, o que resultou na mudança do hardware. Isso, se 
+foi comentado, não ocupa a posição de destaque central que precisaria. Enfim... 
+Quanto à seção 4, os resultados são listados "arbitrariamente", digamos. O 
+ideal seria que fossem feitos de forma mais coerente e que fossem separados em 
+termos das suas funcionalidades, além de, preferencialmente, serem reais... 
+Vou me permitir não fazer comentários à seção 5, por óbvio. 
+Por fim, das referências… 
+A 1 é meio assim, né? Digo, acho essa notícia excelente para as 
+apresentações, afinal é uma publicação jornalística. Você chegou a encontrar dados 
+em órgãos públicos? Acho que seriam excelentes, dão muita credibilidade. Essa a 
+gente pode deixar mais para o meio, com as outras. A 2 está excelente, gostaria 
+que tivesse coisas assim de instituições do Brasil, imagino que a Polícia deve 
+publicar dados nesse sentido. 3 também. 4 coerente com o que foi escrito, ok. A 
+ESP antiga tem um link, mas as outras pelas quais passamos não foram citadas, 
+tampouco possuem links também, porém todos os outros componentes, exceto um, 
+não possuem nenhuma referência. 
+Concluindo, o ideal seria ter feito aos poucos, com cuidado e atenção a parte 
+da monografia correspondente às fases 1 e 2 do log, como solicitei antes, para que 
+eu pudesse ajudar. Tentar fazer todo o documento de uma vez só foi, em muitos 
+aspectos, desnecessário. Desse jeito, eu não pude ajudar como pensei, 
+complementando informações. No documento não constam os relatos que lá 
+deveriam estar, como comentei acima. São informações dispersas, separadas em 
+listagens não necessariamente coerentes entre si e, acima de tudo, completamente 
+distantes da disposição de dados e comentários em ordem cronológica, 
+imprescindível para explicar e justificar o andamento das coisas. Sendo assim, eu 
+teria que fazer essas partes sozinho; se fosse o caso, que me informasse 
+anteriormente, de modo que pudesse ter usado esse tempo de manhã dessa maneira 
+ao invés de fazer de revisar o que foi feito. Enfim, em suma, é preciso começar por 
+fazer essas duas partes o quanto antes, como era para ter começado a ser feito na 
+sexta. 
+Sobre a revisão do primeiro semestre, eu achei coisas boas e outras que 
+precisam de melhora. Não é o foco agora, o foco é relatar o que fizemos no 
+segundo, não no primeiro. Em tese, eles validaram aquilo, e vamos mexer apenas 
+após consolidar esta segunda parte. Falta coisa, mais pesquisas, mais referências, 
+mas deixemos tudo isso para mais tarde. É isso. 
