@@ -1,0 +1,34 @@
+# Arquivos de compilação LaTeX
+*.aux
+*.log
+*.lof
+*.lot
+*.toc
+*.out
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.bbl
+*.blg
+*.idx
+*.ilg
+*.ind
+
+# PDFs gerados (exceto se necessário)
+*.pdf
+
+# Arquivos temporários
+*~
+*.swp
+*.swo
+
+# Pasta de arquivos auxiliares
+arquivos-auxiliares/
+
+# Arquivos de backup
+*.bak
+*backup*
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db

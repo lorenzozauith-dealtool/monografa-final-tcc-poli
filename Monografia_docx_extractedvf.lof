@@ -1,7 +1,0 @@
-\babel@toc {english}{}\relax 
-\contentsline {figure}{\numberline {1}{\ignorespaces Árvore de objetivos do projeto, relacionando objetivos específicos aos requisitos correspondentes.}}{17}{}%
-\contentsline {figure}{\numberline {2}{\ignorespaces Arquitetura simplificada de hardware e comunicação do sistema proposto. Componentes embarcados (esquerda), aplicativo móvel (direita) e serviços de nuvem (abaixo) interagem para detectar acidentes e enviar alertas.}}{32}{}%
-\contentsline {figure}{\numberline {3}{\ignorespaces Prot\'otipo do sistema desenvolvido}}{60}{}%
-\contentsline {figure}{\numberline {4}{\ignorespaces Tela principal do aplicativo Vindex mostrando localiza\c {c}\~ao atual, status da conex\~ao BLE com o dispositivo e n\'ivel de bateria do hardware embarcado}}{61}{}%
-\contentsline {figure}{\numberline {5}{\ignorespaces Interface de telemetria exibindo estat\'isticas de viagem, score de qualidade de pilotagem e hist\'orico de eventos registrados pelo sistema}}{61}{}%
-\contentsline {figure}{\numberline {6}{\ignorespaces Tela de alerta de acidente com op\c {c}\~ao de cancelamento e visualiza\c {c}\~ao de evid\^encias capturadas (v\'ideo e detec\c {c}\~ao de placa via YOLO+OCR)}}{61}{}%
