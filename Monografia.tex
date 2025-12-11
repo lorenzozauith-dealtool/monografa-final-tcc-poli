@@ -1,29 +1,14 @@
 
 % Pass additional language options to babel before the class is loaded to avoid option clashes
 % Ajuste para compilar no template politeX
-\documentclass[]{politeX}
+\documentclass[]{politex}
 % Codificação de entrada e fonte
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 % Idiomas utilizados (brazil como principal e english como secundário)
 \usepackage[brazil,english]{babel}
-% Ajustes de formatação ABNT
-\usepackage{indentfirst} % Recuo no primeiro parágrafo de cada seção
-\setlength{\parindent}{1.25cm} % Recuo padrão ABNT
-% Ajuste de fonte para títulos (Times New Roman em todo documento)
-\usepackage{times} % Fonte Times New Roman
-% Reduzir negrito no sumário
-\renewcommand{\cftchapfont}{\normalfont} % Capítulos sem negrito
-\renewcommand{\cftsecfont}{\normalfont} % Seções sem negrito
-% Traduzir títulos das listas para português
-\renewcommand{\listfigurename}{Lista de Figuras}
-\renewcommand{\listtablename}{Lista de Tabelas}
-\renewcommand{\contentsname}{Sumário}
-\addto\captionsbrazil{
-  \renewcommand{\listfigurename}{Lista de Figuras}
-  \renewcommand{\listtablename}{Lista de Tabelas}
-  \renewcommand{\contentsname}{Sumário}
-}
+% Ajustes de formatação ABNT (template politex já fornece a maioria)
+% Nenhuma configuração adicional necessária - template politex gerencia ABNT
 % Pacotes gráficos e utilitários
 \usepackage{graphicx}
 \usepackage{caption}
@@ -72,10 +57,6 @@ Rodrigo Costa de Araújo}
 \providecommand{\imprimirtitulo}{}
 
 \begin{document}
-% Forçar traduções para português (sobrescrever template politeX)
-\renewcommand{\contentsname}{Sumário}
-\renewcommand{\listfigurename}{Lista de Figuras}
-\renewcommand{\listtablename}{Lista de Tabelas}
 \capa
 \falsafolhadersto
 \folhaderosto
@@ -193,11 +174,11 @@ systems; automatic crash detection; emergency response.
 \end{abstract}
 
 % Listas (figuras, tabelas)
-\listoffigures   % Lista de ilustrações (figuras, gráficos, etc.)
-\listoftables    % Lista de tabelas
+\listadefiguras
+\listadetabelas
 
 % Sumário
-\tableofcontents
+\sumario
 
 % Siglas e Símbolos (após sumário)
 \begin{siglas}
@@ -893,8 +874,8 @@ bateria no app e até gerar um log de pilotagem. Entretanto, tais
 funcionalidades extras ficaram como provas de conceito e não são foco do
 escopo principal.
 
-\subsection*{Sensor Inercial GY-BMI160} Este módulo integra o sensor de
-movimento \textbf{Bosch BMI160}, que combina um acelerômetro triaxial e
+\subsection{Sensor Inercial GY-BMI160} Este módulo integra o sensor de
+movimento Bosch BMI160, que combina um acelerômetro triaxial e
 um giroscópio triaxial no mesmo chip. Esse sensor foi escolhido por ser
 amplamente utilizado e bem documentado\cite{bosch2016}, com consumo
 baixo (aprox. 925~$\mu$A em acelerômetro + giroscópio a 100 Hz) e range
@@ -936,7 +917,7 @@ filtro passa-baixas no código para separar a componente estática
 destacar apenas mudanças bruscas. Esse processamento simples foi
 executado no ESP32 sem dificuldades.
 
-\subsection*{Microcontrolador Raspberry Pi Zero 2 W} O Raspberry Pi Zero
+\subsection{Raspberry Pi Zero 2W} O Raspberry Pi Zero
 2 W atua como \textbf{módulo de captura de imagem e computação} mais
 pesado. Suas especificações (CPU Broadcom quad-core ARM Cortex-A53 1.0
 GHz, 512 MB RAM, Bluetooth 4.2, Wi-Fi b/g/n) permitem rodar um sistema
@@ -989,7 +970,7 @@ desligado quando possível é crucial. O protótipo final não implementou
 hardware para desligar completamente o Pi (devido a limitações de
 tempo), mas tal melhoria está documentada para trabalhos futuros.
 
-\subsection*{Câmera Grande Angular 160°} Para a coleta de evidências
+\subsection{Câmera Grande Angular 160°} Para a coleta de evidências
 visuais, utilizamos uma câmera compatível com o Raspberry Pi baseada no
 sensor OmniVision OV5647 de 5 Megapixels (a mesma especificação da
 câmera oficial Pi v1). Escolhemos acoplar a essa câmera uma lente do
@@ -1016,7 +997,7 @@ A câmera foi fixada na parte frontal da carcaça impressa em 3D, com
 próximo (útil para contexto do acidente, como marcas de frenagem ou
 obstáculos).
 
-\subsection*{Bateria e Alimentação} O protótipo utiliza uma bateria de
+\subsection{Bateria e Alimentação} O protótipo utiliza uma bateria de
 íons de lítio 18650 de 3,7 V (2500 mAh) como fonte de energia, conectada
 a um circuito \textit{step-up} que provê 5 V estáveis para os
 dispositivos (ESP32-C3 e Raspberry Pi). Essa bateria, em teoria, fornece
@@ -1205,7 +1186,7 @@ atendimento aos requisitos. O protótipo final, ilustrado na Figura
 dispositivo montado, identificando cada componente principal. A seguir,
 detalhamos cada módulo de hardware e seu papel no sistema:
 
-\subsection*{Integração dos Módulos} Os componentes foram montados em
+\subsection{Integração dos Módulos} Os componentes foram montados em
 uma estrutura única: utilizou-se uma placa de circuito impresso
 artesanal para fixar o ESP32-C3, o sensor BMI160 e um regulador de
 tensão step-up. O Raspberry Pi Zero 2W, por sua vez, fica acoplado acima
@@ -1221,7 +1202,7 @@ conferindo um grau de proteção aproximado IP54 (resistente a poeira e
 respingos). Fixamos o protótipo no guidão de uma motocicleta de teste
 usando abraçadeiras e base de espuma para amortecer vibrações do motor.
 
-\subsection*{Testes de Detecção de Acidentes e Alarmes} Para testar o
+\subsection{Testes de Detecção de Acidentes e Alarmes} Para testar o
 sistema de detecção de acidentes, foram realizadas simulações
 controladas e observações em situação real (mas segura). Dentre os
 testes: \begin{itemize} \item \textbf{Queda brusca da moto parada}: Com
@@ -1255,7 +1236,7 @@ pode aumentar, mas o app tenta SMS como último recurso (implementamos
 envio de SMS emergencial para um número 190 se internet indisponível e
 GPS indica local remoto).
 
-\subsection*{Testes de Visão Computacional (YOLO + OCR)} A parte de
+\subsection{Testes de Visão Computacional (YOLO + OCR)} A parte de
 processamento de imagem foi avaliada offline e em campo: \begin{itemize}
 \item Em 20 imagens de teste de placas (10 padrão antigo, 10 Mercosul)
 capturadas à noite pelo protótipo, o YOLO identificou corretamente a
@@ -1277,7 +1258,7 @@ detecção da região). Isso é compreensível e, nesses casos, o guardião
 receberia o alerta sem identificação da placa – o que não inviabiliza o
 socorro. \end{itemize}
 
-\subsection*{Avaliação da Comunicação e Infraestrutura} Foram
+\subsection{Avaliação da Comunicação e Infraestrutura} Foram
 verificados aspectos de conectividade: \begin{itemize} \item
 \textbf{Alcance BLE}: Testamos manter conexão entre dispositivo e
 smartphone a diferentes distâncias. Estável até ~8 metros sem
@@ -1684,8 +1665,8 @@ BMI160 – Application notes and calibration guide. Bosch Sensortec, 2016.
 
 \end{thebibliography}
 
-\begin{apendices}
-  \chapter{Cronograma Detalhado de Desenvolvimento}\label{ap:cronograma}
+\apendice
+\chapter{Cronograma Detalhado de Desenvolvimento}\label{ap:cronograma}
   O cronograma a seguir detalha as atividades do projeto ao longo dos dois semestres de desenvolvimento, destacando marcos importantes e entregas parciais.
 
 \begin{table}[htb] \centering \caption{Cronograma de Desenvolvimento do
@@ -1709,16 +1690,41 @@ Dez & Revisão geral do texto, normalização ABNT; Apresentação final do Trab
 Como evidenciado, o desenvolvimento seguiu uma progressão lógica das
 etapas de pesquisa, implementação modular e integração, cumprindo os
 prazos planejados e permitindo a validação incremental da proposta.
+
 \chapter{Hardware do Sistema}
 \label{ap:hardware}
 A seguir, apresenta-se a foto do protótipo físico do sistema, ilustrando a disposição dos componentes de hardware utilizados no desenvolvimento.
 \begin{figure}[htb]
 \centering
-% Inserir aqui a imagem do protótipo, se disponível
-\caption{Protótipo do sistema desenvolvido}
+% Inserir aqui a imagem do prot\'otipo, se dispon\'ivel
+\caption{Prot\'otipo do sistema desenvolvido}
 \label{fig:foto-prototipo}
 \end{figure}
-\end{apendices}
 
-% Finalização do documento
+\chapter{Interface do Aplicativo iOS}
+\label{ap:app}
+Este ap\^endice apresenta capturas de tela do aplicativo m\'ovel Vindex desenvolvido para iOS, ilustrando as principais funcionalidades implementadas.
+
+\begin{figure}[htb]
+\centering
+% Inserir aqui screenshot 1 do aplicativo
+\caption{Tela principal do aplicativo Vindex mostrando localiza\c{c}\~ao atual, status da conex\~ao BLE com o dispositivo e n\'ivel de bateria do hardware embarcado}
+\label{fig:app-tela1}
+\end{figure}
+
+\begin{figure}[htb]
+\centering
+% Inserir aqui screenshot 2 do aplicativo
+\caption{Interface de telemetria exibindo estat\'isticas de viagem, score de qualidade de pilotagem e hist\'orico de eventos registrados pelo sistema}
+\label{fig:app-tela2}
+\end{figure}
+
+\begin{figure}[htb]
+\centering
+% Inserir aqui screenshot 3 do aplicativo
+\caption{Tela de alerta de acidente com op\c{c}\~ao de cancelamento e visualiza\c{c}\~ao de evid\^encias capturadas (v\'ideo e detec\c{c}\~ao de placa via YOLO+OCR)}
+\label{fig:app-tela3}
+\end{figure}
+
+% Finaliza\c{c}\~ao do documento
 \end{document}

@@ -1,0 +1,57 @@
+\babel@toc {english}{}\relax 
+\contentsline {chapter}{\numberline {1}Introdução}{12}{}%
+\contentsline {section}{\numberline {1.1}Antecedentes}{12}{}%
+\contentsline {section}{\numberline {1.2}Motivação}{13}{}%
+\contentsline {section}{\numberline {1.3}Relevância}{13}{}%
+\contentsline {section}{\numberline {1.4}Declaração do Problema}{14}{}%
+\contentsline {section}{\numberline {1.5}Declaração da Necessidade}{15}{}%
+\contentsline {section}{\numberline {1.6}Requisitos de Marketing}{15}{}%
+\contentsline {subsection}{\numberline {1.6.1}Requisitos Funcionais}{16}{}%
+\contentsline {subsection}{\numberline {1.6.2}Requisitos Não-Funcionais}{17}{}%
+\contentsline {section}{\numberline {1.7}Árvore de Objetivos}{17}{}%
+\contentsline {chapter}{\numberline {2}Estado da Arte}{21}{}%
+\contentsline {section}{\numberline {2.1}Conceitos Fundamentais}{21}{}%
+\contentsline {subsection}{\numberline {2.1.1}Sensores Inerciais e Unidades de Medida}{21}{}%
+\contentsline {subsection}{\numberline {2.1.2}Comunicação Sem Fio}{22}{}%
+\contentsline {subsection}{\numberline {2.1.3}Visão Computacional e Reconhecimento de Placas}{22}{}%
+\contentsline {subsection}{\numberline {2.1.4}Aplicativos Móveis e Infraestrutura em Nuvem}{23}{}%
+\contentsline {section}{\numberline {2.2}Tecnologias e Soluções Relacionadas}{23}{}%
+\contentsline {subsection}{\numberline {2.2.1}Dispositivos Embarcados de Alerta (eCall e similares)}{23}{}%
+\contentsline {subsection}{\numberline {2.2.2}Aplicativos de Smartphone para Detecção de Acidentes}{24}{}%
+\contentsline {subsection}{\numberline {2.2.3}Sistemas de Visão e OCR para Assistência no Trânsito}{25}{}%
+\contentsline {subsection}{\numberline {2.2.4}Tecnologias Complementares}{25}{}%
+\contentsline {chapter}{\numberline {3}Materiais e Métodos}{27}{}%
+\contentsline {section}{\numberline {3.1}Prova de Conceito}{27}{}%
+\contentsline {section}{\numberline {3.2}Evolução do Projeto e Decisões de Arquitetura}{28}{}%
+\contentsline {subsection}{\numberline {3.2.1}Fase I: Tentativa de Integração com Telegram Nativo}{28}{}%
+\contentsline {subsection}{\numberline {3.2.2}Fase II: Solução via Bot do Telegram e Banco de Dados}{28}{}%
+\contentsline {subsection}{\numberline {3.2.3}Fase III: Problemas de Comunicação Bluetooth com iOS}{29}{}%
+\contentsline {subsection}{\numberline {3.2.4}Fase IV: Experimentação com ESP32-CAM e ESP32-S3}{30}{}%
+\contentsline {subsection}{\numberline {3.2.5}Fase V: Arquitetura Final com Upload para Nuvem}{30}{}%
+\contentsline {subsection}{\numberline {3.2.6}Funcionalidade de Telemetria}{31}{}%
+\contentsline {section}{\numberline {3.3}Arquitetura Geral do Sistema}{31}{}%
+\contentsline {section}{\numberline {3.4}Componentes de Hardware}{33}{}%
+\contentsline {subsection}{\numberline {3.4.1}Microcontrolador ESP32-C3 Super Mini}{33}{}%
+\contentsline {subsection}{\numberline {3.4.2}Sensor Inercial GY-BMI160}{35}{}%
+\contentsline {subsection}{\numberline {3.4.3}Raspberry Pi Zero 2W}{36}{}%
+\contentsline {subsection}{\numberline {3.4.4}Câmera Grande Angular 160°}{37}{}%
+\contentsline {subsection}{\numberline {3.4.5}Bateria e Alimentação}{38}{}%
+\contentsline {section}{\numberline {3.5}Desenvolvimento do Software Embarcado e Aplicativo}{38}{}%
+\contentsline {subsection}{\numberline {3.5.1}Firmware do ESP32-C3}{38}{}%
+\contentsline {subsection}{\numberline {3.5.2}Aplicativo Móvel (iOS)}{40}{}%
+\contentsline {subsection}{\numberline {3.5.3}Backend e Integração com Telegram}{41}{}%
+\contentsline {section}{\numberline {3.6}Construção do Protótipo e Ensaios}{43}{}%
+\contentsline {subsection}{\numberline {3.6.1}Integração dos Módulos}{43}{}%
+\contentsline {subsection}{\numberline {3.6.2}Testes de Detecção de Acidentes e Alarmes}{43}{}%
+\contentsline {subsection}{\numberline {3.6.3}Testes de Visão Computacional (YOLO + OCR)}{44}{}%
+\contentsline {subsection}{\numberline {3.6.4}Avaliação da Comunicação e Infraestrutura}{45}{}%
+\contentsline {chapter}{\numberline {4}Resultados}{46}{}%
+\contentsline {section}{\numberline {4.1}Desempenho da Detecção e Alertas}{46}{}%
+\contentsline {section}{\numberline {4.2}Tempo de Resposta}{47}{}%
+\contentsline {section}{\numberline {4.3}Qualidade das Evidências Visuais}{48}{}%
+\contentsline {section}{\numberline {4.4}Usabilidade e Robustez Observadas}{49}{}%
+\contentsline {chapter}{\numberline {5}Conclusão}{50}{}%
+\contentsline {chapter}{References}{54}{}%
+\contentsline {chapter}{Appendix{} A{} -- Cronograma Detalhado de Desenvolvimento}{58}{}%
+\contentsline {chapter}{Appendix{} B{} -- Hardware do Sistema}{60}{}%
+\contentsline {chapter}{Appendix{} C{} -- Interface do Aplicativo iOS}{61}{}%
