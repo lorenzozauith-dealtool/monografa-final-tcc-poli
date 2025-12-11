@@ -1,14 +1,12 @@
 
-% Pass additional language options to babel before the class is loaded to avoid option clashes
-% Ajuste para compilar no template politeX
+% Monografia TCC - Projeto Vindex
+% Template politex para Escola Politécnica da USP
 \documentclass[]{politex}
-% Codificação de entrada e fonte
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-% Idiomas utilizados (brazil como principal e english como secundário)
-\usepackage[brazil,english]{babel}
-% Ajustes de formatação ABNT (template politex já fornece a maioria)
-% Nenhuma configuração adicional necessária - template politex gerencia ABNT
+
+% Idioma principal: português brasileiro
+\usepackage[brazil]{babel}
+% Pacote para URLs
+\usepackage{url}
 % Pacotes gráficos e utilitários
 \usepackage{graphicx}
 \usepackage{caption}
@@ -48,13 +46,16 @@ Lorenzo Bighetti Zauith\\
 Rodrigo Costa de Araújo}
 \local{São Paulo}
 \data{2025}
-\instituicao{Universidade de São Paulo \ Escola Politécnica \ Departamento de Engenharia Elétrica}
+
+% Tipo de documento: TCC
+\tcc{Engenharia Elétrica}
+
+% Departamento e área
+\departamento{Engenharia Elétrica}
+\areaConcentracao{Sistemas Eletrônicos}
+
+% Orientador
 \orientador{Márcio Lobo Netto}
-% Coorientador não se aplica nesta versão
-%\coorientador{Nome do Coorientador}
-\preambulo{Monografia apresentada à Escola Politécnica da Universidade de São Paulo como parte dos requisitos para a conclusão do Curso de Engenharia Elétrica.}
-% Define comando \imprimirtitulo vazio para evitar erro caso não seja fornecido pelo abntex2
-\providecommand{\imprimirtitulo}{}
 
 \begin{document}
 \capa
@@ -63,13 +64,8 @@ Rodrigo Costa de Araújo}
 
 
 
-% Dedicatória
-\begin{dedicatoria}
-  \vspace*{\fill}
-  \centering
-  \emph{Dedicamos este trabalho a todos os motociclistas que inspiraram esta pesquisa e às nossas famílias pelo apoio incondicional durante todo o desenvolvimento deste projeto.}
-  \vspace*{\fill}
-\end{dedicatoria}
+% Dedicatória (usando comando do politex)
+\dedicatoria{Dedicamos este trabalho a todos os motociclistas que inspiraram esta pesquisa e às nossas famílias pelo apoio incondicional durante todo o desenvolvimento deste projeto.}
 
 \begin{agradecimentos}
 Agradecemos aos nossos colegas de turma e de laboratório, pelas discussões proveitosas e pela colaboração nas etapas de testes e validações. Às nossas famílias, pelo apoio emocional e motivação constantes, fundamentais para a conclusão desta monografia.
@@ -180,8 +176,9 @@ systems; automatic crash detection; emergency response.
 % Sumário
 \sumario
 
-% Siglas e Símbolos (após sumário)
-\begin{siglas}
+% Lista de siglas (usando pretextualsection conforme politex)
+\begin{pretextualsection}{Lista de Siglas}
+\begin{description}
   \item[ABRAMET] Associação Brasileira de Medicina do Tráfego
   \item[BLE] \textit{Bluetooth Low Energy}
   \item[CPU] \textit{Central Processing Unit} (Unidade Central de Processamento)
@@ -193,15 +190,17 @@ systems; automatic crash detection; emergency response.
   \item[RF] Requisito Funcional
   \item[RNF] Requisito Não Funcional
   \item[YOLO] \textit{You Only Look Once} (Algoritmo de detecção de objetos em tempo real)
-\end{siglas}
+\end{description}
+\end{pretextualsection}
 
-\begin{simbolos}
+% Lista de símbolos
+\begin{pretextualsection}{Lista de Símbolos}
+\begin{description}
   \item[$g$] Aceleração gravitacional padrão ($\approx 9{,}81~\text{m/s}^2$).
   \item[$\omega$] Velocidade angular (em radianos ou graus por segundo).
   \item[$\Delta$] Variação de uma grandeza (diferença entre dois instantes ou estados).
-\end{simbolos}
-
-\textual
+\end{description}
+\end{pretextualsection}
 
 % Introdução
 \chapter{Introdução}\label{cap:introducao}
@@ -1468,8 +1467,7 @@ sensor BMI160 (acelerômetro+giroscópio de 6 eixos), do Raspberry Pi Zero
 angular. Justificamos cada escolha com fundamentos físicos e de
 engenharia – por exemplo, argumentamos o porquê do BLE 5.0 para
 comunicação local, citamos o consumo típico de 925 $\mu$A do
-BMI160\cite{bosch2016} que viabiliza monitoramen\begin{document}
-to contínuo, e
+BMI160\cite{bosch2016} que viabiliza monitoramento contínuo, e
 discutimos as capacitações do ESP32-C3 de entrar em \textit{deep sleep}
 consumindo apenas 5 $\mu$A\cite{espressif2020}. Também apresentamos a
 arquitetura de software, incluindo a infraestrutura de nuvem (Supabase +
@@ -1561,8 +1559,6 @@ monografia sirva de referência e inspiração para outros projetos de
 sistemas embarcados focados em salvar vidas, demonstrando como a
 engenharia pode – e deve – atuar em problemas críticos da sociedade
 moderna.
-
-\postextual
 
 \begin{thebibliography}{99} \bibitem{czerwonka2025} CZERWONKA, M. A cada
 39 minutos, um motociclista morre no trânsito brasileiro. Portal do
