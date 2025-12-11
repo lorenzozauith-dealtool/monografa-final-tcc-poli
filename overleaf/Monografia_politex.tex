@@ -478,29 +478,31 @@ projeto. A \textbf{árvore de objetivos} a seguir ilustra os objetivos
 gerais e específicos do sistema, relacionando-os aos requisitos
 correspondentes:
 
-\begin{figure}[htb] \centering \begin{tikzpicture}[node distance=1.8cm,
-auto] \node[draw, rectangle, align=center] (objetivo-geral)
-{\textbf{Objetivo Geral}\\Sistema de detecção automática de acidentes de
-moto com alerta imediato};
-  % Objetivos específicos
-  \node[draw, rectangle, below of=objetivo-geral, yshift=-0.5cm, align=center] (detectar)
-  {\textbf{Detectar acidentes}\\Sensores inerciais};
-  \node[draw, rectangle, below left=1.2cm and -0.6cm of detectar, align=center] (acelerometro)
-  {Acelerômetro\\(detectar impacto)};
-  \node[draw, rectangle, below right=1.2cm and -0.6cm of detectar, align=center] (giroscopio)
-  {Giroscópio\\(detectar queda)};
-  \node[draw, rectangle, below of=detectar, yshift=-0.5cm, align=center] (transmitir)
-  {\textbf{Transmitir alerta}\\(Comunicação)};
-  \node[draw, rectangle, below left=1.2cm and -0.6cm of transmitir, align=center] (bluetooth)
-  {Bluetooth LE\\(ESP32-C3 $\rightarrow$ App)};
-  \node[draw, rectangle, below right=1.2cm and -0.6cm of transmitir, align=center] (internet)
-  {Internet\\(App $\rightarrow$ Contatos)};
-  \node[draw, rectangle, below of=transmitir, yshift=-0.5cm, align=center] (registrar)
-  {\textbf{Registrar evidência}\\(Visão computacional)};
-  \node[draw, rectangle, below left=1.2cm and -0.6cm of registrar, align=center] (camera)
-  {Câmera 160°\\(imagens/vídeo)};
-  \node[draw, rectangle, below right=1.2cm and -0.6cm of registrar, align=center] (ocr)
-  {YOLO + OCR\\(placa veículo)};
+\begin{figure}[htb]
+\centering
+\begin{tikzpicture}[node distance=2.5cm, auto, font=\small]
+  % Objetivo geral
+  \node[draw, rectangle, align=center, minimum width=8cm] (objetivo-geral)
+    {\textbf{Objetivo Geral}\\Sistema de detec\c{c}\~ao autom\'atica de acidentes de moto\\com alerta imediato};
+  % Objetivos espec\'ificos - n\'ivel 1
+  \node[draw, rectangle, below of=objetivo-geral, yshift=-0.8cm, align=center, minimum width=3.5cm] (detectar)
+    {\textbf{Detectar acidentes}\\Sensores inerciais};
+  \node[draw, rectangle, below left=2cm and 1.5cm of detectar, align=center, minimum width=2.8cm] (acelerometro)
+    {Aceler\^ometro\\(detectar impacto)};
+  \node[draw, rectangle, below right=2cm and 1.5cm of detectar, align=center, minimum width=2.8cm] (giroscopio)
+    {Girosc\'opio\\(detectar queda)};
+  \node[draw, rectangle, below of=detectar, yshift=-3cm, align=center, minimum width=3.5cm] (transmitir)
+    {\textbf{Transmitir alerta}\\(Comunica\c{c}\~ao)};
+  \node[draw, rectangle, below left=2cm and 1.5cm of transmitir, align=center, minimum width=3cm] (bluetooth)
+    {Bluetooth LE\\(ESP32-C3 $\rightarrow$ App)};
+  \node[draw, rectangle, below right=2cm and 1.5cm of transmitir, align=center, minimum width=2.5cm] (internet)
+    {Internet\\(App $\rightarrow$ Contatos)};
+  \node[draw, rectangle, below of=transmitir, yshift=-3cm, align=center, minimum width=3.5cm] (registrar)
+    {\textbf{Registrar evid\^encia}\\(Vis\~ao computacional)};
+  \node[draw, rectangle, below left=2cm and 1.5cm of registrar, align=center, minimum width=2.8cm] (camera)
+    {C\^amera 160°\\(imagens/v\'ideo)};
+  \node[draw, rectangle, below right=2cm and 1.5cm of registrar, align=center, minimum width=2.8cm] (ocr)
+    {YOLO + OCR\\(placa ve\'iculo)};
   % Setas de relacionamento
   \draw[->, thick] (objetivo-geral) -- (detectar);
   \draw[->, thick] (detectar) -- (acelerometro);
@@ -512,9 +514,7 @@ moto com alerta imediato};
   \draw[->, thick] (registrar) -- (camera);
   \draw[->, thick] (registrar) -- (ocr);
 \end{tikzpicture}
-\caption{Árvore de objetivos do
-projeto, relacionando objetivos específicos aos requisitos
-correspondentes.}
+\caption{\'Arvore de objetivos do projeto, relacionando objetivos espec\'ificos aos requisitos correspondentes.}
 \label{fig:arvore-objetivos}
 \end{figure}
 
@@ -735,37 +735,34 @@ usuário e \textbf{serviços em nuvem} de suporte.
 
 \begin{figure}[htb]
   \centering
-  \begin{tikzpicture}[node distance=2.2cm, auto]
+  \begin{tikzpicture}[node distance=2.8cm, auto, font=\small]
     % Blocos de hardware
-    \node[draw, rectangle, align=center] (esp)
+    \node[draw, rectangle, align=center, minimum width=3.2cm] (esp)
       {\textbf{ESP32-C3}\\Monitora sensor};
-    \node[draw, rectangle, below of=esp, yshift=-0.5cm, align=center] (rpi)
-      {\textbf{Raspberry Pi Zero 2W}\\Captura imagens/vídeo};
-    \node[draw, rectangle, below of=rpi, yshift=-0.5cm, align=center] (cam)
-      {\textbf{Câmera 160°}\\Conectada ao RPi};
-    \node[draw, rectangle, left=3.0cm of esp, align=center] (imu)
+    \node[draw, rectangle, below of=esp, yshift=-0.3cm, align=center, minimum width=3.2cm] (rpi)
+      {\textbf{Raspberry Pi Zero 2W}\\Captura imagens/v\'ideo};
+    \node[draw, rectangle, below of=rpi, yshift=-0.3cm, align=center, minimum width=3cm] (cam)
+      {\textbf{C\^amera 160°}\\Conectada ao RPi};
+    \node[draw, rectangle, left=3.8cm of esp, align=center, minimum width=2.8cm] (imu)
       {\textbf{Sensor BMI160}\\Acel.+Giro};
     % Blocos de software/aplicativo
-    \node[draw, rectangle, right=3.4cm of rpi, align=center] (phone)
-      {\textbf{Smartphone (App iOS)}\\Recebe dados e envia alerta};
-    \node[draw, rectangle, below of=phone, yshift=-0.5cm, align=center] (cloud)
-      {\textbf{Servidor em Nuvem}\\Base de dados / Storage};
-    \node[draw, rectangle, below left=1cm and -0.3cm of rpi, align=center] (bat)
-      {\textbf{Bateria Li-ion 3.7V}\\+ Step-up 5V};
-    % Conexões entre os blocos
-    \draw[->, thick] (imu) -- node[anchor=south] {\small Leitura I2C} (esp);
-    \draw[->, thick] (esp) -- node {\small Sinal GPIO ``Wake''} (rpi);
-    \draw[->, thick] (rpi) -- node[anchor=west] {\small Controle câmera} (cam);
-    \draw[<->, dashed, thick] (rpi) -- node[align=center, anchor=south] {\small Conexão BLE (dados leves)\\\& Wi-Fi (upload mídia)} (phone);
-    \draw[<->, dashed, thick] (phone) -- node {\small API / Internet} (cloud);
-    \draw[->, dashed] (cloud) -- ++(0,1.0cm) -| node[pos=0.25,right] {\small Notificação evento} (phone);
-    \draw[->, thick] (bat) -| node[pos=0.2, above] {\small 5V} (esp);
-    \draw[->, thick] (bat) -| node[pos=0.8, above] {\small 5V} (rpi);
+    \node[draw, rectangle, right=4.2cm of rpi, align=center, minimum width=3.5cm] (phone)
+      {\textbf{Smartphone (App)}\\Recebe dados e\\envia alerta};
+    \node[draw, rectangle, below of=phone, yshift=-0.3cm, align=center, minimum width=3.5cm] (cloud)
+      {\textbf{Servidor em Nuvem}\\Base de dados /\\Storage};
+    \node[draw, rectangle, below left=1.5cm and -0.5cm of rpi, align=center, minimum width=3cm] (bat)
+      {\textbf{Bateria Li-ion}\\3.7V + Step-up 5V};
+    % Conex\~oes entre os blocos
+    \draw[->, thick] (imu) -- node[above] {\footnotesize Leitura I2C} (esp);
+    \draw[->, thick] (esp) -- node[right] {\footnotesize Sinal GPIO} (rpi);
+    \draw[->, thick] (rpi) -- node[right] {\footnotesize Controle c\^amera} (cam);
+    \draw[<->, dashed, thick] (rpi) -- node[above, align=center] {\footnotesize Conex\~ao BLE\\\footnotesize Wi-Fi upload} (phone);
+    \draw[<->, dashed, thick] (phone) -- node[right] {\footnotesize API} (cloud);
+    \draw[->, dashed] (cloud) -- ++(0,0.8cm) -| node[pos=0.25,right] {\footnotesize Notifica\c{c}\~ao} (phone);
+    \draw[->, thick] (bat) -| node[pos=0.15, above] {\footnotesize 5V} (esp);
+    \draw[->, thick] (bat) -| node[pos=0.85, above] {\footnotesize 5V} (rpi);
   \end{tikzpicture}
-  \caption{Arquitetura simplificada de hardware e
-  comunicação do sistema proposto. Componentes embarcados (esquerda),
-  aplicativo móvel (direita) e serviços de nuvem (abaixo) interagem para
-  detectar acidentes e enviar alertas.}
+  \caption{Arquitetura simplificada de hardware e comunica\c{c}\~ao do sistema proposto. Componentes embarcados (esquerda), aplicativo m\'ovel (direita) e servi\c{c}os de nuvem (abaixo) interagem para detectar acidentes e enviar alertas.}
   \label{fig:arquitetura}
 \end{figure}
 
