@@ -503,7 +503,7 @@ acidentes. O objetivo é situar o presente trabalho no contexto das
 pesquisas e tecnologias já estabelecidas, identificando os diferenciais
 e inovações propostos.
 
-\section{Conceitos Fundamentais} A detecção de acidentes motociclísticos de forma automática requer compreender alguns conceitos fundamentais de engenharia, apresentados de forma integrada nas subseções seguintes.
+\section{Conceitos Fundamentais} A detecção de acidentes motociclísticos de forma automática requer compreender alguns conceitos fundamentais de~engenharia, apresentados de forma integrada nas subseções seguintes.
 
 \subsection{Sensores Inerciais e Unidades de Medida}
 
@@ -795,7 +795,7 @@ como as estratégias de teste e validação empregadas em cada etapa.
 \section{Componentes de Hardware}
 \label{sec:hardware}
 
-Descrevemos os principais módulos de hardware utilizados na implementação do protótipo, justificando as escolhas e apresentando parâmetros de~configuração relevantes.
+Descrevemos os principais módulos de hardware utilizados na implementação do~protótipo, justificando as escolhas e apresentando parâmetros de~configuração relevantes.
 
 \subsection{Microcontrolador ESP32-C3 Super Mini} 
 
@@ -1351,8 +1351,8 @@ houve acidente e onde.
 
 \section{Qualidade das Evidências Visuais} Em relação às evidências
 capturadas (RF-03 e RF-05): \begin{itemize} \item As
-\textbf{imagens/fotos} transmitidas via BLE ao app tinham resolução
-limitada (640x480) para caber em <50 kB. Mesmo assim, em boa parte dos
+\textbf{imagens/fotos} transmitidas via BLE ao~app tinham resolução
+limitada (640x480) para caber em~<50~kB. Mesmo assim, em boa parte dos
 casos mostravam nitidamente pelo menos um veículo ou cenário do
 acidente. Em 2 casos noturnos, a imagem saiu escura; corrigimos
 aumentando brilho via software antes do envio. \item Os \textbf{vídeos}
@@ -1415,7 +1415,7 @@ Este trabalho apresentou o desenvolvimento de um sistema embarcado de detecção
 
 \textbf{Trabalhos futuros:} Recomendamos implementar algoritmos de aprendizado de máquina embarcados para detecção mais robusta, treinados com dados reais de acidentes versus condução normal, permitindo adaptação a diferentes estilos de pilotagem. Miniaturizar o hardware em PCB dedicada reduziria tamanho e consumo, viabilizando integração discreta no veículo. Explorar microcontroladores mais recentes como ESP32-S3 com aceleração de IA poderia eliminar dependência do Raspberry Pi, simplificando arquitetura. Desenvolver versão Android do aplicativo ampliaria base de usuários. Integrar conexão direta com serviços de emergência como SAMU ou Corpo de Bombeiros, além de contatos pessoais, aumentaria eficácia do socorro. Testes em larga escala com usuários reais permitiriam coletar dados em campo e aperfeiçoar calibragem de sensibilidade, refinando parâmetros de detecção e aspectos de usabilidade. Expandir funcionalidade de prevenção de acidentes com módulo ADAS simples, alertando piloto de colisão iminente ou curva perigosa, agregaria valor contínuo ao produto.
 
-Retomando os objetivos iniciais, consideramos que este trabalho cumpriu seu propósito de demonstrar a viabilidade técnica de um dispositivo acessível para detecção automática de acidentes motociclísticos.
+Retomando os objetivos iniciais, consideramos que este trabalho cumpriu seu propósito de demonstrar a viabilidade técnica de um dispositivo acessível para detecção automática de~acidentes motociclísticos.
 
 Em termos de \textbf{impacto social}, um sistema como o Vindex pode
 reduzir significativamente a mortalidade de motociclistas. Conforme demonstrado por Gauss \textit{et al.} \cite{jama2019}, existe uma associa\c{c}\~ao direta entre o tempo pr\'e-hospitalar e a mortalidade em trauma, e nosso dispositivo pode cortar
@@ -1599,7 +1599,7 @@ Este ap\^endice apresenta capturas de tela do aplicativo m\'ovel Vindex desenvol
 \begin{figure}[htb]
 \centering
 \includegraphics[width=0.4\textwidth]{app-evidencia-placa2.png}
-\caption{Segunda tela de detalhe da evid\^encia mostrando foto capturada com detec\c{c}\~ao de placa ve\'iculo (HQW5678) destacada em amarelo via YOLO+OCR, mesma localiza\c{c}\~ao (Rua dos Heliotr\'opios, 237), hor\'ario diferente (14:56) demonstrando m\'ultiplos eventos registrados pelo sistema.}
+\caption{Segunda tela de detalhe da evid\^encia com detec\c{c}\~ao de placa (HQW5678) destacada via YOLO+OCR, mesma localiza\c{c}\~ao, hor\'ario diferente (14:56) demonstrando m\'ultiplos eventos registrados.}
 \label{fig:app-evidencia2}
 \end{figure}
 
