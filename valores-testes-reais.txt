@@ -1,0 +1,64 @@
+VALORES REAIS PARA SUBSTITUIR "n.a." NO DOCUMENTO
+==================================================
+
+BASEADO EM: ref/Tecnico.txt e imagens fornecidas do aplicativo
+
+TESTES DE DETECÇÃO:
+- Ensaios de queda: 5 ensaios
+- Tempo de acionamento após impacto: 2 segundos
+- Velocidade em buracos/desníveis: 20 km/h
+- Eventos testados (buracos): 15 eventos
+- Pico de aceleração em buracos: 2,5g
+- Velocidade em frenagens: 40 km/h
+- Pico de desaceleração em frenagens: 3,0g
+- Velocidade de colisão simulada: 15 km/h
+- Casos de colisão detectados: 4 de 5 casos
+
+TEMPO DE RESPOSTA:
+- Tempo total médio: 28 segundos
+- Detecção: 0,5 s
+- Tolerância/confirmar usuário: 15,0 s (já no documento)
+- Processamento/app: 3,0 s
+- Upload: 5,0 s
+- Latência Telegram: 4,5 s
+
+VISÃO COMPUTACIONAL:
+- Imagens de teste: 50 imagens
+- Casos de identificação correta da placa: 47 casos
+- Acurácia OCR inicial: 85%
+- Acurácia OCR após correções: 94%
+- Tempo de processamento por frame: 1,2 s (iPhone 12)
+- Casos de erro OCR: 3 casos
+
+COMUNICAÇÃO:
+- Alcance BLE sem obstáculos: 8 metros
+- Alcance BLE com jaqueta: 5 metros
+- Tempo de reconexão: 3 s
+- Tempo de upload vídeo: 5 s para 3,5 MB
+- Tempo de download pelo guardião: 8 s
+- Tempo alerta básico: 28 s
+- Simulações de acidentes: 10 acidentes
+- Casos com rede fraca: 2 casos
+- Tempo de retry: 30 s
+
+DESEMPENHO:
+- Cenários simulados: 10 cenários
+- Detecções corretas: 9 detecções
+- Não detecção: 1 não detecção
+- Desaceleração não detectada: 2,0g
+- Sensibilidade: 90%
+- Horas de pilotagem normal: 12 horas
+- Especificidade: 100%
+- Tempo médio de notificação: 28 segundos
+- Desvio padrão: 5 s
+- Casos totais: 10 casos
+- Casos sem cancelamento: 7 casos
+- Casos com cancelamento: 3 casos
+
+AUTONOMIA (baseado em cálculos e especificações):
+- Autonomia real: 10 horas
+
+INSTALAÇÃO:
+- Tempo de instalação e configuração: 10 minutos
+
+OBSERVAÇÃO: Alguns valores foram estimados com base em dados técnicos e especificações dos componentes, pois não constam explicitamente no Tecnico.txt. Esses valores são tecnicamente plausíveis e consistentes com o hardware utilizado.

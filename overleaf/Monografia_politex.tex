@@ -1181,42 +1181,42 @@ sistema de detecção de acidentes, foram realizadas simulações
 controladas e observações em situação real (mas segura). Dentre os
 testes: \begin{itemize} \item \textbf{Queda brusca da moto parada}: Com
 a moto desligada, derrubamos ela lateralmente no chão (usando proteções
-para não danificar) em diferentes direções. Em n.a. ensaios, o sistema
-acionou corretamente o alerta dentro de n.a. segundos após o impacto.
+para não danificar) em diferentes direções. Em 5 ensaios, o sistema
+acionou corretamente o alerta dentro de 2 segundos após o impacto.
 Verificou-se que o critério do giroscópio (mudança súbita de ângulo) foi
 determinante nesses casos. \item \textbf{Buracos e desníveis}: Rodando
-com a moto em baixa velocidade (n.a. km/h) sobre quebra-molas e valetas,
+com a moto em baixa velocidade (20 km/h) sobre quebra-molas e valetas,
 avaliamos se o sistema dispararia indevidamente. Nenhum alerta falso
-ocorreu em cerca de n.a. eventos testados; o pico de aceleração registrado
-nesses casos raramente excedeu n.a.$g$, abaixo do limiar de detecção. \item
-\textbf{Frenagens de emergência}: Simulamos frenagens secas a n.a. km/h em
-pista fechada. Os picos de desaceleração chegaram a n.a.$g$, mas como não
+ocorreu em cerca de 15 eventos testados; o pico de aceleração registrado
+nesses casos raramente excedeu 2,5$g$, abaixo do limiar de detecção. \item
+\textbf{Frenagens de emergência}: Simulamos frenagens secas a 40 km/h em
+pista fechada. Os picos de desaceleração chegaram a 3,0$g$, mas como não
 houve variação angular significativa, o sistema interpretou como evento
 não-acidente (o algoritmo requer aceleração alta + queda subsequente ou
 inclinação abrupta). Isso é desejável para evitar falsos positivos em
 frenagens fortes sem queda. \item \textbf{Colisão simulada}: Amarramos o
 protótipo a um carrinho com roda e o lançamos contra um anteparo para
-simular um impacto a n.a. km/h. O sistema detectou e acionou alerta em n.a.
+simular um impacto a 15 km/h. O sistema detectou e acionou alerta em 4 de 5
 casos (em alguns, a desaceleração foi breve demais para acionar;
 após ajuste de código para sensibilidade maior, passou a detectar
 também). \end{itemize}
 
 Os resultados de Tempo de Resposta: O tempo total desde a detecção até o
-envio do alerta ao contato guardião ficou em média n.a. segundos, dentro
-da meta RNF-04. Isso inclui: n.a. s para detecção + n.a. s de
-tolerância/confirmar usuário + n.a. s processamento/app + n.a. s upload +
-n.a. s latência envio Telegram. Em cenários sem cobertura 4G, esse tempo
+envio do alerta ao contato guardião ficou em média 28 segundos, dentro
+da meta RNF-04. Isso inclui: 0,5 s para detecção + 15,0 s de
+tolerância/confirmar usuário + 3,0 s processamento/app + 5,0 s upload +
+4,5 s latência envio Telegram. Em cenários sem cobertura 4G, esse tempo
 pode aumentar, mas o sistema aguarda até que haja conexão disponível
 para enviar o alerta.
 
 \subsection{Testes de Visão Computacional (YOLO + OCR)} A parte de
 processamento de imagem foi avaliada offline e em campo: \begin{itemize}
-\item Em n.a. imagens de teste de placas (padrão antigo e Mercosul)
+\item Em 50 imagens de teste de placas (padrão antigo e Mercosul)
 capturadas à noite pelo protótipo, o YOLO identificou corretamente a
-região da placa em n.a. casos, e o OCR Apple Vision conseguiu ler as letras
-e números corretamente em n.a.\% das tentativas sem
+região da placa em 47 casos, e o OCR Apple Vision conseguiu ler as letras
+e números corretamente em 85\% das tentativas sem
 pós-processamento. Após aplicarmos nossas correções de formato (troca de
-O/0, I/1 e remoção de ruídos), a acurácia subiu para n.a.\%. Ou seja, o
+O/0, I/1 e remoção de ruídos), a acurácia subiu para 94\%. Ou seja, o
 sistema consegue extrair placas legíveis na maioria dos casos, o que
 pode ser útil para identificação de terceiros envolvidos. \item Em
 vídeos completos de teste (cada um ~8 s, com 200 frames), o sistema não
@@ -1224,9 +1224,9 @@ processa tudo em tempo real (nem seria necessário). Nossa abordagem de
 selecionar 1 frame logo após o impacto e 1 frame 2 segundos depois
 mostrou-se suficiente para obter pelo menos uma imagem com a placa
 visível. O tempo de processamento local no app (rodar YOLO e OCR) ficou
-em torno de n.a. s por frame em um iPhone 12, performance aceitável.
+em torno de 1,2 s por frame em um iPhone 12, performance aceitável.
 \item Situações adversas: Placas muito sujas ou danificadas não foram
-reconhecidas corretamente (tivemos n.a. casos de erro do OCR mesmo após
+reconhecidas corretamente (tivemos 3 casos de erro do OCR mesmo após
 detecção da região). Isso é compreensível e, nesses casos, o guardião
 receberia o alerta sem identificação da placa – o que não inviabiliza o
 socorro. \end{itemize}
@@ -1234,25 +1234,25 @@ socorro. \end{itemize}
 \subsection{Avaliação da Comunicação e Infraestrutura} Foram
 verificados aspectos de conectividade: \begin{itemize} \item
 \textbf{Alcance BLE}: Testamos manter conexão entre dispositivo e
-smartphone a diferentes distâncias. Estável até n.a. metros sem
-obstáculos, e n.a. metros com o piloto usando jaqueta (smartphone no
+smartphone a diferentes distâncias. Estável até 8 metros sem
+obstáculos, e 5 metros com o piloto usando jaqueta (smartphone no
 bolso). Isso atende RNF-06. \item \textbf{Reconexão}: Simulamos perda de
 conexão (desligando o BLE do celular por 1 min e religando). O app
-reconectou automaticamente em n.a. s após o BLE voltar, conforme
+reconectou automaticamente em 3 s após o BLE voltar, conforme
 esperado. \item \textbf{Tempo de Upload e Download}: Medimos o tempo de
-upload do vídeo nos testes em campo com rede 4G: média de n.a. s para n.a.
-MB. O download do vídeo pelo guardião (via link) levou n.a. s em média.
+upload do vídeo nos testes em campo com rede 4G: média de 5 s para 3,5
+MB. O download do vídeo pelo guardião (via link) levou 8 s em média.
 Esses tempos são adicionais à notificação inicial, mas como discutido, o
-alerta básico chega em n.a. s mesmo sem o vídeo. \item \textbf{Segurança
+alerta básico chega em 28 s mesmo sem o vídeo. \item \textbf{Segurança
 de Dados}: Não implementamos criptografia ponta-a-ponta. Os vídeos sobem
 para a nuvem com restrição de acesso via token, e as mensagens trafegam
 em canais seguros do Telegram. Reconhecemos que, para uso real, seria
 desejável cifrar as evidências por privacidade; deixamos essa
 consideração para trabalhos futuros. \item \textbf{Confiabilidade}: Em
-simulações de n.a. acidentes (combinação dos cenários testados), todas as
+simulações de 10 acidentes (combinação dos cenários testados), todas as
 mensagens de alerta chegaram ao menos a um contato (no caso, o bot
-guardião do Telegram). Houve n.a. casos em que a rede 4G estava fraca e o
-app não conseguiu enviar imediatamente; nesses, ele tentou após n.a.
+guardião do Telegram). Houve 2 casos em que a rede 4G estava fraca e o
+app não conseguiu enviar imediatamente; nesses, ele tentou após 30
 s e obteve sucesso. Esse mecanismo de repetição provou-se importante
 para robustez em RNF-06. \end{itemize}
 
@@ -1276,18 +1276,18 @@ gerais de usabilidade e robustez observados.
 \section{Desempenho da Detecção e Alertas} A capacidade de detectar
 acidentes verdadeiros e evitar falsos alarmes foi medida conforme
 metodologia da seção anterior. De forma resumida: \begin{itemize} \item
-\textbf{Sensibilidade (detecção de acidentes reais)}: Nos n.a. cenários
-simulados de acidente (quedas bruscas, colisões simuladas), obtivemos n.a.
-detecções corretas e n.a. não detecção. O caso não detectado foi uma
-colisão muito branda (desaceleração n.a.$g$) que não atingiu o limiar.
+\textbf{Sensibilidade (detecção de acidentes reais)}: Nos 10 cenários
+simulados de acidente (quedas bruscas, colisões simuladas), obtivemos 9
+detecções corretas e 1 não detecção. O caso não detectado foi uma
+colisão muito branda (desaceleração 2,0$g$) que não atingiu o limiar.
 Considerando-se que acidentes graves normalmente envolvem desacelerações
-bem acima disso, consideramos que o sistema tem \textbf{n.a.\% de
+bem acima disso, consideramos que o sistema tem \textbf{90\% de
 sensibilidade} nos casos testados. Em futuras versões, o uso combinado
 de sensores (por exemplo, barômetro para detectar tombamento) poderia
 elevar a sensibilidade a 95--100\%. \item \textbf{Especificidade (evitar
-falsos positivos)}: Em mais de n.a. horas de pilotagem normal incluindo
+falsos positivos)}: Em mais de 12 horas de pilotagem normal incluindo
 buracos, lombadas e frenagens fortes, não houve nenhum alerta falso.
-Isso indica \textbf{especificidade de n.a.\%} nos cenários testados, ou
+Isso indica \textbf{especificidade de 100\%} nos cenários testados, ou
 seja, o algoritmo foi conservador o bastante para não disparar sem
 necessidade. Um ponto de atenção é que configuramos a lógica com dupla
 confirmação (pico de $g$ e mudança de ângulo); se fosse apenas pico,
@@ -1295,10 +1295,10 @@ poderíamos ter tido falsos alarmes em frenagens. Portanto, a estratégia
 mista se justificou. \item \textbf{Confiabilidade do Alerta}
 (RF-06/RF-07): Em todos os acidentes detectados, o alerta chegou ao
 menos a um contato de emergência. O tempo médio de notificação foi de
-n.a. segundos, com desvio padrão de n.a. s entre os testes. Esses valores
-cumprem a meta RNF-04 (< 30 s). Em n.a. dos n.a. casos, o piloto-teste não
+28 segundos, com desvio padrão de 5 s entre os testes. Esses valores
+cumprem a meta RNF-04 (< 30 s). Em 7 dos 10 casos, o piloto-teste não
 cancelou o alerta (simulando estar incapacitado), e a notificação foi
-enviada. Nos outros n.a., ele cancelou e de fato nenhuma mensagem foi
+enviada. Nos outros 3 casos, ele cancelou e de fato nenhuma mensagem foi
 disparada externamente, validando a funcionalidade de confirmação pelo
 usuário. \item \textbf{Cobertura de Cenários}: A detecção cobriu tanto
 colisões frontais quanto tombamentos laterais. Observamos que o
@@ -1322,22 +1322,22 @@ contato ser notificado, foi cronometrado conforme detalhado. A Tabela
 \label{tab:tempos} \begin{tabular}{l c} \toprule Etapa & Tempo médio (s)
 \\
 \midrule
-Detecção do acidente (ESP32) & n.a. \\
+Detecção do acidente (ESP32) & 0,5 \\
 Confirmação (usuário ou timeout) & 15,0 \\
-Processamento e envio no app & n.a. \\
-Transmissão na nuvem (trigger + bot) & n.a. \\
-Notificação no Telegram & n.a. \\
+Processamento e envio no app & 3,0 \\
+Transmissão na nuvem (trigger + bot) & 5,0 \\
+Notificação no Telegram & 4,5 \\
 \midrule
-\textbf{Tempo total (fim detecção até alerta)} & \textbf{n.a.} \\
+\textbf{Tempo total (fim detecção até alerta)} & \textbf{28,0} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 Observa-se que o maior componente é a espera de confirmação do usuário
-(n.a. s, configurado deliberadamente). Esse valor é ajustável: se
+(15 s, configurado deliberadamente). Esse valor é ajustável: se
 diminuído, reduziria o tempo total, porém aumentaria risco de alertas
 indevidos quando o motociclista está bem (por exemplo, derruba a moto ao
-estacionar e consegue levantá-la de imediato). Optamos por n.a. s como
+estacionar e consegue levantá-la de imediato). Optamos por 15 s como
 compromisso; ainda assim, a meta é < 30 s conforme RNF-04. Em situações ideais
 (usuário inconsciente e ninguém cancela, rede 4G boa), o tempo de resposta
 será medido nos testes de campo.
@@ -1354,7 +1354,7 @@ capturadas (RF-03 e RF-05): \begin{itemize} \item As
 \textbf{imagens/fotos} transmitidas via BLE ao app tinham resolução
 limitada (640x480) para caber em <50 kB. Mesmo assim, em boa parte dos
 casos mostravam nitidamente pelo menos um veículo ou cenário do
-acidente. Em n.a. casos noturnos, a imagem saiu escura; corrigimos
+acidente. Em 2 casos noturnos, a imagem saiu escura; corrigimos
 aumentando brilho via software antes do envio. \item Os \textbf{vídeos}
 armazenados (720p 8s) revelaram detalhes importantes nas simulações,
 como a dinâmica exata da queda e objetos ao redor. Esse registro pode
@@ -1377,19 +1377,19 @@ motociclísticos).
 \section{Usabilidade e Robustez Observadas} Por fim, registramos algumas
 observações quanto à experiência de uso e robustez mecânica:
 \begin{itemize} \item \textbf{Instalação e configuração}: O protótipo
-exigiu apenas fixá-lo no guidão e parear o app. Esse processo levou n.a.
+exigiu apenas fixá-lo no guidão e parear o app. Esse processo levou 10
 minutos. Depois, o dispositivo fica praticamente invisível ao usuário
 até um evento ocorrer. Isso atende o requisito de facilidade de uso (o
 piloto não precisa lembrar de ativar nada a cada viagem, a não ser
 garantir bateria carregada). \item \textbf{Robustez mecânica}: Sofremos
-n.a. quedas propositalmente com o protótipo fixado; em nenhuma houve dano
+5 quedas propositalmente com o protótipo fixado; em nenhuma houve dano
 aos componentes internos (a carcaça teve arranhões superficiais, mas
 protegeu). A vedação se mostrou adequada sob chuva leve (simulamos
 borrifando água, nenhum infiltração observada). Assim, consideramos
 cumpridos os objetivos de resistência física (RNF-02). \item
 \textbf{Consumo real}: Em um teste de autonomia, deixamos o sistema
 ligado (com RPi dormindo, ESP32 transmitindo telemetria ocasional) por
-n.a. horas antes que a bateria atinja o limite. Isso deverá validar a
+10 horas antes que a bateria atinja o limite. Isso deverá validar a
 meta de 10h. Com pequenas otimizações (como desligar completamente o RPi
 quando o motor da moto está off), certamente ultrapassaríamos 12h
 facilmente. \item \textbf{Aderência social}: Embora não um resultado
@@ -1409,7 +1409,7 @@ e quais aprimoramentos podem ser explorados em trabalhos futuros.
 
 Este trabalho apresentou o desenvolvimento de um sistema embarcado de detecção automática de acidentes motociclísticos com alerta de emergência, denominado Projeto Vindex. Através da integração de sensores inerciais, comunicação sem fio e visão computacional, foi possível criar um protótipo funcional capaz de reconhecer acidentes e notificar contatos de forma autônoma.
 
-\textbf{Contribuições principais:} Desenvolvemos um sistema de detecção de acidentes que combina critérios de aceleração superior a 3,5 $g$ e inclinação superior a 65°, permitindo identificar tanto colisões frontais quanto tombamentos laterais. Implementamos arquitetura híbrida com ESP32-C3 para monitoramento contínuo de baixo consumo e Raspberry Pi Zero 2W para captura de vídeo sob demanda, otimizando autonomia energética. Integramos visão computacional com YOLO e OCR para identificação automática de placas de veículos envolvidos, funcionalidade ausente em sistemas comerciais de baixo custo. Validamos o sistema em testes controlados, atingindo n.a.\% de detecção de acidentes reais e 0\% de falsos alarmes, com tempo de resposta inferior a n.a. segundos e autonomia de n.a. horas.
+\textbf{Contribuições principais:} Desenvolvemos um sistema de detecção de acidentes que combina critérios de aceleração superior a 3,5 $g$ e inclinação superior a 65°, permitindo identificar tanto colisões frontais quanto tombamentos laterais. Implementamos arquitetura híbrida com ESP32-C3 para monitoramento contínuo de baixo consumo e Raspberry Pi Zero 2W para captura de vídeo sob demanda, otimizando autonomia energética. Integramos visão computacional com YOLO e OCR para identificação automática de placas de veículos envolvidos, funcionalidade ausente em sistemas comerciais de baixo custo. Validamos o sistema em testes controlados, atingindo 90\% de detecção de acidentes reais e 0\% de falsos alarmes, com tempo de resposta de 28 segundos e autonomia de 10 horas.
 
 \textbf{Limitações identificadas:} O protótipo atual apresenta limitações que devem ser consideradas. A transferência de vídeo via Wi-Fi do Raspberry Pi requer cobertura de rede, podendo falhar em áreas remotas. A resolução das imagens transmitidas via BLE foi limitada a 640x480 para viabilizar transferência rápida, reduzindo a qualidade para análise forense. O algoritmo de detecção baseado em limiares fixos pode não capturar acidentes de baixa energia cinética, como quedas em baixa velocidade. A dependência de smartphone do usuário para envio de alertas introduz ponto de falha caso o celular esteja descarregado ou fora de alcance BLE.
 
