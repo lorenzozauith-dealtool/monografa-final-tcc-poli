@@ -327,53 +327,11 @@ Em suma, a necessidade abrange múltiplos públicos: para motociclistas e famili
 técnicos, é importante traduzir as necessidades acima em requisitos de
 alto nível, do ponto de vista do usuário final e do mercado. Esses
 requisitos de marketing orientam as características gerais que o produto
-deve possuir para ser viável e atrativo. Os requisitos de marketing levantados para o sistema proposto são apresentados a seguir em formato de texto corrido, evitando listas extensivas.
-
-As necessidades de marketing identificadas para o sistema incluem um preço acessível, com custo unitário em torno de R\$300--400 para viabilizar ampla adoção. A instalação deve ser simples, permitindo acoplamento direto no guidão ou chassi com mínima intervenção técnica. O sistema deve apresentar alta confiabilidade com baixo índice de falsos alarmes e mecanismos de confirmação manual ou automatizada. A autonomia de funcionamento deve alcançar 8--10 horas em uso típico. A integração com smartphone é essencial para envio de alertas utilizando Bluetooth e internet móvel. O equipamento deve ser robusto, com resistência a impactos, poeira e chuva. Por fim, deve oferecer valor adicional através de telemetria, estatísticas de pilotagem ou rastreamento que agreguem benefícios percebidos além do alerta de acidente.
-
-\iffalse
-Versão original em lista: \begin{itemize}
-\item \textbf{Baixo Custo}: O dispositivo deve ter preço acessível (meta
-de custo unitário em torno de R\$~300,00) para viabilizar ampla adoção,
-inclusive por motociclistas de menor renda e frotistas. \item
-\textbf{Fácil Instalação e Uso}: Deve ser compacto e facilmente acoplado
-à motocicleta (por exemplo, no guidão ou chassi), com instalação
-\textit{plug-and-play} e mínima intervenção técnica. O usuário não
-precisa realizar nenhuma ação no dia-a-dia além de manter a bateria
-carregada. \item \textbf{Confiabilidade e Baixo Falso Alarme}: O sistema
-não deve disparar alarmes falsos em condições normais (buracos, manobras
-acentuadas) para manter a credibilidade. Deve incluir mecanismos para
-confirmação do acidente (por exemplo, permitir cancelamento do alerta
-pelo usuário se estiver bem). \item \textbf{Autonomia Adequada}: A
-bateria deve suportar um dia inteiro de uso típico sem recarga (meta de
-pelo menos 8--10 horas de monitoramento contínuo), garantindo
-funcionamento mesmo em viagens longas. \item \textbf{Integração com
-Smartphone}: Embora o dispositivo seja autônomo na detecção, para enviar
-alertas ele deve integrar-se ao smartphone do usuário via app dedicado,
-aproveitando a conectividade do telefone (Bluetooth, internet móvel)
-para notificar contatos e eventualmente exibir informações ao
-motociclista. \item \textbf{Robustez}: O equipamento deve ser resistente
-a impactos (sobreviver ao próprio acidente) e possivelmente à água e
-poeira (uso externo em moto exige pelo menos proteção básica contra
-intempéries). \item \textbf{Valor Adicional}: Além do alerta de acidente
-em si, o produto deve oferecer algum valor agregado contínuo que
-justifique seu uso cotidiano, como monitoramento de trajeto,
-estatísticas de pilotagem segura (telemetria), ou mesmo rastreamento
-contra roubo. Esses diferenciais aumentam a aceitação pelo usuário.
-\end{itemize}
-
-Os requisitos acima delineiam o que o sistema deve oferecer em termos de
-benefícios e propriedades percebidas. A seguir, esses requisitos de
-marketing são refinados em requisitos de engenharia específicos, que
-\fi
-
-%orientaram a concepção técnica do requisitos 
+deve possuir para ser viável e atrativo. 
 
 As necessidades de marketing identificadas para o sistema incluem um pre\c{c}o acess\'ivel \textendash{} com custo unit\'ario em torno de R\$300--400 \textendash{} para viabilizar ampla ado\c{c}\~ao; instala\c{c}\~ao simples e acoplamento direto no guid\~ao ou chassi, permitindo que o pr\'oprio usu\'ario instale o dispositivo com m\'{\i}nima interven\c{c}\~ao t\'ecnica; confiabilidade, com baixo \'{\i}ndice de falsos alarmes e mecanismos de confirma\c{c}\~ao manual ou automatizada; autonomia de funcionamento de 8--10 horas em uso t\'ipico; integra\c{c}\~ao com smartphone para envio de alertas, utilizando Bluetooth e internet m\'ovel; robustez, com resist\^encia a impactos, poeira e chuva; e valor adicional, oferecendo telemetria, estat\'isticas de pilotagem ou rastreamento que agreguem benef\'icios percebidos al\'em do alerta de acidente.
 %de alto nível identificados, foram definidos os requisitos de
 Foram definidos os requisitos de engenharia do sistema de detecção de acidentes e alerta automático para motociclistas. Esses requisitos foram divididos em requisitos funcionais (RF) e requisitos não‑funcionais (RNF), conforme resumido nas Tabelas~\ref{tab:reqfunc} e~\ref{tab:reqnfunc}. Os requisitos funcionais descrevem as funções e comportamentos que o sistema deve realizar, enquanto os requisitos não‑funcionais estabelecem restrições e parâmetros de qualidade.
-não-funcionais estabelecem restrições e atributos de qualidade do
-sistema.
 
 \subsection{Requisitos Funcionais} \label{sec:req-func} Na Tabela
 \ref{tab:reqfunc}, são listados os principais requisitos funcionais
@@ -837,7 +795,7 @@ como as estratégias de teste e validação empregadas em cada etapa.
 \section{Componentes de Hardware}
 \label{sec:hardware}
 
-Descrevemos os principais módulos de hardware utilizados na implementação do protótipo, justificando as escolhas e apresentando parâmetros de configuração relevantes.
+Descrevemos os principais módulos de hardware utilizados na implementação do protótipo, justificando as escolhas e apresentando parâmetros de~configuração relevantes.
 
 \subsection{Microcontrolador ESP32-C3 Super Mini} 
 
@@ -1248,9 +1206,8 @@ envio do alerta ao contato guardião ficou em média n.a. segundos, dentro
 da meta RNF-04. Isso inclui: n.a. s para detecção + n.a. s de
 tolerância/confirmar usuário + n.a. s processamento/app + n.a. s upload +
 n.a. s latência envio Telegram. Em cenários sem cobertura 4G, esse tempo
-pode aumentar, mas o app tenta SMS como último recurso (implementamos
-envio de SMS emergencial para um número 190 se internet indisponível e
-GPS indica local remoto).
+pode aumentar, mas o sistema aguarda até que haja conexão disponível
+para enviar o alerta.
 
 \subsection{Testes de Visão Computacional (YOLO + OCR)} A parte de
 processamento de imagem foi avaliada offline e em campo: \begin{itemize}
@@ -1450,113 +1407,15 @@ e quais aprimoramentos podem ser explorados em trabalhos futuros.
 % Conclusão
 \chapter{Conclusão}\label{cap:conclusao}
 
-Este trabalho apresentou o desenvolvimento completo de um sistema
-embarcado de detecção automática de acidentes motociclísticos com alerta
-de emergência, denominado Projeto Vindex. Através da integração de
-sensores inerciais, comunicação sem fio e visão computacional, foi
-possível criar um protótipo funcional capaz de reconhecer acidentes e
-notificar contatos de forma autônoma.
+Este trabalho apresentou o desenvolvimento de um sistema embarcado de detecção automática de acidentes motociclísticos com alerta de emergência, denominado Projeto Vindex. Através da integração de sensores inerciais, comunicação sem fio e visão computacional, foi possível criar um protótipo funcional capaz de reconhecer acidentes e notificar contatos de forma autônoma.
 
-Na \textbf{Introdução}, contextualizamos a gravidade do problema dos
-acidentes de moto e estabelecemos a motivação para uma solução
-tecnológica. A \textbf{Declaração do Problema} e da \textbf{Necessidade}
-delimitaram o foco: reduzir o tempo de resposta pós-acidente e fornecer
-informações críticas mesmo quando o piloto não puder fazê-lo. Foram
-então definidos \textbf{Requisitos de Marketing e de Engenharia} que
-nortearam o desenvolvimento – desde metas de autonomia e baixo custo até
-funcionalidade de visão computacional para leitura de placas.
+\textbf{Contribuições principais:} Desenvolvemos um sistema de detecção de acidentes que combina critérios de aceleração superior a 3,5 $g$ e inclinação superior a 65°, permitindo identificar tanto colisões frontais quanto tombamentos laterais. Implementamos arquitetura híbrida com ESP32-C3 para monitoramento contínuo de baixo consumo e Raspberry Pi Zero 2W para captura de vídeo sob demanda, otimizando autonomia energética. Integramos visão computacional com YOLO e OCR para identificação automática de placas de veículos envolvidos, funcionalidade ausente em sistemas comerciais de baixo custo. Validamos o sistema em testes controlados, atingindo n.a.\% de detecção de acidentes reais e 0\% de falsos alarmes, com tempo de resposta inferior a n.a. segundos e autonomia de n.a. horas.
 
-No \textbf{Estado da Arte}, exploramos pesquisas e soluções existentes.
-Observou-se que, embora existam aplicativos de smartphone e sistemas
-automotivos de eCall, a lacuna para motocicletas persistia. Isso
-reforçou a relevância do Projeto Vindex. Abordamos conceitos
-fundamentais como funcionamento de acelerômetros e algoritmos YOLO,
-citando referências relevantes (como Redmon \& Farhadi e estudos da OMS)
-que embasaram nossas escolhas. Em suma, o estado da arte indicou que os
-componentes necessários estavam disponíveis, mas sua convergência em um
-dispositivo único para motos não havia sido plenamente concretizada em
-trabalhos anteriores.
+\textbf{Limitações identificadas:} O protótipo atual apresenta limitações que devem ser consideradas. A transferência de vídeo via Wi-Fi do Raspberry Pi requer cobertura de rede, podendo falhar em áreas remotas. A resolução das imagens transmitidas via BLE foi limitada a 640x480 para viabilizar transferência rápida, reduzindo a qualidade para análise forense. O algoritmo de detecção baseado em limiares fixos pode não capturar acidentes de baixa energia cinética, como quedas em baixa velocidade. A dependência de smartphone do usuário para envio de alertas introduz ponto de falha caso o celular esteja descarregado ou fora de alcance BLE.
 
-Em \textbf{Materiais e Métodos}, detalhamos as decisões de projeto: a
-seleção do ESP32-C3 (microcontrolador RISC-V de baixo consumo), do
-sensor BMI160 (acelerômetro+giroscópio de 6 eixos), do Raspberry Pi Zero
-2W (computador de bordo para visão e comunicação) e da câmera grande
-angular. Justificamos cada escolha com fundamentos físicos e de
-engenharia – por exemplo, argumentamos o porquê do BLE 5.0 para
-comunicação local, citamos o consumo típico de 925 $\mu$A do
-BMI160\cite{bosch2016} que viabiliza monitoramento contínuo, e
-discutimos as capacitações do ESP32-C3 de entrar em \textit{deep sleep}
-consumindo apenas 5 $\mu$A\cite{espressif2020}. Também apresentamos a
-arquitetura de software, incluindo a infraestrutura de nuvem (Supabase +
-bot Telegram) que confere escalabilidade ao sistema.
+\textbf{Trabalhos futuros:} Recomendamos implementar algoritmos de aprendizado de máquina embarcados para detecção mais robusta, treinados com dados reais de acidentes versus condução normal, permitindo adaptação a diferentes estilos de pilotagem. Miniaturizar o hardware em PCB dedicada reduziria tamanho e consumo, viabilizando integração discreta no veículo. Explorar microcontroladores mais recentes como ESP32-S3 com aceleração de IA poderia eliminar dependência do Raspberry Pi, simplificando arquitetura. Desenvolver versão Android do aplicativo ampliaria base de usuários. Integrar conexão direta com serviços de emergência como SAMU ou Corpo de Bombeiros, além de contatos pessoais, aumentaria eficácia do socorro. Testes em larga escala com usuários reais permitiriam coletar dados em campo e aperfeiçoar calibragem de sensibilidade, refinando parâmetros de detecção e aspectos de usabilidade. Expandir funcionalidade de prevenção de acidentes com módulo ADAS simples, alertando piloto de colisão iminente ou curva perigosa, agregaria valor contínuo ao produto.
 
-A fase de \textbf{Prova de Conceito} validou os principais riscos
-técnicos – verificamos que o acelerômetro detectava sim quedas, que a
-câmera podia capturar imagens rapidamente e que a comunicação BLE era
-possível. A partir daí, implementamos o \textbf{Protótipo Final}, cujo
-design modular e a árvore de objetivos foram ilustrados (Figura
-\ref{fig:arquitetura}). Esta abordagem sistemática – do requisito ao
-teste – permitiu uma construção coerente e evitou retrabalho
-significativo.
-
-Nos \textbf{Resultados}, constatamos que o sistema atingiu os objetivos
-propostos. Detectamos n.a.\% dos acidentes simulados e não registramos
-alarmes falsos, cumprindo a meta de sensibilidade/especificidade
-(RNF-03). O alerta chegou aos destinatários em menos de n.a. segundos,
-atendendo RNF-04. O sistema permaneceu operante por cerca de n.a. horas
-com bateria, validando RNF-01 de autonomia. A funcionalidade de visão
-computacional, embora complementar, agregou valor notável – por exemplo,
-a identificação automática de uma placa de veículo envolvido, o que
-nenhum sistema comercial de baixo custo atualmente faz. Esse aspecto
-coloca o Vindex num patamar diferenciado, alinhado à tendência de IoT
-com inteligência embarcada.
-
-Do ponto de vista acadêmico, o projeto tangenciou diversos campos:
-eletrônica embarcada, protocolos de telecomunicações, processamento de
-sinais, aprendizado de máquina (no uso do YOLO/OCR) e desenvolvimento
-mobile. Essa natureza interdisciplinar exigiu fundamento teórico sólido
-– evidenciado pelas referências bibliográficas diversas (de normas da
-ABNT a artigos do \textit{Journal of Trauma}). Cada escolha técnica foi
-justificada: por exemplo, citamos estudos que sugerem limiar de 4 $g$
-para detecção de colisões (NHTSA, 2021) e mostramos, na prática, que
-adotamos valor próximo (3,5 $g$) ajustado conforme \cite{choudhary2015}.
-
-Como \textbf{Trabalhos Futuros}, várias melhorias podem ser exploradas:
-\begin{itemize} \item Implementar algoritmos de aprendizado de máquina
-embarcados para detecção de acidente mais sofisticada (e.g.,
-classificadores treinados com dados reais de acidente vs. condução
-normal), potencialmente aumentando a acurácia além do simples limiar.
-\item Miniaturizar o hardware e desenhar uma PCB dedicada, reduzindo
-ainda mais o tamanho e consumo. Com a evolução de microcontroladores
-mais poderosos (ESP32-S3 com aceleração de IA, por exemplo), talvez seja
-possível eliminar o Raspberry Pi, desde que haja capacidade de tratar
-imagens básicas localmente. \item Testes em larga escala com usuários
-reais, para coletar dados em campo e aperfeiçoar a calibragem de
-sensibilidade. Esse feedback do mundo real permitiria refinar tanto
-parâmetros de detecção quanto aspectos de usabilidade (ex.: adaptar a
-interface do app para diferentes perfis de usuário). \item Integração
-com serviços públicos de emergência: um passo adiante seria, ao detectar
-um acidente grave, já acionar diretamente o SAMU ou corpo de bombeiros
-local, enviando localização e dados relevantes. Isso demandaria
-parcerias com autoridades e garantia de confiabilidade máxima do sistema
-(um falso positivo aqui seria problemático). Com os resultados
-promissores do protótipo, há base para iniciar conversas nesse sentido.
-\item Expandir a funcionalidade de \textbf{prevenção} de acidentes. Por
-exemplo, adicionar um módulo ADAS (Sistema de Assistência Avançada ao
-Condutor) simples, alertando o piloto de colisão iminente ou curva
-perigosa, usando o mesmo hardware de câmera e sensores. Isso agregaria
-ainda mais valor contínuo ao produto, indo além da resposta pós-acidente
-e atuando também na fase pré-acidente. \end{itemize}
-
-Retomando os objetivos iniciais, consideramos que este trabalho cumpriu
-seu propósito: demonstrar a viabilidade técnica de um dispositivo
-acessível que pode salvar vidas no trânsito. Os conceitos físicos (como
-a força $F_c = -2m(\Omega \times v)$ da Coriolis, mencionada no Estado
-da Arte para explicar o giroscópio MEMS\cite{who2018}), os achados de
-pesquisas (como o dado da OMS de que acidentes custam 3--5% do
-PIB\cite{who2018}) e as inovações práticas (como acionar um bot Telegram
-via \textit{trigger} de banco de dados) foram todos combinados em um
-resultado concreto.
+Retomando os objetivos iniciais, consideramos que este trabalho cumpriu seu propósito de demonstrar a viabilidade técnica de um dispositivo acessível para detecção automática de acidentes motociclísticos.
 
 Em termos de \textbf{impacto social}, um sistema como o Vindex pode
 reduzir significativamente a mortalidade de motociclistas. Conforme demonstrado por Gauss \textit{et al.} \cite{jama2019}, existe uma associa\c{c}\~ao direta entre o tempo pr\'e-hospitalar e a mortalidade em trauma, e nosso dispositivo pode cortar
@@ -1566,21 +1425,12 @@ dados do acidente contribui para uma cultura de responsabilização e
 aprendizado – famílias podem entender o que ocorreu, autoridades podem
 ter estatísticas mais precisas, e assim por diante.
 
-Concluindo, o Projeto Vindex mostrou-se um \textbf{trabalho de conclusão
-de curso} de engenharia eletrônico desafiador e multifacetado,
-integrando conhecimentos e gerando um protótipo funcional de alta
-relevância. Os resultados abrem caminho para que desenvolvimentos
-futuros aprimorem e eventualmente introduzam essa solução no mercado ou
-em programas governamentais de segurança viária. Espera-se que esta
-monografia sirva de referência e inspiração para outros projetos de
-sistemas embarcados focados em salvar vidas, demonstrando como a
-engenharia pode – e deve – atuar em problemas críticos da sociedade
-moderna.
+Os resultados obtidos demonstram que a solução proposta é viável tecnicamente e pode contribuir para redução da mortalidade de motociclistas no trânsito brasileiro.
 
 \begin{thebibliography}{99} \bibitem{czerwonka2025} CZERWONKA, M. A cada
 39 minutos, um motociclista morre no trânsito brasileiro. Portal do
-Trânsito, 03 fev. 2025. \bibitem{who2018} WORLD HEALTH ORGANIZATION.
-\textit{Global status report on road safety 2018}. Geneva: WHO, 2018.
+Trânsito, 03 fev. 2025. \bibitem{who2018} WORLD HEALTH ORGANIZATION. Road traffic injuries. WHO Fact Sheet.
+Geneva: WHO, 2018. Dispon\'ivel em: \url{https://www.who.int/news-room/fact-sheets/detail/road-traffic-injuries}.
 \bibitem{champion2016} CHAMPION, H. R.; LOMBARDO, L. V.; WADE, C. E.;
 KALIN, E. J.; LAWNICK, M. M.; HOLCOMB, J. B. Time and place of death
 from automobile crashes: research endpoint implications. \textit{Journal
