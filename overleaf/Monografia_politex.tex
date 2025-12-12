@@ -747,47 +747,50 @@ usuário e \textbf{serviços em nuvem} de suporte.
 
 \begin{figure}[p]
   \centering
-  \begin{tikzpicture}[node distance=1.8cm, every node/.style={font=\footnotesize}]
-    % Camada 1: Sensores
-    \node[draw, rectangle, align=center, minimum width=3.5cm, minimum height=1.2cm] (imu)
+  \begin{tikzpicture}[node distance=2cm, every node/.style={font=\footnotesize}]
+    % Coluna esquerda: Hardware embarcado
+    \node[draw, rectangle, align=center, minimum width=4cm, minimum height=1cm] (imu)
       {\textbf{Sensor BMI160}\\Aceler\^ometro + Girosc\'opio};
     
-    % Camada 2: Microcontrolador principal
-    \node[draw, rectangle, below of=imu, yshift=-0.5cm, align=center, minimum width=3.5cm, minimum height=1.2cm] (esp)
+    \node[draw, rectangle, below of=imu, align=center, minimum width=4cm, minimum height=1cm] (esp)
       {\textbf{ESP32-C3}\\Monitora sensor\\Detecta acidentes};
     
-    % Camada 3: Processador de v\'ideo
-    \node[draw, rectangle, below of=esp, yshift=-0.5cm, align=center, minimum width=3.5cm, minimum height=1.2cm] (rpi)
+    \node[draw, rectangle, below of=esp, align=center, minimum width=4cm, minimum height=1cm] (rpi)
       {\textbf{Raspberry Pi Zero 2W}\\Captura v\'ideo\\Upload nuvem};
     
-    % Camada 4: C\^amera
-    \node[draw, rectangle, below of=rpi, yshift=-0.5cm, align=center, minimum width=3.5cm, minimum height=1.2cm] (cam)
-      {\textbf{C\^amera OV5647}\\160° FOV\\720p H.264};
+    \node[draw, rectangle, below of=rpi, align=center, minimum width=4cm, minimum height=1cm] (cam)
+      {\textbf{C\^amera OV5647}\\160° FOV, 720p H.264};
     
-    % Camada 5: Bateria
-    \node[draw, rectangle, below of=cam, yshift=-0.5cm, align=center, minimum width=3.5cm, minimum height=1.2cm] (bat)
+    \node[draw, rectangle, below of=cam, align=center, minimum width=4cm, minimum height=1cm] (bat)
       {\textbf{Bateria Li-ion 18650}\\3.7V + Conversor 5V};
     
-    % Lado direito: Smartphone
-    \node[draw, rectangle, right=5cm of esp, yshift=-2cm, align=center, minimum width=3.5cm, minimum height=1.8cm] (phone)
+    % Coluna direita: Smartphone e Nuvem
+    \node[draw, rectangle, right=6cm of esp, yshift=-1cm, align=center, minimum width=4cm, minimum height=1.2cm] (phone)
       {\textbf{Smartphone iOS}\\App Vindex\\BLE + GPS};
     
-    % Lado direito: Nuvem
-    \node[draw, rectangle, below of=phone, yshift=-0.5cm, align=center, minimum width=3.5cm, minimum height=1.8cm] (cloud)
+    \node[draw, rectangle, below of=phone, yshift=-1cm, align=center, minimum width=4cm, minimum height=1.2cm] (cloud)
       {\textbf{Servidor Supabase}\\Armazenamento\\Bot Telegram};
     
-    % Conex\~oes
+    % Conex\~oes verticais (hardware)
     \draw[->, very thick] (imu) -- node[right] {I2C} (esp);
-    \draw[->, very thick] (esp) -- node[right] {GPIO Wake} (rpi);
+    \draw[->, very thick] (esp) -- node[right] {GPIO} (rpi);
     \draw[->, very thick] (rpi) -- node[right] {CSI} (cam);
-    \draw[->, very thick] (bat) -- (cam);
-    \draw[->, very thick] (bat) -- (rpi);
-    \draw[->, very thick] (bat) -- (esp);
-    \draw[<->, dashed, very thick] (esp) -- node[above, align=center] {BLE\\Telemetria} (phone);
-    \draw[->, dashed, very thick] (rpi) -- node[above, align=center] {Wi-Fi\\Upload v\'ideo} (phone);
-    \draw[<->, dashed, very thick] (phone) -- node[right] {API REST} (cloud);
+    \draw[->, very thick] (cam) -- (bat);
+    
+    % Conex\~oes em L da bateria para componentes
+    \draw[->, very thick] (bat.east) -| ([xshift=0.5cm]esp.east);
+    \draw[->, very thick] (bat.east) -| ([xshift=0.5cm]rpi.east);
+    
+    % Conex\~oes em U do ESP32 para smartphone (BLE)
+    \draw[<->, dashed, very thick] (esp.east) -- ++(1.5cm,0) |- node[pos=0.25, above] {BLE} (phone.west);
+    
+    % Conex\~ao em U do RPi para smartphone (Wi-Fi)
+    \draw[->, dashed, very thick] (rpi.east) -- ++(2cm,0) |- node[pos=0.25, above] {Wi-Fi} (phone.west);
+    
+    % Conex\~ao smartphone para nuvem
+    \draw[<->, dashed, very thick] (phone) -- node[right] {API} (cloud);
   \end{tikzpicture}
-  \caption{Arquitetura do sistema Vindex. Hardware embarcado (esquerda): sensor BMI160 conectado ao ESP32-C3 via I2C; ESP32-C3 desperta Raspberry Pi via GPIO; RPi controla c\^amera OV5647 e faz upload de v\'ideo. Smartphone (direita): recebe dados via BLE e envia alertas. Servidor em nuvem: armazena v\'ideos e aciona bot Telegram.}
+  \caption{Arquitetura do sistema Vindex. Hardware embarcado (esquerda): sensor BMI160 conectado ao ESP32-C3 via I2C; ESP32-C3 desperta Raspberry Pi via GPIO; RPi controla c\^amera OV5647 via CSI e faz upload de v\'ideo via Wi-Fi. Smartphone (direita): recebe dados via BLE do ESP32-C3 e envia alertas ao servidor Supabase via API REST. Bateria alimenta todos os componentes.}
   \label{fig:arquitetura}
 \end{figure}
 
