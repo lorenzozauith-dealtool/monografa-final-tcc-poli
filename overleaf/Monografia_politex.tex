@@ -41,18 +41,18 @@ Detecção de Acidentes e Alerta Automático para Motociclistas}
 % Define os autores conforme o template politeX
 \autor{Igor Teixeira Lacerda\\
 \\
-Lorenzo Zauith\\
+Lorenzo Bighetti Zauith\\
 \\
 Rodrigo Costa de Araújo}
 \local{São Paulo}
 \data{2025}
 
 % Tipo de documento: TCC
-\tcc{Engenharia Elétrica}
+\tcc{Engenheiro Eletricista}
 
 % Departamento e área
 \departamento{Engenharia Elétrica}
-\areaConcentracao{Sistemas Eletrônicos}
+\areaConcentracao{Eletrônica e Sistemas Computacionais}
 
 % Orientador
 \orientador{Márcio Lobo Netto}
@@ -339,7 +339,7 @@ levantados para o projeto, codificados como RF-01, RF-02, etc.:
 
 \begin{table}[htb]
 \centering
-\caption{Requisitos Funcionais do Sistema}
+\caption{Requisitos Funcionais do Sistema (parte 1)}
 \label{tab:reqfunc}
 \begin{tabular}{p{0.15\textwidth} p{0.78\textwidth}}
 \toprule
@@ -352,6 +352,17 @@ RF-02 & \textbf{Acionamento do módulo de captura}: Ao detectar um evento de aci
 RF-03 & \textbf{Captura de imagens/vídeo}: O Raspberry Pi, ao ser despertado, deverá realizar o registro do contexto do acidente. Isso inclui capturar, em modo \textit{burst}, uma sequência curta de imagens (ou um vídeo de poucos segundos) através da câmera grande angular, de forma a obter registro visual do momento do impacto e instantes subsequentes. \\
 \midrule
 RF-04 & \textbf{Transmissão ao smartphone}: Os dados capturados (imagens ou vídeo, e dados do evento como aceleração pico, horário, etc.) deverão ser enviados do dispositivo embarcado para o smartphone do usuário via conexão Bluetooth Low Energy (BLE). \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htb]
+\centering
+\caption{Requisitos Funcionais do Sistema (parte 2 -- continuação)}
+\label{tab:reqfunc-cont}
+\begin{tabular}{p{0.15\textwidth} p{0.78\textwidth}}
+\toprule
+\textbf{Código} & \textbf{Descrição do Requisito Funcional} \\
 \midrule
 RF-05 & \textbf{Processamento no aplicativo móvel}: O aplicativo móvel (smartphone) deve receber os dados do acidente e então executar processamento adicional. Especificamente, deve: (a) Extrair de imagens recebidas a placa de eventual veículo envolvido, usando algoritmo de detecção de objetos (p.\,ex. YOLO) seguido de OCR para ler os caracteres da placa; (b) Compilar uma mensagem de alerta contendo localização geográfica (via GPS do smartphone), horário e, opcionalmente, uma foto do acidente com a placa destacada. \\
 \midrule
@@ -418,7 +429,7 @@ avaliada e, quando necessário, ajustes foram realizados para cumpri-los
 
 \section{Árvore de Objetivos} Tendo definidos os requisitos, é útil
 apresentá-los de forma hierárquica sob a perspectiva dos objetivos do
-projeto. A árvore de objetivos apresentada na Figura~\ref{fig:arvore} ilustra os objetivos
+projeto. A árvore de objetivos apresentada na Figura~\ref{fig:arvore-objetivos} ilustra os objetivos
 gerais e específicos do sistema, relacionando-os aos requisitos
 correspondentes:
 
@@ -492,7 +503,7 @@ A detecção de acidentes motociclísticos de forma automática requer compreend
 
 Acelerômetros e giroscópios MEMS constituem o núcleo de sistemas de detecção de queda. Um acelerômetro triaxial mede as componentes de aceleração ao longo dos eixos X, Y e Z do dispositivo, incluindo tanto aceleração dinâmica (movimento) quanto a componente estática da gravidade. Um giroscópio triaxial mede a velocidade angular (rotação) em torno de três eixos. A combinação de ambos em uma Unidade de Medição Inercial (IMU) permite inferir a orientação do veículo e detectar mudanças abruptas de velocidade ou inclinação. Conforme demonstrado por Fauzi \textit{et al.} \cite{fauzi2023}, sistemas baseados em ESP32 com sensores MPU6050 apresentam excelente desempenho na detecção de quedas de motocicletas. Uma queda lateral de moto envolve tipicamente rápida variação angular, com a motocicleta inclinando-se além do ângulo normal de curva, seguida de desaceleração brusca ao atingir o solo \cite{choudhary2015}. Esses padrões podem ser identificados processando os sinais do acelerômetro e giroscópio.
 
-A aceleração é frequentemente expressa em unidades de $g$ (aceleração da gravidade, aproximadamente 9,81~m/s²). Impactos severos podem gerar picos de várias vezes $g$. Estudos em detecção de colisões automotivas definem limiares para disparo de airbags na faixa de 3 a 5~$g$ por pelo menos 50~ms. Para motocicletas, um limiar de 4~$g$ foi citado como indicativo de acidente em estudos do NHTSA, ajustado experimentalmente para minimizar disparos indevidos \cite{nhtsa2023}. Em nosso projeto, estabelecemos via testes práticos um valor de aproximadamente 3,5~$g$ como ponto de disparo, levando em conta a sensibilidade do sensor e as dinâmicas típicas de pilotagem. Além do pico de aceleração, utilizamos também um critério de variação angular abrupta.
+A aceleração é frequentemente expressa em unidades de $g$ (aceleração da gravidade, aproximadamente 9,81~m/s²). Impactos severos podem gerar picos de várias vezes $g$. Estudos em detecção de colisões automotivas definem limiares para disparo de airbags na faixa de 3 a 5~$g$ por pelo menos 50~ms. Estudos acadêmicos de detecção automática de colisões baseados em sensores inerciais reportam o uso de limiares de aceleração na faixa de 3--4~$g$, ajustados empiricamente para reduzir falsos positivos \cite{white2011,choudhary2015}. Em nosso projeto, estabelecemos via testes práticos um valor de aproximadamente 3,5~$g$ como ponto de disparo, levando em conta a sensibilidade do sensor e as dinâmicas típicas de pilotagem. Além do pico de aceleração, utilizamos também um critério de variação angular abrupta.
 
 \subsection{Comunicação Sem Fio}
 
@@ -1380,7 +1391,7 @@ Contribuições principais: Desenvolvemos um sistema de detecção de acidentes 
 
 Limitações identificadas: O protótipo atual apresenta limitações que devem ser consideradas. A transferência de vídeo via Wi-Fi do Raspberry Pi requer cobertura de rede, podendo falhar em áreas remotas. A resolução das imagens transmitidas via BLE foi limitada a 640x480 para viabilizar transferência rápida, reduzindo a qualidade para análise forense. O algoritmo de detecção baseado em limiares fixos pode não capturar acidentes de baixa energia cinética, como quedas em baixa velocidade. A dependência de smartphone do usuário para envio de alertas introduz ponto de falha caso o celular esteja descarregado ou fora de alcance BLE.
 
-{\sloppy Trabalhos futuros: Recomendamos implementar algoritmos de aprendizado de máquina embarcados, treinados com dados reais de acidentes versus condução normal. Miniaturizar o hardware em PCB dedicada reduziria tamanho e consumo, viabilizando integração discreta no veículo. Explorar microcontroladores mais recentes como ESP32-S3 com aceleração de IA poderia eliminar dependência do Raspberry Pi, simplificando arquitetura. Desenvolver versão Android do aplicativo ampliaria base de usuários. Integrar conexão direta com serviços de emergência como SAMU ou Corpo de Bombeiros, além de contatos pessoais, aumentaria eficácia do socorro. Testes em larga escala com usuários reais permitiriam coletar dados em campo e aperfeiçoar calibragem de sensibilidade, refinando parâmetros de detecção e aspectos de usabilidade. Expandir funcionalidade de prevenção de acidentes com módulo ADAS simples, alertando piloto de colisão iminente ou curva perigosa, agregaria valor contínuo ao produto.
+{\sloppy Trabalhos futuros: Recomendamos implementar algoritmos de aprendizado de máquina embarcados, treinados com dados reais de acidentes versus condução normal. Miniaturizar o hardware em PCB dedicada reduziria tamanho e consumo, viabilizando integração discreta no veículo. Explorar microcontroladores mais recentes como ESP32-S3 com aceleração de IA poderia eliminar dependência do Raspberry Pi, simplificando arquitetura. Desenvolver versão Android do aplicativo ampliaria base de usuários. Integrar conexão direta com serviços de emergência como SAMU ou Corpo de Bombeiros, além de contatos pessoais, aumentaria eficácia do socorro. Testes em larga escala com usuários reais permitiriam coletar dados em campo e aperfeiçoar calibragem de sensibilidade, refinando parâmetros de detecção e aspectos de usabilidade. Expandir funcionalidade de prevenção de acidentes com módulo ADAS simples, alertando piloto de colisão iminente ou curva perigosa, agregaria valor contínuo ao produto.\par}
 
 Retomando os objetivos iniciais, este trabalho cumpriu seu~propósito.
 Demonstramos a viabilidade técnica de um dispositivo acessível para detecção de~acidentes motociclísticos.
