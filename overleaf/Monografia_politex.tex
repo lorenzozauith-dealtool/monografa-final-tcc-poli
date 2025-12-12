@@ -616,9 +616,9 @@ identificação de placas de veículos através de visão computacional é um
 problema clássico, com soluções consolidadas conhecidas como LPR
 (\textit{License Plate Recognition}). Em muitos países, há sistemas de
 pedágio e vigilância que fotografam placas e reconhecem automaticamente
-os caracteres. Para nosso caso de uso (acidente), o desafio é realizar
+os caracteres. Para nosso caso de uso em acidentes, o desafio é realizar
 isso em um dispositivo móvel, possivelmente com imagens não ideais
-(ângulo, iluminação). Abordagens modernas empregam algoritmos de
+devido a ângulo e iluminação. Abordagens modernas empregam algoritmos de
 detecção como o YOLO para localizar a placa na imagem, seguido de um OCR
 para leitura. Trabalhos recentes como o de Siam \textit{et al.} \cite{siam2024} prop\~oem sistemas similares integrando detec\c{c}\~ao de acidentes com monitoramento de sinais fisiol\'ogicos para motocicletas, enquanto Karuna \textit{et al.} \cite{karuna2023} demonstram a viabilidade de sistemas IoT para detec\c{c}\~ao de quedas de motocicletas. especificamente, Montazzolli e Jung \cite{montazzolli2017} desenvolveram um sistema de detecção e reconhecimento em tempo real usando redes neurais convolucionais profundas, enquanto Ribeiro \textit{et al.} \cite{ribeiro2019} propuseram o uso de dados sintéticos para treinar detectores de placas Mercosul. Em nosso projeto, utilizamos um modelo YOLO pré-treinado
 para objetos genéricos (que inclui classe “placa de carro”) e nos
@@ -629,17 +629,17 @@ para modo \textit{accurate} e língua “pt-BR” (evitando autocorreção de
 texto que prejudicava o OCR de placas, já que sequências alfanuméricas
 não formam palavras) e verificar se era viável rodar um modelo YOLO
 inteiro no smartphone em tempo hábil. Felizmente, os modelos da família
-YOLO recentes são eficientes (nossa experiência indicou tempo de
-inferência tipicamente < 0,5 s por foto em resolução 1280x720) e a
+YOLO recentes são eficientes, com nossa experiência indicando tempo de
+inferência tipicamente menor que 0,5 s por foto em resolução 1280x720, e a
 qualidade das imagens. Verificou-se que, apesar do movimento e possíveis
 tremores na captura, era possível extrair quadros nítidos suficientes do
 vídeo do acidente para realizar a leitura.
 
 \subsection{Tecnologias Complementares}
 
-Algumas outras tecnologias e tendências merecem menção por se relacionarem ao projeto. No âmbito das redes veiculares (V2X), conexões diretas entre veículos e infraestrutura poderiam, no futuro, permitir que a própria motocicleta notificasse veículos próximos ou sistemas de tráfego sobre um acidente. Embora nosso projeto não aborde V2X diretamente, ele foi concebido de forma a poder integrar-se a uma rede dessa natureza, por exemplo enviando o alerta também a um sistema integrado de trânsito.
+Algumas outras tecnologias e tendências merecem menção por se relacionarem ao projeto. No âmbito das redes veiculares V2X, conexões diretas entre veículos e infraestrutura poderiam, no futuro, permitir que a própria motocicleta notificasse veículos próximos ou sistemas de tráfego sobre um acidente. Embora nosso projeto não aborde V2X diretamente, ele foi concebido de forma a poder integrar-se a uma rede dessa natureza, por exemplo enviando o alerta também a um sistema integrado de trânsito.
 
-No que tange à segurança e privacidade de dados, considera-se importante assegurar que os dados coletados, como imagens e localização, sejam utilizados apenas para a finalidade de emergência. Em nossa implementação, os vídeos são armazenados em um banco seguro (Supabase) e as mensagens trafegam criptografadas via APIs. Em uma aplicação comercial, camadas adicionais de segurança seriam necessárias, como criptografia ponta-a-ponta das evidências enviadas.
+No que tange à segurança e privacidade de dados, considera-se importante assegurar que os dados coletados, como imagens e localização, sejam utilizados apenas para a finalidade de emergência. Em nossa implementação, os vídeos são armazenados em um banco seguro Supabase e as mensagens trafegam criptografadas via APIs. Em uma aplicação comercial, camadas adicionais de segurança seriam necessárias, como criptografia ponta-a-ponta das evidências enviadas.
 
 Quanto à normatização e regulamentação, para que um sistema como este tivesse adoção ampla, questões regulatórias deveriam ser consideradas. Na União Europeia, discute-se estender o eCall para motocicletas, conforme previsto no Regulamento (UE) 2015/758 \cite{ecall2015}. No Brasil, não há exigência legal ainda, mas órgãos como o CONTRAN poderiam vir a recomendar ou padronizar dispositivos de chamado de emergência em veículos de duas rodas, dada a magnitude do problema. Este trabalho, ao demonstrar viabilidade técnica, serve também como subsídio para futuras normas.
 
@@ -671,12 +671,12 @@ Para isso, a PoC foi realizada inicialmente sem a montagem física definitiva, u
 Os resultados da PoC foram animadores: o sensor inercial mostrava picos claros de aceleração e variações de giro nas simulações de acidente, a câmera do Raspberry Pi capturava imagens rapidamente, e o BLE permitiu
 transferir uma foto de resolução VGA em poucos segundos para o
 smartphone. Aprendemos, contudo, que seria necessário otimizar alguns
-pontos (por exemplo, a transferência via BLE de uma imagem \textit{raw}
-de 50 kB demorava vários segundos, indicando que compressão ou resolução
-menor seriam importantes). Também constatamos a necessidade de um
+pontos como a transferência via BLE de uma imagem \textit{raw}
+de 50 kB que demorava vários segundos, indicando que compressão ou resolução
+menor seriam importantes. Também constatamos a necessidade de um
 \textit{backend} para envio das notificações, dada a dificuldade de o
-app iOS disparar mensagens por conta própria (vide problemas com
-bibliotecas do Telegram). Essas lições foram incorporadas na etapa
+app iOS disparar mensagens por conta própria devido a problemas com
+bibliotecas do Telegram. Essas lições foram incorporadas na etapa
 seguinte de desenvolvimento do protótipo completo.
 
 \section{Evolução do Projeto e Decisões de Arquitetura} \label{sec:evolucao}
@@ -693,7 +693,7 @@ A biblioteca TDLib apresentou inúmeras incompatibilidades com o ambiente de des
 
 Diante do fracasso da Fase I, desenvolveu-se uma solução alternativa baseada em um bot do Telegram denominado ``Alertas Vindex''. O sistema foi projetado para ser o mais simples possível do ponto de vista do usuário final: o motorista gera um código de pareamento no aplicativo; o contato guardião procura o bot @Vindex no Telegram e informa esse código; instantaneamente, o Telegram fica vinculado como contato de emergência.
 
-Essa arquitetura utiliza o banco de dados Supabase como intermediário. Quando o aplicativo detecta um acidente, ele notifica o backend no Supabase, que por sua vez aciona o bot para enviar o alerta ao guardião. Essa solução contornou elegantemente as restrições do iOS quanto a notificações push em aplicativos em desenvolvimento, que exigiriam uma conta de desenvolvedor paga (99 dólares anuais) com processo burocrático complexo para ativação em moeda brasileira.
+Essa arquitetura utiliza o banco de dados Supabase como intermediário. Quando o aplicativo detecta um acidente, ele notifica o backend no Supabase, que por sua vez aciona o bot para enviar o alerta ao guardião. Essa solução contornou elegantemente as restrições do iOS quanto a notificações push em aplicativos em desenvolvimento, que exigiriam uma conta de desenvolvedor paga de 99 dólares anuais com processo burocrático complexo para ativação em moeda brasileira.
 
 \subsection{Fase III: Problemas de Comunicação Bluetooth com iOS}
 
