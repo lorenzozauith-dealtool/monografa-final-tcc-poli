@@ -224,8 +224,8 @@ identificar padrões indicativos de colisão ou queda. Diversos trabalhos
 exploraram o uso de acelerômetros e giroscópios para esse
 fim\cite{white2011, gouvea2018}. Em paralelo, a difusão de smartphones
 com sensores embutidos levou ao surgimento de aplicativos de detecção de
-acidentes, embora com limitações (por exemplo, dependência de o
-smartphone estar fixo no veículo e ligado no momento do acidente). Nesse
+acidentes, embora com limitações como a dependência de o
+smartphone estar fixo no veículo e ligado no momento do acidente. Nesse
 contexto, um dispositivo dedicado ao veículo, integrado ao motociclo,
 pode oferecer maior confiabilidade e autonomia na detecção de acidentes.
 
@@ -240,7 +240,7 @@ diferença entre a vida e a morte em muitos casos.
 
 Além do aspecto vital, há também motivação social e econômica. Acidentes
 de moto representam custos elevados ao sistema de saúde e à seguridade
-(licenças médicas, indenizações, etc.), e mitigá-los ou minimizar suas
+com licenças médicas, indenizações e outros gastos, e mitigá-los ou minimizar suas
 consequências traz benefícios coletivos. Segundo dados da Agência Brasil \cite{agenciabrasil2025}, a frota brasileira de motocicletas cresceu 42\% entre 2015 e 2024, alcançando 35 milhões de unidades, enquanto as mortes de motociclistas correspondem a 38,6\% dos óbitos no trânsito. Tecnologias de segurança ativa
 para motocicletas estão atrasadas em comparação às dos automóveis, de
 forma que este projeto busca contribuir para preencher essa lacuna,
@@ -263,8 +263,8 @@ comunicações sem fio sejam amplamente usados em outros contextos, sua
 aplicação focada em segurança de motociclistas ainda é limitada. O
 sistema proposto diferencia-se por buscar um equilíbrio entre baixo
 custo e alto desempenho, viabilizando sua adoção em larga escala,
-inclusive por órgãos públicos (por exemplo, em frotas de motofrete ou
-programas de seguridade para motociclistas) e empresas seguradoras para
+inclusive por órgãos públicos em frotas de motofrete ou
+programas de seguridade para motociclistas, e empresas seguradoras para
 redução de sinistralidade.
 
 Em termos sociais, o projeto atende a uma demanda urgente de saúde
@@ -277,7 +277,7 @@ socorro é enorme, salvando vidas e diminuindo o sofrimento de famílias.
 
 No âmbito acadêmico e de pesquisa, esta monografia documenta os desafios
 e soluções encontrados no desenvolvimento de um sistema
-\textit{cyber-physical} (ciberfísico) complexo em pequena escala. A
+\textit{cyber-physical} ciberfísico complexo em pequena escala. A
 documentação minuciosa de falhas, decisões de projeto e desempenho
 obtido contribui para a literatura de projetos similares, servindo de
 referência para futuros desenvolvimentos de segurança veicular e IoT
@@ -581,8 +581,8 @@ emergência da própria Bosch\cite{bosch2020}. Nos Estados Unidos,
 sistemas como o OnStar (da GM) e o SiriusXM Guardian também passaram a
 incluir detecção de acidente e chamada de emergência automática, mas
 focados em carros. Para motos, uma dificuldade adicional está em
-diferenciar um acidente de situações corriqueiras (como a moto tombada
-ao estacionar); abordagens comerciais contornam isso combinando sensores
+diferenciar um acidente de situações corriqueiras como a moto tombada
+ao estacionar. Abordagens comerciais contornam isso combinando sensores
 e solicitando confirmação do usuário. Nosso projeto bebe dessa fonte no
 sentido de adotar notificação automática via smartphone, porém busca uma
 solução de baixo custo e independente de fabricantes de veículos.
@@ -594,9 +594,9 @@ foi um dos pioneiros, utilizando o acelerômetro e GPS do telefone para
 identificar colisões e enviar alertas geolocalizados.
 Uma vantagem de usar o smartphone é aproveitar sensores e conectividade
 já disponíveis; no entanto, há pontos negativos: o aparelho pode não
-estar fixo de forma ideal (atenuando ou distorcendo medições), e apps
-precisam rodar continuamente (podendo ser encerrados pelo sistema para
-poupar bateria). O sistema \textit{iBump}, proposto por Aloul \textit{et al.} \cite{aloul2014}, introduziu o uso de Dynamic Time Warping (DTW) para distinguir padrões de colisão de movimentos normais. Para motocicletas especificamente, o sistema \textit{RideSafe}, analisado por Hannan, Yadav e Yadav \cite{hannan2020}, demonstra que um pequeno conjunto de sensores bem integrados é suficiente para reduzir significativamente o tempo entre o acidente e o acionamento de ajuda. Esses projetos combinam limiares de aceleração (tipicamente ~3$g$) com detecção de
+estar fixo de forma ideal atenuando ou distorcendo medições, e apps
+precisam rodar continuamente podendo ser encerrados pelo sistema para
+poupar bateria. O sistema \textit{iBump}, proposto por Aloul \textit{et al.} \cite{aloul2014}, introduziu o uso de Dynamic Time Warping (DTW) para distinguir padrões de colisão de movimentos normais. Para motocicletas especificamente, o sistema \textit{RideSafe}, analisado por Hannan, Yadav e Yadav \cite{hannan2020}, demonstra que um pequeno conjunto de sensores bem integrados é suficiente para reduzir significativamente o tempo entre o acidente e o acionamento de ajuda. Esses projetos combinam limiares de aceleração (tipicamente ~3$g$) com detecção de
 silêncio abrupto (microfone) para aumentar confiabilidade. Atualmente,
 grandes empresas incorporaram tais funcionalidades: iPhones e relógios
 Apple modernos possuem o \textit{Crash Detection}, capaz de discar para
@@ -1016,10 +1016,10 @@ dispositivos (ESP32-C3 e Raspberry Pi). Essa bateria, em teoria, fornece
 desligado ~0,05 W + picos esporádicos do RPi ativo), a autonomia
 estimada é de aproximadamente 10 horas, atendendo RNF-01.
 
-Implementamos monitoramento do nível da bateria via um divisor resistivo
-conectado ao ADC do ESP32, permitindo enviar a porcentagem de carga ao
+Implementamos monitoramento do nível da bateria via um módulo inteligente de carregamento de bateria
+conectado ao ESP32, permitindo enviar a porcentagem de carga ao
 app periodicamente. Também previmos um circuito de proteção para evitar
-descarga profunda (a bateria se desconecta ao atingir ~3,0 V).
+descarga profunda, com a bateria se desconectando ao atingir aproximadamente 3,0 V.
 
 No futuro, para uso real, o dispositivo poderia ser ligado à bateria da
 moto para recarga, ou incluir um pequeno painel solar no case.
@@ -1044,9 +1044,9 @@ velocidade angular atuais. Aplica-se um filtro exponencial para estimar
 a componente de gravidade ($\vec{g}$) e subtrai-la da leitura do
 acelerômetro, obtendo a aceleração dinâmica. Em seguida, calcula-se a
 magnitude resultante $|\vec{a}|$ e verifica-se: \begin{itemize} \item Se
-$|\vec{a}| > 3,5g$ (limiar de colisão definido) \textbf{ou} se houve uma
-mudança súbita na orientação (detected via integração do giroscópio
-indicando $\Delta$ângulo > 60° em curto intervalo), então sinaliza-se um
+$|\vec{a}| > 3,5g$ \textbf{ou} se houve uma
+mudança súbita na orientação detectada via integração do giroscópio
+indicando inclinação superior a 65° em qualquer direção, então sinaliza-se um
 potencial acidente. \item Caso um potencial acidente seja detectado,
 inicia-se um pequeno \textbf{timer de confirmação}: aguarda-se 100 ms
 para verificar se as leituras se mantêm anômalas (picos seguidos de
@@ -1150,7 +1150,7 @@ app no smartphone se comunica com esse backend via API REST ou
 biblioteca nativa fornecida (no caso, utilizamos a biblioteca Swift do
 Supabase). O fluxo final ficou: \begin{enumerate} \item App detecta
 acidente e reúne dados (foto/plano). \item App faz upload do vídeo para
-o Supabase Storage (ou outro servidor designado). Em nossos testes, esse
+o Supabase Storage. Em nossos testes, esse
 upload de ~3 MB leva em torno de 5 segundos em 4G, mas implementamos
 \textit{timeout} de 10 s; se não completar, o app envia o alerta sem
 vídeo (o guardião pode receber depois se o app conseguir enviar
@@ -1709,7 +1709,7 @@ A seguir, apresenta-se a foto do protótipo físico do sistema, ilustrando a dis
 \label{fig:foto-prototipo}
 \end{figure}
 
-\chapter{Interface do Aplicativo iOS}
+\chapter{Aplicativo iOS}
 \label{ap:app}
 Este ap\^endice apresenta capturas de tela do aplicativo m\'ovel Vindex desenvolvido para iOS, ilustrando as principais funcionalidades implementadas.
 
