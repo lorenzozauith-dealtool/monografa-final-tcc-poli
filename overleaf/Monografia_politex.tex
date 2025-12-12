@@ -444,7 +444,7 @@ RNF-07 & \textbf{Compatibilidade e Extensibilidade}: O design do sistema de soft
 \end{table}
 
 \fi
-% Tabela revisada dos requisitos não-funcionais
+% Tabela revisada dos requisitos não-funcionais (parte 1)
 \begin{table}[htb]
 \centering
 \caption{Requisitos Não-Funcionais do Sistema}
@@ -459,6 +459,18 @@ RNF-03 & \textbf{Desempenho em detecção}: O algoritmo de detecção deve equil
 RNF-04 & \textbf{Tempo de resposta}: O intervalo de tempo entre a detecção do acidente e o envio do alerta ao contato de emergência deve ser o menor possível. A meta estabelecida foi de no máximo 30 segundos para envio da primeira notificação (mensagem de socorro básica com localização). A disponibilização de dados complementares (imagens, vídeo) pode ocorrer em segundo plano, em até 2 minutos, sem comprometer o aviso inicial. Essa rapidez garante alinhamento com a necessidade de atendimento imediato. \\
 RNF-05 & \textbf{Integração e usabilidade do aplicativo}: O aplicativo móvel deve ser intuitivo e de operação simples. Deve iniciar automaticamente com o sistema do smartphone e permanecer rodando em segundo plano enquanto o usuário estiver pilotando, conectando-se ao dispositivo via BLE sem requerer intervenção manual a cada uso. Em caso de acidente, a interface deve avisar claramente o usuário e solicitar confirmação para cancelar ou aceitar o envio do alerta (conforme RF-07). Também devem ser exibidas informações úteis, como nível de bateria do dispositivo, status da conexão e último endereço conhecido. \\
 RNF-06 & \textbf{Conectividade e alcance}: A comunicação BLE entre o módulo embarcado e o smartphone deve manter-se estável dentro de um raio de pelo menos 5~m (considerando que o celular pode estar no bolso do usuário ou acoplado no guidão). Além disso, o sistema deve tolerar desconexões temporárias (por exemplo, se o BLE falhar momentaneamente, tentar reconectar automaticamente). Para o envio de alertas a contatos remotos, depende-se da conectividade do smartphone (3G/4G/5G ou Wi-Fi); portanto, o aplicativo deve lidar com indisponibilidade de rede, enviando assim que houver sinal ou armazenando o alerta para reenvio. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htb]
+\centering
+\caption{Requisitos Não-Funcionais do Sistema (cont.)}
+\label{tab:reqnfunc-cont}
+\begin{tabular}{p{0.12\textwidth} p{0.82\textwidth}}
+\toprule
+\textbf{Código} & \textbf{Descrição do Requisito Não-Funcional} \\
+\midrule
 RNF-07 & \textbf{Compatibilidade e Extensibilidade}: O design do sistema de software deve facilitar futura compatibilidade multi-plataforma. Nesta primeira versão o aplicativo foi desenvolvido para iOS (Swift), mas espera-se que o núcleo da solução seja portátil para Android em projetos futuros. Os protocolos de comunicação e formatos de dados devem ser padronizados e documentados (por exemplo, uso de JSON para mensagens via BLE), garantindo que novos \textit{clients} possam ser implementados sem necessidade de alterar o dispositivo embarcado. \\
 \bottomrule
 \end{tabular}
