@@ -565,7 +565,7 @@ Com os avanços em visão computacional, tornou-se possível executar tarefas co
 
 O desenvolvimento de um aplicativo móvel dedicado para iOS permitiu integrar todas as funcionalidades voltadas ao usuário: recebimento de dados via BLE, alerta sonoro e visual de acidente detectado, cancelamento por parte do piloto e envio de notificações a contatos. Optamos por utilizar um serviço de backend em nuvem para intermediar o envio de mensagens, devido a restrições do iOS em enviar SMS ou mensagens automaticamente. Foi utilizado o serviço Supabase, uma plataforma BaaS (\textit{Backend as a Service}) de código aberto, para armazenar os dados dos eventos e acionar um bot do Telegram via API, responsável por enviar a mensagem de alerta ao contato guardião. Esse arranjo contorna limitações de notificações push em aplicativos não publicados e provê escalabilidade, permitindo que múltiplos guardiões sejam notificados via um canal seguro enquanto os dados ficam registrados na nuvem para consulta posterior.
 
-\section{Tecnologias e Soluções Relacionadas} Nesta seção, descrevemos
+\section{Tecnologias e Soluções Relacionadas} Apresentamos
 trabalhos acadêmicos, produtos comerciais e tecnologias que servem de
 referência ou contraste para o Projeto Vindex.
 
@@ -834,9 +834,9 @@ Nos próximos tópicos, detalhamos cada subsistema, desde os componentes
 de hardware utilizados até as soluções de software implementadas, bem
 como as estratégias de teste e validação empregadas em cada etapa.
 
-\section{Componentes de Hardware} \label{sec:hardware} Nesta seção são
-descritos os principais módulos de hardware utilizados na implementação
-do protótipo, com justificativa das escolhas e parâmetros de
+\section{Componentes de Hardware} \label{sec:hardware} Descrevemos
+os principais módulos de hardware utilizados na implementação
+do protótipo, justificando as escolhas e apresentando parâmetros de
 configuração relevantes.
 
 \subsection{Microcontrolador ESP32-C3 Super Mini} 
