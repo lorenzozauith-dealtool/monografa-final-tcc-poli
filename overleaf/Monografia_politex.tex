@@ -84,7 +84,7 @@ por meio de sensores inerciais, enviar alertas de emergência com
 localização geográfica em tempo real e, adicionalmente, registrar
 imagens do momento da colisão como apoio secundário para diagnóstico ou
 documentação do ocorrido. O dispositivo é composto por um
-microcontrolador Raspberry Pi Zero 2W, um microcontrolador ESP32-C3
+microcontrolador Placa Computacional, um microcontrolador Node MCU
 Super Mini, um sensor GY-BMI160 (acelerômetro e giroscópio) e uma câmera
 grande angular de 160°, integrados em uma carcaça impressa em 3D
 projetada para resistir a impactos. A lógica de funcionamento baseia-se
@@ -131,8 +131,7 @@ development of a low-cost embedded system, mounted on the motorcycle’s
 frame, capable of automatically detecting accidents using inertial
 sensors, sending real-time emergency alerts with geographical location,
 and additionally recording images of the collision moment as secondary
-support for diagnosis or documentation. The device comprises a Raspberry
-Pi Zero 2W microcontroller, an ESP32-C3 Super Mini microcontroller, a
+support for diagnosis or documentation. The device comprises a Placa Computacional microcontroller, an Node MCU Super Mini microcontroller, a
 GY-BMI160 sensor (accelerometer and gyroscope), and a 160-degree
 wide-angle camera, all integrated into a 3D-printed enclosure designed
 to withstand impact. The system’s operational logic is based on
@@ -170,7 +169,7 @@ systems; automatic crash detection; emergency response.
   \item[ABRAMET] Associação Brasileira de Medicina do Tráfego
   \item[BLE] \textit{Bluetooth Low Energy}
   \item[CPU] \textit{Central Processing Unit} (Unidade Central de Processamento)
-  \item[ESP32-C3] Família de microcontroladores ESP32 (RISC-V 160~MHz com Bluetooth 5.0)
+  \item[Node MCU] Família de microcontroladores Node MCU (RISC-V 160~MHz com Bluetooth 5.0)
   \item[GPS] \textit{Global Positioning System} (Sistema de Posicionamento Global)
   \item[IMU] \textit{Inertial Measurement Unit} (Unidade de Medição Inercial)
   \item[NHTSA] \textit{National Highway Traffic Safety Administration}
@@ -341,11 +340,11 @@ levantados para o projeto, codificados como RF-01, RF-02, etc.:
 \toprule
 \textbf{Código} & \textbf{Descrição do Requisito Funcional} \\
 \midrule
-RF-01 & \textbf{Detecção de evento crítico}: O dispositivo embarcado (ESP32-C3 + sensor inercial) deve monitorar continuamente aceleração e rotação da motocicleta, identificando padrões típicos de queda ou colisão brusca. \\
+RF-01 & \textbf{Detecção de evento crítico}: O dispositivo embarcado (Node MCU + sensor inercial) deve monitorar continuamente aceleração e rotação da motocicleta, identificando padrões típicos de queda ou colisão brusca. \\
 \midrule
-RF-02 & \textbf{Acionamento do módulo de captura}: Ao detectar um evento de acidente (critério de detecção atendido), o ESP32-C3 deverá gerar um sinal de ativação via GPIO para ``acordar'' o microcontrolador Raspberry Pi Zero 2W, que normalmente permanece em modo de baixo consumo. \\
+RF-02 & \textbf{Acionamento do módulo de captura}: Ao detectar um evento de acidente (critério de detecção atendido), o Node MCU deverá gerar um sinal de ativação via GPIO para ``acordar'' o microcontrolador Placa Computacional, que normalmente permanece em modo de baixo consumo. \\
 \midrule
-RF-03 & \textbf{Captura de imagens/vídeo}: O Raspberry Pi, ao ser despertado, deverá realizar o registro do contexto do acidente. Isso inclui capturar, em modo \textit{burst}, uma sequência curta de imagens (ou um vídeo de poucos segundos) através da câmera grande angular, de forma a obter registro visual do momento do impacto e instantes subsequentes. \\
+RF-03 & \textbf{Captura de imagens/vídeo}: O Placa Computacional, ao ser despertado, deverá realizar o registro do contexto do acidente. Isso inclui capturar, em modo \textit{burst}, uma sequência curta de imagens (ou um vídeo de poucos segundos) através da câmera grande angular, de forma a obter registro visual do momento do impacto e instantes subsequentes. \\
 \midrule
 RF-04 & \textbf{Transmissão ao smartphone}: Os dados capturados (imagens ou vídeo, e dados do evento como aceleração pico, horário, etc.) deverão ser enviados do dispositivo embarcado para o smartphone do usuário via conexão Bluetooth Low Energy (BLE). \\
 \bottomrule
@@ -445,7 +444,7 @@ correspondentes:
   \node[draw, rectangle, below of=detectar, yshift=-3cm, align=center, minimum width=3.5cm] (transmitir)
     {\textbf{Transmitir alerta}\\(Comunica\c{c}\~ao)};
   \node[draw, rectangle, below left=2cm and 1.5cm of transmitir, align=center, minimum width=3cm] (bluetooth)
-    {Bluetooth LE\\(ESP32-C3 $\rightarrow$ App)};
+    {Bluetooth LE\\(Node MCU $\rightarrow$ App)};
   \node[draw, rectangle, below right=2cm and 1.5cm of transmitir, align=center, minimum width=2.5cm] (internet)
     {Internet\\(App $\rightarrow$ Contatos)};
   \node[draw, rectangle, below of=transmitir, yshift=-3cm, align=center, minimum width=3.5cm] (registrar)
@@ -499,7 +498,7 @@ A detecção de acidentes motociclísticos de forma automática requer compreend
 
 Acelerômetros e giroscópios MEMS constituem o núcleo de sistemas de detecção de queda. Um acelerômetro triaxial mede as componentes de aceleração ao longo dos eixos X, Y e Z do dispositivo, incluindo tanto aceleração dinâmica (movimento) quanto a componente estática da gravidade. Um giroscópio triaxial mede a velocidade angular (rotação) em torno de três eixos. A combinação de ambos em uma Unidade de Medição Inercial (IMU) permite inferir a orientação do veículo e detectar mudanças abruptas de velocidade ou inclinação.
 
-Conforme demonstrado por Fauzi \textit{et al.} \cite{fauzi2023}, sistemas baseados em ESP32 com sensores MPU6050 apresentam excelente desempenho na detecção de quedas de motocicletas. Uma queda lateral envolve tipicamente rápida variação angular, com a motocicleta inclinando-se além do ângulo normal de curva, seguida de desaceleração brusca ao atingir o solo \cite{choudhary2015}.
+Conforme demonstrado por Fauzi \textit{et al.} \cite{fauzi2023}, sistemas baseados em Node MCU com sensores MPU6050 apresentam excelente desempenho na detecção de quedas de motocicletas. Uma queda lateral envolve tipicamente rápida variação angular, com a motocicleta inclinando-se além do ângulo normal de curva, seguida de desaceleração brusca ao atingir o solo \cite{choudhary2015}.
 
 A aceleração é frequentemente expressa em unidades de $g$ (aceleração da gravidade, aproximadamente 9,81~m/s²). Impactos severos podem gerar picos de várias vezes $g$. Estudos em detecção de colisões automotivas definem limiares para disparo de airbags na faixa de 3 a 5~$g$ por pelo menos 50~ms. Estudos acadêmicos de detecção automática de colisões baseados em sensores inerciais reportam o uso de limiares de aceleração na faixa de 3--4~$g$, ajustados empiricamente para reduzir falsos positivos \cite{white2011,choudhary2015}. Em nosso projeto, estabelecemos via testes práticos um valor de aproximadamente 3,5~$g$ como ponto de disparo, levando em conta a sensibilidade do sensor e as dinâmicas típicas de pilotagem. Além do pico de aceleração, utilizamos também um critério de variação angular abrupta.
 
@@ -619,11 +618,11 @@ evolução do projeto (\ref{sec:evolucao}).
 
 \section{Prova de Conceito} \label{sec:prova-conceito} A fase inicial do
 trabalho consistiu na prova de conceito (PoC), cujo objetivo
-foi verificar a viabilidade técnica fundamental antes de partir para a construção do protótipo integrado. Nessa etapa, buscou-se validar os principais riscos técnicos: capacidade dos sensores de detectar eventos críticos de forma confiável, viabilidade de acionar e operar a câmera transmitindo imagens em tempo adequado, e funcionamento da comunicação entre dispositivos (ESP32, Raspberry Pi e smartphone) com transferência correta de dados.
+foi verificar a viabilidade técnica fundamental antes de partir para a construção do protótipo integrado. Nessa etapa, buscou-se validar os principais riscos técnicos: capacidade dos sensores de detectar eventos críticos de forma confiável, viabilidade de acionar e operar a câmera transmitindo imagens em tempo adequado, e funcionamento da comunicação entre dispositivos (Node MCU, Placa Computacional e smartphone) com transferência correta de dados.
 
 Para isso, a PoC foi realizada inicialmente sem a montagem física definitiva, utilizando os módulos em bancada para validação individual de cada componente.
 
-Os resultados da PoC foram animadores: o sensor inercial mostrava picos claros de aceleração e variações de giro nas simulações de acidente, a câmera do Raspberry Pi capturava imagens rapidamente, e o BLE permitiu
+Os resultados da PoC foram animadores: o sensor inercial mostrava picos claros de aceleração e variações de giro nas simulações de acidente, a câmera do Placa Computacional capturava imagens rapidamente, e o BLE permitiu
 transferir uma foto de resolução VGA em poucos segundos para o
 smartphone. Aprendemos, contudo, que seria necessário otimizar alguns
 pontos como a transferência via BLE de uma imagem \textit{raw}
@@ -652,27 +651,27 @@ Essa arquitetura utiliza o banco de dados Supabase como intermediário. Quando o
 
 \subsection{Fase III: Problemas de Comunicação Bluetooth com iOS}
 
-A fase seguinte, em outubro, concentrou-se na comunicação entre o hardware embarcado e o aplicativo móvel, revelando problemas críticos com o Raspberry Pi e o protocolo Bluetooth. Mesmo operando em modo headless (sem interface gráfica), o Raspberry Pi Zero 2W apresentou limitações severas na comunicação via Bluetooth Low Energy (BLE).
+A fase seguinte, em outubro, concentrou-se na comunicação entre o hardware embarcado e o aplicativo móvel, revelando problemas críticos com o Placa Computacional e o protocolo Bluetooth. Mesmo operando em modo headless (sem interface gráfica), o Placa Computacional apresentou limitações severas na comunicação via Bluetooth Low Energy (BLE).
 
-O primeiro problema identificado foi o tempo de inicialização: o RPi levava aproximadamente 15 segundos para ser ``acordado'' pelo nodeMCU (ESP32) em simulações de acidente. Em um contexto real, veículos envolvidos já estariam a muitos metros de distância nesse intervalo. Tentativas de refinamento de software não conseguiram reduzir significativamente esse tempo de boot.
+O primeiro problema identificado foi o tempo de inicialização: o RPi levava aproximadamente 15 segundos para ser ``acordado'' pelo nodeMCU (Node MCU) em simulações de acidente. Em um contexto real, veículos envolvidos já estariam a muitos metros de distância nesse intervalo. Tentativas de refinamento de software não conseguiram reduzir significativamente esse tempo de boot.
 
-O segundo problema, mais grave, relacionava-se à instabilidade da conexão Bluetooth do Raspberry Pi. Após múltiplas tentativas com diferentes bibliotecas Python, incluindo \textit{bleak}, \textit{blueZ} e \textit{bless}, nenhuma delas conseguiu manter uma conexão ativa com o aplicativo iOS em segundo plano. Esse problema é amplamente documentado na comunidade de desenvolvimento iOS: o CoreBluetooth impõe restrições significativas quando o aplicativo está em background e o dispositivo bloqueado, não invocando callbacks para dispositivos não pareados ou sem CBUUIDs específicos configurados. Ao minimizar o aplicativo, a conexão entre hardware e software era instantaneamente eliminada, impossibilitando o envio de evidências quando o smartphone estivesse com a tela bloqueada. Conforme documentado pela Apple, o \textit{CBCentralManagerScanOptionAllowDuplicatesKey} é ignorado em background, coalescendo múltiplas descobertas em um único evento. Esse comportamento não ocorria com o nodeMCU ESP32, que mantinha o monitoramento constante mesmo com o aplicativo em segundo plano devido ao seu suporte nativo mais robusto para BLE 5.0 e implementação de GATT server otimizada.
+O segundo problema, mais grave, relacionava-se à instabilidade da conexão Bluetooth do Placa Computacional. Após múltiplas tentativas com diferentes bibliotecas Python, incluindo \textit{bleak}, \textit{blueZ} e \textit{bless}, nenhuma delas conseguiu manter uma conexão ativa com o aplicativo iOS em segundo plano. Esse problema é amplamente documentado na comunidade de desenvolvimento iOS: o CoreBluetooth impõe restrições significativas quando o aplicativo está em background e o dispositivo bloqueado, não invocando callbacks para dispositivos não pareados ou sem CBUUIDs específicos configurados. Ao minimizar o aplicativo, a conexão entre hardware e software era instantaneamente eliminada, impossibilitando o envio de evidências quando o smartphone estivesse com a tela bloqueada. Conforme documentado pela Apple, o \textit{CBCentralManagerScanOptionAllowDuplicatesKey} é ignorado em background, coalescendo múltiplas descobertas em um único evento. Esse comportamento não ocorria com o nodeMCU Node MCU, que mantinha o monitoramento constante mesmo com o aplicativo em segundo plano devido ao seu suporte nativo mais robusto para BLE 5.0 e implementação de GATT server otimizada.
 
-\subsection{Fase IV: Experimentação com ESP32-CAM e ESP32-S3}
+\subsection{Fase IV: Experimentação com Node MCU-CAM e Node MCU-S3}
 
-Com o treinamento da rede neural YOLO concluído (utilizando um dataset de aproximadamente 4.000 imagens de placas padrão MERCOSUL e modelo antigo, com data augmentation para diversos ângulos e condições), partiu-se para testes alternativos de hardware. Inicialmente, o ESP32-CAM apresentou resultados promissores: conexão estável, funcionamento em segundo plano e envio rápido de imagens para o aplicativo, onde o processamento com YOLO, OpenCV e OCR era executado.
+Com o treinamento da rede neural YOLO concluído (utilizando um dataset de aproximadamente 4.000 imagens de placas padrão MERCOSUL e modelo antigo, com data augmentation para diversos ângulos e condições), partiu-se para testes alternativos de hardware. Inicialmente, o Node MCU-CAM apresentou resultados promissores: conexão estável, funcionamento em segundo plano e envio rápido de imagens para o aplicativo, onde o processamento com YOLO, OpenCV e OCR era executado.
 
 Entretanto, constatou-se que imagens estáticas, mesmo em modo burst, não capturavam adequadamente o contexto dinâmico de um acidente. Se o dispositivo fosse utilizado em movimento, mesmo a sequência de fotos não forneceria imagens adequadas para análise devido ao blur causado pela velocidade do veículo.
 
-Consequentemente, cogitou-se a troca para o ESP32-S3 com câmera OV5647 de 5MP, visando implementar um buffer circular de vídeo de aproximadamente 5 segundos. A ideia era captar o acidente antes, durante e após o evento. Contudo, as limitações de memória do ESP32-S3 (8 MB de PSRAM total) impediram essa abordagem: com qualidade mínima aceitável para OCR (640x480), era possível armazenar apenas 5 segundos de vídeo a 2 frames por segundo, resultando em qualidade insuficiente para reconhecimento de placas. Formatos alternativos como RAW, RGB565 e YUV422 foram testados sem sucesso, uma vez que o ESP32-S3 não possui poder computacional para executar um encoder de vídeo.
+Consequentemente, cogitou-se a troca para o Node MCU-S3 com câmera OV5647 de 5MP, visando implementar um buffer circular de vídeo de aproximadamente 5 segundos. A ideia era captar o acidente antes, durante e após o evento. Contudo, as limitações de memória do Node MCU-S3 (8 MB de PSRAM total) impediram essa abordagem: com qualidade mínima aceitável para OCR (640x480), era possível armazenar apenas 5 segundos de vídeo a 2 frames por segundo, resultando em qualidade insuficiente para reconhecimento de placas. Formatos alternativos como RAW, RGB565 e YUV422 foram testados sem sucesso, uma vez que o Node MCU-S3 não possui poder computacional para executar um encoder de vídeo.
 
 \subsection{Fase V: Arquitetura Final com Upload para Nuvem}
 
-A partir das lições aprendidas, ficou claro que seria necessário retornar ao Raspberry Pi como único hardware capaz de gravar vídeo em buffer circular com qualidade suficiente para processamento OCR. O RPi opera com encoder H.264 nativo e tem capacidade de converter para MP4, gerando arquivos compactos adequados para análise rápida.
+A partir das lições aprendidas, ficou claro que seria necessário retornar ao Placa Computacional como único hardware capaz de gravar vídeo em buffer circular com qualidade suficiente para processamento OCR. O RPi opera com encoder H.264 nativo e tem capacidade de converter para MP4, gerando arquivos compactos adequados para análise rápida.
 
 Devido às limitações de transferência via Bluetooth do RPi (velocidade máxima de aproximadamente 45 KB/s via BLE, com frequentes perdas de pacotes, corrupção de dados e travamentos), e à impossibilidade de usar modo dual-mode (BLE + Bluetooth Clássico) devido às restrições MFi (Made for iPhone) da Apple, foi necessário repensar completamente o fluxo de dados.
 
-A solução adotada utiliza o Supabase não apenas para alertas, mas também para armazenamento de evidências em vídeo. O fluxo final funciona da seguinte forma: o ESP32-C3 monitora continuamente o acelerômetro e giroscópio; ao detectar um acidente, com um delay de 6 segundos, sinaliza ao RPi para salvar os últimos 8 segundos do buffer circular; o RPi converte o vídeo para MP4 e faz upload para a nuvem; ao concluir o upload, o RPi notifica o ESP32-C3, que informa ao aplicativo que o vídeo está disponível. O usuário então pode baixar o vídeo da nuvem e o processamento de visão computacional inicia automaticamente.
+A solução adotada utiliza o Supabase não apenas para alertas, mas também para armazenamento de evidências em vídeo. O fluxo final funciona da seguinte forma: o Node MCU monitora continuamente o acelerômetro e giroscópio; ao detectar um acidente, com um delay de 6 segundos, sinaliza ao RPi para salvar os últimos 8 segundos do buffer circular; o RPi converte o vídeo para MP4 e faz upload para a nuvem; ao concluir o upload, o RPi notifica o Node MCU, que informa ao aplicativo que o vídeo está disponível. O usuário então pode baixar o vídeo da nuvem e o processamento de visão computacional inicia automaticamente.
 
 Esse fluxo completo leva aproximadamente 2 minutos ou menos. O vídeo comprimido é enviado em qualidade 720x30, com tamanho aproximado de 3,5 MB, irrisório para conexões de internet modernas e suficiente para que o OCR reconheça placas de veículos com precisão aceitável.
 
@@ -695,10 +694,10 @@ usuário e serviços em nuvem de suporte.
       {\textbf{Sensor BMI160}\\Aceler\^ometro + Girosc\'opio};
     
     \node[draw, rectangle, below of=imu, align=center, minimum width=4cm, minimum height=1cm] (esp)
-      {\textbf{ESP32-C3}\\Monitora sensor\\Detecta acidentes};
+      {\textbf{Node MCU}\\Monitora sensor\\Detecta acidentes};
     
     \node[draw, rectangle, below of=esp, align=center, minimum width=4cm, minimum height=1cm] (rpi)
-      {\textbf{Raspberry Pi Zero 2W}\\Captura v\'ideo\\Upload nuvem};
+      {\textbf{Placa Computacional}\\Captura v\'ideo\\Upload nuvem};
     
     \node[draw, rectangle, below of=rpi, align=center, minimum width=4cm, minimum height=1cm] (cam)
       {\textbf{C\^amera OV5647}\\160° FOV, 720p H.264};
@@ -723,7 +722,7 @@ usuário e serviços em nuvem de suporte.
     \draw[->, very thick] (bat.east) -| ([xshift=0.5cm]esp.east);
     \draw[->, very thick] (bat.east) -| ([xshift=0.5cm]rpi.east);
     
-    % Conex\~oes em U do ESP32 para smartphone (BLE)
+    % Conex\~oes em U do Node MCU para smartphone (BLE)
     \draw[<->, dashed, very thick] (esp.east) -- ++(1.5cm,0) |- node[pos=0.25, above] {BLE} (phone.west);
     
     % Conex\~ao em U do RPi para smartphone (Wi-Fi)
@@ -732,33 +731,33 @@ usuário e serviços em nuvem de suporte.
     % Conex\~ao smartphone para nuvem
     \draw[<->, dashed, very thick] (phone) -- node[right] {API} (cloud);
   \end{tikzpicture}
-  \caption{Arquitetura do sistema Vindex. Hardware embarcado (esquerda): sensor BMI160 conectado ao ESP32-C3 via I2C; ESP32-C3 desperta Raspberry Pi via GPIO; RPi controla c\^amera OV5647 via CSI e faz upload de v\'ideo via Wi-Fi. Smartphone (direita): recebe dados via BLE do ESP32-C3 e envia alertas ao servidor Supabase via API REST. Bateria alimenta todos os componentes.}
+  \caption{Arquitetura do sistema Vindex. Hardware embarcado (esquerda): sensor BMI160 conectado ao Node MCU via I2C; Node MCU desperta Placa Computacional via GPIO; RPi controla c\^amera OV5647 via CSI e faz upload de v\'ideo via Wi-Fi. Smartphone (direita): recebe dados via BLE do Node MCU e envia alertas ao servidor Supabase via API REST. Bateria alimenta todos os componentes.}
   \label{fig:arquitetura}
 \end{figure}
 
 No hardware embarcado (parte esquerda da figura), o sensor
 inercial BMI160 monitora continuamente os movimentos da motocicleta,
-conectado via interface I2C ao microcontrolador ESP32-C3. Este
+conectado via interface I2C ao microcontrolador Node MCU. Este
 microcontrolador fica em modo de baixo consumo, lendo os dados do sensor
 e executando o algoritmo de detecção de acidentes localmente. Caso
 detecte um evento crítico, ele envia um pulso elétrico em um pino GPIO
-para acordar o Raspberry Pi Zero 2W (que permanece em \textit{standby}
-para poupar energia). Em seguida, o ESP32-C3 inicia a comunicação
+para acordar o Placa Computacional (que permanece em \textit{standby}
+para poupar energia). Em seguida, o Node MCU inicia a comunicação
 Bluetooth com o smartphone do usuário.
 
-O módulo Raspberry Pi Zero 2W (centro) atua quando despertado,
+O módulo Placa Computacional (centro) atua quando despertado,
 controlando a câmera e gerenciando registros de vídeo/imagem. Uma vez
 acordado, o RPi salva os instantes relevantes: no protótipo, optou-se
 por gravar aproximadamente 8 segundos de vídeo (os 5 segundos anteriores
 e 3 segundos posteriores ao acidente, graças a um \textit{buffer}
-circular mantido em memória). O Raspberry então comprime o vídeo e
+circular mantido em memória). A Placa Computacional então comprime o vídeo e
 inicia seu upload para um serviço em nuvem (quando possível). Em
 paralelo, pode capturar uma foto estática para envio rápido via BLE ao
 app.
 
 No smartphone do usuário (parte direita), um aplicativo iOS
 dedicado permanece em segundo plano conectado ao dispositivo via BLE. Ao
-receber do ESP32-C3 o sinal de que um acidente foi detectado, o app
+receber do Node MCU o sinal de que um acidente foi detectado, o app
 imediatamente busca obter a localização GPS atual e apresenta ao usuário
 um alerta sonoro/visual, conforme RF-07. Se o usuário não cancelar
 dentro do tempo estipulado (p.ex., 15 segundos), o app prossegue para
@@ -789,9 +788,9 @@ como as estratégias de teste e validação empregadas em cada etapa.
 
 Descrevemos os principais módulos de hardware do~protótipo, justificando as~escolhas e~apresentando parâmetros de~configuração.
 
-\subsection{Microcontrolador ESP32-C3 Super Mini} 
+\subsection{Microcontrolador Node MCU Super Mini} 
 
-O ESP32-C3 Super Mini constitui o núcleo de processamento embarcado do sistema Vindex. Este microcontrolador, fabricado pela Espressif Systems, baseia-se em arquitetura RISC-V de 32 bits com clock de 160 MHz, oferecendo desempenho computacional robusto para processamento em tempo real dos dados sensoriais. As dimens\~oes ultracompactas de 22,52 x 18 mm permitem integra\c{c}\~ao discreta na estrutura da motocicleta.
+O Node MCU Super Mini constitui o núcleo de processamento embarcado do sistema Vindex. Este microcontrolador, fabricado pela Espressif Systems, baseia-se em arquitetura RISC-V de 32 bits com clock de 160 MHz, oferecendo desempenho computacional robusto para processamento em tempo real dos dados sensoriais. As dimens\~oes ultracompactas de 22,52 x 18 mm permitem integra\c{c}\~ao discreta na estrutura da motocicleta.
 
 \textbf{Especifica\c{c}\~oes de Memória:} O dispositivo integra 400 KB de SRAM on-chip para execu\c{c}\~ao de código e buffers de dados, com 16 KB dedicados para cache de instru\c{c}\~oes. A memória flash SPI externa de 4 MB opera a 80 MHz em modo Quad-SPI, permitindo acesso rápido ao firmware. A parti\c{c}\~ao foi otimizada com 1 MB para firmware, 512 KB para OTA, 256 KB para NVS e 2,25 MB para SPIFFS.
 
@@ -809,29 +808,29 @@ decisão: \begin{itemize} \item Bluetooth LE embutido: Permite
 comunicação direta com o app móvel sem hardware adicional, atendendo
 RF-04 e RNF-06. A versão 5.0 do BLE suportada oferece maior alcance e
 pacote de dados mais extensos que versões anteriores, o que é útil para
-transmitir eventuais imagens pequenas. \item Baixo consumo e modo Deep Sleep: O ESP32-C3 pode operar em modo \textit{deep sleep}
+transmitir eventuais imagens pequenas. \item Baixo consumo e modo Deep Sleep: O Node MCU pode operar em modo \textit{deep sleep}
 consumindo na ordem de poucos microampères, mantendo apenas o RTC ativo
 para despertar periodicamente ou por interrupção externa. Isso foi
 essencial para cumprir RNF-01 de autonomia. \item Suporte a periféricos e DMA: A necessidade de ler o sensor inercial a alta taxa
-(100 Hz ou mais) e eventualmente repassar dados ao Raspberry Pi requer
-capacidade de comunicação I2C/UART eficiente. O ESP32-C3 possui
+(100 Hz ou mais) e eventualmente repassar dados ao Placa Computacional requer
+capacidade de comunicação I2C/UART eficiente. O Node MCU possui
 controladores I2C dedicados e pode utilizar DMA para minimizar
 latências, garantindo desempenho em tempo real para detecção.
 \end{itemize}
 
-No protótipo, utilizamos o ESP32-C3 rodando um firmware em C++ (usando a
+No protótipo, utilizamos o Node MCU rodando um firmware em C++ (usando a
 estrutura do ESP-IDF/Arduino) dividido em tarefas FreeRTOS: uma tarefa
 de leitura de sensores e detecção, rodando a cada 10 ms, e uma tarefa de
 comunicação BLE para envio de dados. Optamos por um algoritmo de
 detecção simples baseado em limiar de aceleração resultante e variação
 de ângulo (integral do giroscópio). Ao detectar um possível acidente, o
-ESP32 aciona imediatamente a linha de \textit{wake} do Raspberry Pi
+Node MCU aciona imediatamente a linha de \textit{wake} do Placa Computacional
 (saída GPIO conectada a um pino de \textit{shutdown} do Pi configurado
 para esse propósito) e então inicia o procedimento de notificação: envia
 via BLE um pacote sinalizando “acidente detectado” para o app e começa a
 transmitir dados básicos (valor de pico de $g$, por exemplo).
 
-Importante notar que o ESP32-C3 também monitorou a conexão BLE
+Importante notar que o Node MCU também monitorou a conexão BLE
 continuamente para transmitir dados de telemetria durante o uso normal.
 Isso permitiu implementar funções adicionais como indicar nível de
 bateria no app e até gerar um log de pilotagem. Entretanto, tais
@@ -857,9 +856,9 @@ para melhor controle, mas mantivemos o sensor configurado para sinalizar
 interrupção de “queda livre” (queda livre detectada quando
 $a_{\text{res}}$ abaixo de 0.5$g$ por > 30 ms, como quando a moto decola
 em um salto ou o sensor perde suporte). Esse sinal de interrupção foi
-disponibilizado no ESP32, porém nos testes raramente diferenciou cenário
+disponibilizado no Node MCU, porém nos testes raramente diferenciou cenário
 além do que já detectávamos via picos e giros. \item A calibração do
-giroscópio foi fundamental: implementamos no ESP32 que, se a moto
+giroscópio foi fundamental: implementamos no Node MCU que, se a moto
 permanecer parada (acelerações muito baixas) por pelo menos 5 segundos,
 é disparado o comando de \textit{fast-offset calibration} do BMI160 para
 zerar viés do giroscópio naquela orientação\cite{bosch2016c}. Isso
@@ -879,9 +878,9 @@ Observou-se também a importância de filtrar ruídos: implementamos um
 filtro passa-baixas no código para separar a componente estática
 (gravidade) da dinâmica: subtrair a média móvel das leituras permitiu
 destacar apenas mudanças bruscas. Esse processamento simples foi
-executado no ESP32 sem dificuldades.
+executado no Node MCU sem dificuldades.
 
-\subsection{Raspberry Pi Zero 2W} O Raspberry Pi Zero
+\subsection{Placa Computacional} O Placa Computacional Zero
 2 W atua como \textbf{módulo de captura de imagem e computação} mais
 pesado. Suas especificações (CPU Broadcom quad-core ARM Cortex-A53 1.0
 GHz, 512 MB RAM, Bluetooth 4.2, Wi-Fi b/g/n) permitem rodar um sistema
@@ -889,25 +888,25 @@ operacional Linux e executar tarefas que seriam inviáveis no
 microcontrolador, como tratamento de imagem e conexão com serviços web.
 Escolhemos este modelo por equilibrar baixo consumo e tamanho reduzido
 com capacidade de rodar algoritmos de visão e aplicativos de rede.
-Alternativas consideradas incluíram o Raspberry Pi 3A+ (mais potente,
+Alternativas consideradas incluíram o Placa Computacional 3A+ (mais potente,
 porém maior e de consumo maior) e módulos microcontroladores com câmera
-(ESP32-CAM, ESP32-S3 Eye), mas concluímos que a confiabilidade na
+(Node MCU-CAM, Node MCU-S3 Eye), mas concluímos que a confiabilidade na
 gravação de vídeo e upload exigia um sistema operacional robusto. Assim,
 o RPi Zero 2 W integra a arquitetura final, mantendo-se inativo na maior
 parte do tempo (modo \textit{idle}/espera) e entrando em ação apenas
 quando necessário.
 
-Para otimizar o uso do Raspberry e cumprir RNF-01: \begin{itemize} \item
+Para otimizar o uso da Placa Computacional e cumprir RNF-01: \begin{itemize} \item
 Inicialização sob demanda: Configuramos o RPi para iniciar em
 \textit{boot} somente quando alimentado por uma linha de 5V controlada
-pelo ESP32 (via um transistor MOSFET atuando como chave). Ou seja, no
-estado normal, o ESP32 não alimenta o Pi, poupando a bateria; ao
-detectar um acidente, o ESP32 libera a alimentação e aciona o boot do
+pelo Node MCU (via um transistor MOSFET atuando como chave). Ou seja, no
+estado normal, o Node MCU não alimenta o Pi, poupando a bateria; ao
+detectar um acidente, o Node MCU libera a alimentação e aciona o boot do
 Pi. Essa estratégia, implementada no protótipo final de forma
 simplificada (o Pi era ligado junto com todo o sistema, mas em futuras
-versões seria ligado sob demanda), garante que o consumo elevado do
-Raspberry não interfira na autonomia exceto nos momentos críticos. \item
-Sistema minimizado: No Raspberry Pi OS removemos serviços
+versões seria ligado sob demanda), garante que o consumo elevado da
+Placa Computacional não interfira na autonomia exceto nos momentos críticos. \item
+Sistema minimizado: No Placa Computacional OS removemos serviços
 desnecessários, desabilitamos interface gráfica e até desligamos saídas
 de status (como LED e HDMI) para reduzir consumo e acelerar a
 inicialização. Com isso, o tempo de boot do Pi desde o acionamento até
@@ -915,11 +914,11 @@ estar pronto para capturar vídeo ficou em torno de 6--8 segundos. \item
 Buffer contínuo de vídeo: Implementamos, em Python (usando a
 biblioteca Picamera2), um buffer circular que mantém na memória os
 frames recentes da câmera. A câmera fica ligada gravando em baixa
-resolução continuamente, mas descartando frames antigos. Quando o ESP32
+resolução continuamente, mas descartando frames antigos. Quando o Node MCU
 sinaliza um acidente, um script salva em arquivo os últimos segundos do
 buffer (por exemplo, 5 s anteriores) e continua gravando por mais alguns
 segundos (3 s) para pegar o desfecho. \item Compressão e envio:
-Logo após salvar o vídeo (em formato H.264, 720p), o Raspberry Pi inicia
+Logo após salvar o vídeo (em formato H.264, 720p), o Placa Computacional inicia
 o upload para o servidor na nuvem via Wi-Fi do smartphone (usando
 tethering do iPhone conectado por BLE, que habilita temporariamente o
 hotspot). Para enviar ~3 MB de vídeo, medimos cerca de 5--6 segundos em
@@ -927,7 +926,7 @@ rede 4G, considerado aceitável. Caso o upload demore ou não haja
 conexão, o vídeo fica armazenado localmente e o app smartphone tenta
 reenviar mais tarde. \end{itemize}
 
-Nos testes, o Raspberry Pi cumpriu seu papel, embora seu consumo seja
+Nos testes, o Placa Computacional cumpriu seu papel, embora seu consumo seja
 significativo: medimos ~200 mA em idle e picos de 500--600 mA durante
 compressão e upload de vídeo. Por isso, reforça-se que mantê-lo
 desligado quando possível é crucial. O protótipo final não implementou
@@ -935,7 +934,7 @@ hardware para desligar completamente o Pi (devido a limitações de
 tempo), mas tal melhoria está documentada para trabalhos futuros.
 
 \subsection{Câmera Grande Angular 160°} Para a coleta de evidências
-visuais, utilizamos uma câmera compatível com o Raspberry Pi baseada no
+visuais, utilizamos uma câmera compatível com o Placa Computacional baseada no
 sensor OmniVision OV5647 de 5 Megapixels (a mesma especificação da
 câmera oficial Pi v1). Escolhemos acoplar a essa câmera uma lente do
 tipo \textit{fisheye} de 160° de campo de visão, ampliando
@@ -964,13 +963,13 @@ obstáculos).
 \subsection{Bateria e Alimentação} O protótipo utiliza uma bateria de
 íons de lítio 18650 de 3,7 V (2500 mAh) como fonte de energia, conectada
 a um circuito \textit{step-up} que provê 5 V estáveis para os
-dispositivos (ESP32-C3 e Raspberry Pi). Essa bateria, em teoria, fornece
-~9,25 Wh; considerando consumo médio de ~0,9 W (ESP32 ~0,1 W + RPi
+dispositivos (Node MCU e Placa Computacional). Essa bateria, em teoria, fornece
+~9,25 Wh; considerando consumo médio de ~0,9 W (Node MCU ~0,1 W + RPi
 desligado ~0,05 W + picos esporádicos do RPi ativo), a autonomia
 estimada é de aproximadamente 10 horas, atendendo RNF-01.
 
 Implementamos monitoramento do nível da bateria via um módulo inteligente de carregamento de bateria
-conectado ao ESP32, permitindo enviar a porcentagem de carga ao
+conectado ao Node MCU, permitindo enviar a porcentagem de carga ao
 app periodicamente. Também previmos um circuito de proteção para evitar
 descarga profunda, com a bateria se desconectando ao atingir aproximadamente 3,0 V.
 
@@ -981,11 +980,11 @@ autônoma com recarga manual diária.
 
 \section{Desenvolvimento do Software Embarcado e Aplicativo}
 \label{sec:software} A implementação em software dividiu-se em três
-frentes: firmware do ESP32-C3, scripts e programas no Raspberry Pi, e
+frentes: firmware do Node MCU, scripts e programas no Placa Computacional, e
 aplicativo iOS. Destacamos particularidades e metodologias
 utilizadas em cada qual.
 
-\subsection{Firmware do ESP32-C3} O firmware do ESP32-C3 foi
+\subsection{Firmware do Node MCU} O firmware do Node MCU foi
 desenvolvido em C++ (framework Arduino, pela familiaridade e
 disponibilidade de bibliotecas) com algumas otimizações de baixo nível.
 O código foi estruturado em tarefas FreeRTOS, permitindo concorrência
@@ -1007,24 +1006,24 @@ rápida queda a zero, por exemplo, sugerem que a moto parou abruptamente
 e tombou). Se confirmado, o firmware muda o estado para “acidente
 detectado” e prossegue ao protocolo de alerta. \end{itemize}
 
-No protocolo de alerta, o ESP32-C3 executa: \begin{enumerate} \item
-Despertar do Raspberry Pi: coloca em nível alto o pino
-conectado ao gate do MOSFET que alimenta o Raspberry, ou envia pulso
+No protocolo de alerta, o Node MCU executa: \begin{enumerate} \item
+Despertar do Placa Computacional: coloca em nível alto o pino
+conectado ao gate do MOSFET que alimenta a Placa Computacional, ou envia pulso
 conforme circuito configurado. \item Envio BLE para app:
 notifica o smartphone via uma característica BLE de que um acidente
 ocorreu, incluindo dados como valor de pico de $g$, lado do impacto
 (deduzido do sinal do giroscópio) e nível de bateria atual. \item
-Aguardar resposta: o ESP32 espera uma resposta do app
+Aguardar resposta: o Node MCU espera uma resposta do app
 confirmando recebimento. Caso não receba (ex.: smartphone desconectado),
 tenta reenvio algumas vezes e, se ainda sem sucesso, guarda o evento
 numa memória flash para tentar entregar posteriormente. \item
-Manutenção do estado: após enviar o alerta, o ESP32 permanece
+Manutenção do estado: após enviar o alerta, o Node MCU permanece
 acordado por algum tempo para repassar dados complementares. Por
-exemplo, conforme o Raspberry Pi fizer upload do vídeo e informar o
-link, o ESP32 pode enviar esse link ao app via BLE. \end{enumerate}
+exemplo, conforme o Placa Computacional fizer upload do vídeo e informar o
+link, o Node MCU pode enviar esse link ao app via BLE. \end{enumerate}
 
 Adicionalmente, implementamos telemetria contínua: quando não
-há acidente, a cada 1 minuto o ESP32 envia ao app dados como máximas
+há acidente, a cada 1 minuto o Node MCU envia ao app dados como máximas
 acelerações registradas e eventuais eventos (por exemplo, “frenagem
 brusca em tal local” se assim configurado). Isso pode ser considerado um
 “pré-alerta” útil – por exemplo, o guardião sabe que algo potencialmente
@@ -1041,7 +1040,7 @@ automaticamente quando detectado. Usamos o modo \textit{background} do
 CoreBluetooth, permitindo que o app receba notificações BLE mesmo
 fechado (desde que o usuário tenha pareado o dispositivo previamente).
 No Xcode, habilitou-se a opção “Uses Bluetooth LE accessories” para que
-o iOS mantenha o app ativo em segundo plano. \item Recebimento de alerta: Ao receber do ESP32 a indicação de acidente via
+o iOS mantenha o app ativo em segundo plano. \item Recebimento de alerta: Ao receber do Node MCU a indicação de acidente via
 característica BLE, o app imediatamente aciona uma notificação local
 ruidosa e vibração, exibindo na tela a mensagem “Acidente possivelmente
 detectado! Toque aqui se você ESTÁ BEM.”. O usuário tem 15 segundos para
@@ -1080,7 +1079,7 @@ necessário o limiar de detecção, embora deixamos fixo no padrão) e ver o
 status do dispositivo (nível de bateria, conexão). Essas configurações
 são salvas no próprio app e algumas sincronizadas no dispositivo (ex.:
 se o usuário optar por desativar telemetria, o app envia comando BLE
-para o ESP32 parar de enviar dados periódicos). \end{itemize}
+para o Node MCU parar de enviar dados periódicos). \end{itemize}
 
 O desenvolvimento do app seguiu práticas de programação orientada a
 eventos, usando os delegados do CoreBluetooth e CoreLocation. Testes
@@ -1146,11 +1145,11 @@ cada módulo de hardware e seu papel no sistema:
 
 \subsection{Integração dos Módulos} Os componentes foram montados em
 uma estrutura única: utilizou-se uma placa de circuito impresso
-artesanal para fixar o ESP32-C3, o sensor BMI160 e um regulador de
-tensão step-up. O Raspberry Pi Zero 2W, por sua vez, fica acoplado acima
+artesanal para fixar o Node MCU, o sensor BMI160 e um regulador de
+tensão step-up. O Placa Computacional, por sua vez, fica acoplado acima
 (usamos espaçadores e conexões de arame para ligar a linha de
 \textit{wake} e a alimentação comum). A câmera está conectada ao
-Raspberry Pi via cabo flat na interface CSI. A bateria Li-ion fica
+Placa Computacional via cabo flat na interface CSI. A bateria Li-ion fica
 alojada em compartimento próprio, com acesso externo para recarga.
 
 O invólucro foi impresso em 3D em material PETG, proporcionando
@@ -1159,6 +1158,14 @@ carcaça envolvente possui vedação com anel de silicone nas junções,
 conferindo um grau de proteção aproximado IP54 (resistente a poeira e
 respingos). Fixamos o protótipo no guidão de uma motocicleta de teste
 usando abraçadeiras e base de espuma para amortecer vibrações do motor.
+
+O projeto do case, isto é, o invólucro de plástico que protege o hardware, foi modelado e desenvolvido de maneira inteiramente específica para abrigar adequadamente o hardware construído, de modo a garantir a proteção, ventilação e acessibilidade aos componentes essenciais. O design foi elaborado considerando as dimensões e a funcionalidade de cada elemento, bem como da necessidade de se otimizar o uso do espaço interno.
+
+O case foi modelado utilizando conjuntamente as ferramentas do TinkerCad e Inventor, ambas de propriedade da empresa AutoCAD. O material utilizado para a construção foi o plástico PLA, devido à sua relativa resistência, leveza e propriedades de baixo custo.
+
+O case apresenta três furos específicos em locais estratégicos para garantir a funcionalidade do dispositivo: o primeiro está posicionado na região frontal, destinado à câmera; o segundo furo, é para um botão de switch; e o último, é destinado para o carregamento USB.
+
+O processo de design e fabricação permitiu criar uma solução alinhada com as necessidades específicas do projeto, atendendo às particularidades físicas do hardware e garantindo que todos os componentes operassem de forma eficiente, conjunta e segura.
 
 \subsection{Testes de Detecção de Acidentes e Alarmes} Para testar o
 sistema de detecção de acidentes, foram realizadas simulações
@@ -1301,7 +1308,7 @@ contato ser notificado, foi cronometrado conforme detalhado. A Tabela
 \label{tab:tempos} \begin{tabular}{l c} \toprule Etapa & Tempo médio (s)
 \\
 \midrule
-Detecção do acidente (ESP32) & 0,5 \\
+Detecção do acidente (Node MCU) & 0,5 \\
 Confirmação (usuário ou timeout) & 15,0 \\
 Processamento e envio no app & 3,0 \\
 Transmissão na nuvem (trigger + bot) & 5,0 \\
@@ -1364,7 +1371,7 @@ protegeu). A vedação se mostrou adequada sob chuva leve (simulamos
 borrifando água, nenhum infiltração observada). Assim, consideramos
 cumpridos os objetivos de resistência física (RNF-02). \item
 Consumo real: Em um teste de autonomia, deixamos o sistema
-ligado (com RPi dormindo, ESP32 transmitindo telemetria ocasional) por
+ligado (com RPi dormindo, Node MCU transmitindo telemetria ocasional) por
 10 horas antes que a bateria atinja o limite. Isso deverá validar a
 meta de 10h. Com pequenas otimizações (como desligar completamente o RPi
 quando o motor da moto está off), certamente ultrapassaríamos 12h
@@ -1385,11 +1392,11 @@ e quais aprimoramentos podem ser explorados em trabalhos futuros.
 
 Este trabalho apresentou o desenvolvimento de um sistema embarcado de detecção automática de acidentes motociclísticos com alerta de emergência, denominado Projeto Vindex. Através da integração de sensores inerciais, comunicação sem fio e visão computacional, foi possível criar um protótipo funcional capaz de reconhecer acidentes e notificar contatos de forma autônoma.
 
-Contribuições principais: Desenvolvemos um sistema de detecção de acidentes que combina critérios de aceleração superior a 3,5 $g$ e inclinação superior a 65°, permitindo identificar tanto colisões frontais quanto tombamentos laterais. Implementamos arquitetura híbrida com ESP32-C3 para monitoramento contínuo de baixo consumo e Raspberry Pi Zero 2W para captura de vídeo sob demanda, otimizando autonomia energética. Integramos visão computacional com YOLO e OCR para identificação automática de placas de veículos envolvidos, funcionalidade ausente em sistemas comerciais de baixo custo. Validamos o sistema em testes controlados, atingindo 90\% de detecção de acidentes reais e 0\% de falsos alarmes, com tempo de resposta de 28 segundos e autonomia de 10 horas.
+Contribuições principais: Desenvolvemos um sistema de detecção de acidentes que combina critérios de aceleração superior a 3,5 $g$ e inclinação superior a 65°, permitindo identificar tanto colisões frontais quanto tombamentos laterais. Implementamos arquitetura híbrida com Node MCU para monitoramento contínuo de baixo consumo e Placa Computacional para captura de vídeo sob demanda, otimizando autonomia energética. Integramos visão computacional com YOLO e OCR para identificação automática de placas de veículos envolvidos, funcionalidade ausente em sistemas comerciais de baixo custo. Validamos o sistema em testes controlados, atingindo 90\% de detecção de acidentes reais e 0\% de falsos alarmes, com tempo de resposta de 28 segundos e autonomia de 10 horas.
 
-Limitações identificadas: O protótipo atual apresenta limitações que devem ser consideradas. A transferência de vídeo via Wi-Fi do Raspberry Pi requer cobertura de rede, podendo falhar em áreas remotas. A resolução das imagens transmitidas via BLE foi limitada a 640x480 para viabilizar transferência rápida, reduzindo a qualidade para análise forense. O algoritmo de detecção baseado em limiares fixos pode não capturar acidentes de baixa energia cinética, como quedas em baixa velocidade. A dependência de smartphone do usuário para envio de alertas introduz ponto de falha caso o celular esteja descarregado ou fora de alcance BLE.
+Limitações identificadas: O protótipo atual apresenta limitações que devem ser consideradas. A transferência de vídeo via Wi-Fi do Placa Computacional requer cobertura de rede, podendo falhar em áreas remotas. A resolução das imagens transmitidas via BLE foi limitada a 640x480 para viabilizar transferência rápida, reduzindo a qualidade para análise forense. O algoritmo de detecção baseado em limiares fixos pode não capturar acidentes de baixa energia cinética, como quedas em baixa velocidade. A dependência de smartphone do usuário para envio de alertas introduz ponto de falha caso o celular esteja descarregado ou fora de alcance BLE.
 
-{\sloppy Trabalhos futuros: Recomendamos implementar algoritmos de aprendizado de máquina embarcados, treinados com dados reais de acidentes versus condução normal. Miniaturizar o hardware em PCB dedicada reduziria tamanho e consumo, viabilizando integração discreta no veículo. Explorar microcontroladores mais recentes como ESP32-S3 com aceleração de IA poderia eliminar dependência do Raspberry Pi, simplificando arquitetura. Desenvolver versão Android do aplicativo ampliaria base de usuários. Integrar conexão direta com serviços de emergência como SAMU ou Corpo de Bombeiros, além de contatos pessoais, aumentaria eficácia do socorro. Testes em larga escala com usuários reais permitiriam coletar dados em campo e aperfeiçoar calibragem de sensibilidade, refinando parâmetros de detecção e aspectos de usabilidade. Expandir funcionalidade de prevenção de acidentes com módulo ADAS simples, alertando piloto de colisão iminente ou curva perigosa, agregaria valor contínuo ao produto.\par}
+{\sloppy Trabalhos futuros: Recomendamos implementar algoritmos de aprendizado de máquina embarcados, treinados com dados reais de acidentes versus condução normal. Miniaturizar o hardware em PCB dedicada reduziria tamanho e consumo, viabilizando integração discreta no veículo. Explorar microcontroladores mais recentes como Node MCU-S3 com aceleração de IA poderia eliminar dependência do Placa Computacional, simplificando arquitetura. Desenvolver versão Android do aplicativo ampliaria base de usuários. Integrar conexão direta com serviços de emergência como SAMU ou Corpo de Bombeiros, além de contatos pessoais, aumentaria eficácia do socorro. Testes em larga escala com usuários reais permitiriam coletar dados em campo e aperfeiçoar calibragem de sensibilidade, refinando parâmetros de detecção e aspectos de usabilidade. Expandir funcionalidade de prevenção de acidentes com módulo ADAS simples, alertando piloto de colisão iminente ou curva perigosa, agregaria valor contínuo ao produto.\par}
 
 Retomando os objetivos iniciais, este trabalho cumpriu seu~propósito.
 Demonstramos a viabilidade técnica de um dispositivo acessível para detecção de~acidentes motociclísticos.
@@ -1432,16 +1439,16 @@ Improvement. arXiv:1804.02767, 2018. \bibitem{apple2022} APPLE. Apple
 Watch Series 8 and new Apple Watch SE bring advanced safety
 capabilities. Apple Newsroom, 07 set. 2022. Disponível em:
 \url{https://www.apple.com/br/newsroom/2022/09/apple-reveals-apple-watch-series-8-and-the-new-apple-watch-se}.
-\bibitem{espressif2020} ESPRESSIF. \textit{ESP32-C3 Datasheet}.
+\bibitem{espressif2020} ESPRESSIF. \textit{Node MCU Datasheet}.
 Shanghai, 2021. Disponível em:
-\url{https://www.espressif.com/sites/default/files/documentation/esp32-c3_datasheet_en.pdf}.
+\url{https://www.espressif.com/sites/default/files/documentation/Node MCU_datasheet_en.pdf}.
 \bibitem{bosch2016} BOSCH SENSORTEC. \textit{BMI160 Data Sheet}.
 Rev. 1.7. Bosch Sensortec, 2016. \bibitem{bosch2016b} BOSCH SENSORTEC.
 BMI160: Small, low-power inertial measurement unit. Product technical
 brochure, Bosch Sensortec, 2015. \bibitem{bosch2016c} BOSCH SENSORTEC.
 BMI160 – Application notes and calibration guide. Bosch Sensortec, 2016.
 
-\bibitem{fauzi2023} FAUZI, M. A.; BENCHEKROUN, H.; SAIDI, M. N. ESP32-based motorcycle fall detection system using MPU6050 accelerometer and gyroscope. \textit{International Journal of Electrical and Computer Engineering}, v.13, n.2, p.1456-1465, 2023.
+\bibitem{fauzi2023} FAUZI, M. A.; BENCHEKROUN, H.; SAIDI, M. N. Node MCU-based motorcycle fall detection system using MPU6050 accelerometer and gyroscope. \textit{International Journal of Electrical and Computer Engineering}, v.13, n.2, p.1456-1465, 2023.
 
 \bibitem{nhtsa2023} NATIONAL HIGHWAY TRAFFIC SAFETY ADMINISTRATION. \textit{Traffic Safety Facts: Motorcycles 2023}. Washington, D.C.: U.S. Department of Transportation, 2023. Disponível em: \url{https://crashstats.nhtsa.dot.gov}.
 
@@ -1516,9 +1523,9 @@ Projeto Vindex}
 \textbf{Período} & \textbf{Atividades Desenvolvidas (Marcos)} \\
 \midrule
 Fev--Mar & Revisão bibliográfica inicial (estado da arte), definição de escopo e requisitos; Aquisição dos componentes de hardware; Montagem de setup de bancada para PoC. \\
-Abr--Mai & Desenvolvimento do firmware ESP32-C3 (leitura sensor, detecção básica); Testes de PoC com sensor e LED (simulando alerta); Início do desenvolvimento do app iOS (conexão BLE básica). \\
-Jun & Integração inicial ESP32-C3 + app (receber notificação via BLE); Teste PoC com smartphone e envio de SMS manual; Apresentação parcial I (Resultados da PoC). \\
-Jul--Ago & Desenvolvimento do módulo Raspberry Pi (captura de foto/vídeo); Integração ESP32–RPi (sinal de wake via GPIO); Desenvolvimento do backend (configuração Supabase, bot Telegram). \\
+Abr--Mai & Desenvolvimento do firmware Node MCU (leitura sensor, detecção básica); Testes de PoC com sensor e LED (simulando alerta); Início do desenvolvimento do app iOS (conexão BLE básica). \\
+Jun & Integração inicial Node MCU + app (receber notificação via BLE); Teste PoC com smartphone e envio de SMS manual; Apresentação parcial I (Resultados da PoC). \\
+Jul--Ago & Desenvolvimento do módulo Placa Computacional (captura de foto/vídeo); Integração Node MCU–RPi (sinal de wake via GPIO); Desenvolvimento do backend (configuração Supabase, bot Telegram). \\
 Set & Implementação completa do aplicativo iOS (fluxo de alerta com cancelamento, envio ao backend); Montagem do protótipo físico (PCB, carcaça 3D); Início dos testes integrados (laboratório). \\
 Out & Testes de campo (simulações de acidente, ajustes de sensibilidade); Coleta de resultados quantitativos (tempos, acurácia); Apresentação parcial II (Protótipo funcional e primeiros resultados). \\
 Nov & Análise detalhada dos resultados, comparação com requisitos; Refinamento de detalhes (ajustes finais de código e documentação); Escrita da monografia final (capítulos de resultados e conclusão). \\
@@ -1589,3 +1596,5 @@ Este ap\^endice apresenta capturas de tela do aplicativo m\'ovel Vindex desenvol
 
 % Finaliza\c{c}\~ao do documento
 \end{document}
+
+
