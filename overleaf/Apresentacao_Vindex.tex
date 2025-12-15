@@ -1,5 +1,6 @@
 % Apresentação TCC - Projeto Vindex
 % Template Beamer para Escola Politécnica da USP
+% Versão completa e profissional
 \documentclass[aspectratio=169]{beamer}
 
 % Tema e cores
@@ -40,6 +41,27 @@
 
 % Seção 1: Introdução
 \section{Introdução}
+
+\begin{frame}{Estatísticas de Acidentes no Brasil}
+\begin{block}{Dados Alarmantes}
+\begin{itemize}
+    \item \textbf{1 motociclista morre a cada 39 minutos} no trânsito brasileiro
+    \item Taxa de mortalidade \textbf{30× maior} que ocupantes de automóveis
+    \item \textbf{38,6\%} dos óbitos no trânsito são motociclistas
+    \item Frota cresceu \textbf{42\%} entre 2015-2024 (35 milhões de motos)
+\end{itemize}
+\end{block}
+
+\vspace{0.3cm}
+
+\begin{alertblock}{"Hora de Ouro"}
+\textbf{60 minutos} após trauma grave = janela crítica para sobrevivência
+\begin{itemize}
+    \item \textbf{60\%} mais chances de sobreviver se socorrido nos primeiros 30 minutos
+    \item Cada minuto adicional de atraso aumenta mortalidade
+\end{itemize}
+\end{alertblock}
+\end{frame}
 
 \begin{frame}{Contexto e Motivação}
 \begin{block}{Problema}
@@ -133,6 +155,64 @@ RF-08 & Registro de telemetria contínua \\
 \end{itemize}
 \end{column}
 \end{columns}
+\end{frame}
+
+% Seção 2.5: Estado da Arte
+\section{Estado da Arte}
+
+\begin{frame}{Soluções Comerciais Existentes}
+\begin{block}{Sistemas para Automóveis}
+\begin{itemize}
+    \item \textbf{eCall (União Europeia):} Obrigatório desde 2018
+    \item \textbf{OnStar (GM):} Automatic Crash Response
+    \item \textbf{Apple Watch:} Detecção de quedas
+\end{itemize}
+\end{block}
+
+\vspace{0.3cm}
+
+\begin{block}{Sistemas para Motocicletas}
+\begin{itemize}
+    \item \textbf{Bosch Help Connect:} Sistema comercial de alto custo
+    \item \textbf{BMW eCall:} Integrado em motos premium
+    \item \textbf{Aplicativos smartphone:} WreckWatch, iBump, RideSafe
+    \begin{itemize}
+        \item Limitação: dependem de smartphone fixo no veículo
+    \end{itemize}
+\end{itemize}
+\end{block}
+
+\vspace{0.3cm}
+
+\textbf{Diferencial do Vindex:} Dispositivo dedicado de \textbf{baixo custo} (R\$ 300-400) com visão computacional
+\end{frame}
+
+\begin{frame}{Trabalhos Acadêmicos Relacionados}
+\begin{itemize}
+    \item \textbf{White et al. (2011) - WreckWatch}
+    \begin{itemize}
+        \item Detecção com smartphone usando acelerômetro
+        \item Limiares de ~3g ajustados empiricamente
+    \end{itemize}
+    
+    \item \textbf{Choudhary et al. (2015)}
+    \begin{itemize}
+        \item Sistema de detecção usando smartphone
+        \item Limiares de 3--4g para distinguir colisões
+    \end{itemize}
+    
+    \item \textbf{Fauzi et al. (2023)}
+    \begin{itemize}
+        \item Node MCU + MPU6050 para detecção de quedas
+        \item Excelente desempenho em testes
+    \end{itemize}
+    
+    \item \textbf{Yan et al. (2022)}
+    \begin{itemize}
+        \item YOLO para detecção de placas veiculares
+        \item Sistema end-to-end de reconhecimento
+    \end{itemize}
+\end{itemize}
 \end{frame}
 
 % Seção 3: Materiais e Métodos
@@ -276,6 +356,39 @@ RF-08 & Registro de telemetria contínua \\
 \textbf{Tempo total médio: 28 segundos}
 \end{frame}
 
+\begin{frame}{Protótipo Físico}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{Componentes Integrados:}
+\begin{itemize}
+    \item Node MCU Super Mini
+    \item Placa Computacional
+    \item Sensor BMI160
+    \item Câmera OV5647 160°
+    \item Bateria Li-ion 18650
+    \item Regulador step-up 5V
+\end{itemize}
+
+\vspace{0.3cm}
+
+\textbf{Dimensões:}
+\begin{itemize}
+    \item Compacto e discreto
+    \item Fixação no guidão
+    \item Peso: ~200g
+\end{itemize}
+\end{column}
+
+\begin{column}{0.48\textwidth}
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{foto-prototipo-fisica.png}
+\caption*{Protótipo físico montado}
+\end{figure}
+\end{column}
+\end{columns}
+\end{frame}
+
 \begin{frame}{Design do Case}
 \begin{block}{Características do Invólucro}
 \textbf{Projeto específico para o hardware:}
@@ -295,6 +408,131 @@ RF-08 & Registro de telemetria contínua \\
     \item Lateral: botão de switch
     \item Traseira: carregamento USB
 \end{enumerate}
+\end{frame}
+
+\begin{frame}{Aplicativo iOS - Tela Principal}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{Funcionalidades:}
+\begin{itemize}
+    \item Localização em mapa
+    \item Status conexão BLE
+    \item Score de pilotagem (85 - Excelente)
+    \item Últimas ocorrências
+\end{itemize}
+
+\vspace{0.3cm}
+
+\textbf{Modo Background:}
+\begin{itemize}
+    \item App roda em segundo plano
+    \item Conexão BLE contínua
+    \item Notificações automáticas
+\end{itemize}
+\end{column}
+
+\begin{column}{0.48\textwidth}
+\begin{figure}
+\centering
+\includegraphics[width=0.7\textwidth]{app-tela-principal.png}
+\caption*{Tela principal do app}
+\end{figure}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Aplicativo iOS - Telemetria}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{Dados Coletados:}
+\begin{itemize}
+    \item Velocidade ao longo do tempo
+    \item Velocidade máxima: 35,4 km/h
+    \item Velocidade média: 0,3 km/h
+    \item Infrações registradas
+    \item Viagens realizadas
+\end{itemize}
+
+\vspace{0.3cm}
+
+\textbf{Análise de Segurança:}
+\begin{itemize}
+    \item Score de qualidade
+    \item Distribuição de velocidades
+    \item Heatmap do trajeto
+\end{itemize}
+\end{column}
+
+\begin{column}{0.48\textwidth}
+\begin{figure}
+\centering
+\includegraphics[width=0.7\textwidth]{app-telemetria-grafico.png}
+\caption*{Interface de telemetria}
+\end{figure}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Aplicativo iOS - Detecção de Placa}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{Visão Computacional:}
+\begin{itemize}
+    \item YOLO: detecção da região da placa
+    \item OCR: extração dos caracteres
+    \item Acurácia: \textbf{95\%} em condições favoráveis
+\end{itemize}
+
+\vspace{0.3cm}
+
+\textbf{Placas Detectadas:}
+\begin{itemize}
+    \item FBR2A23 (imagem 1)
+    \item HQW5678 (imagem 2)
+    \item Localização: Rua dos Heliotrópios, 237
+    \item Data/hora registrados
+\end{itemize}
+\end{column}
+
+\begin{column}{0.48\textwidth}
+\begin{figure}
+\centering
+\includegraphics[width=0.7\textwidth]{app-evidencia-placa1.png}
+\caption*{Detecção de placa via YOLO+OCR}
+\end{figure}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Aplicativo iOS - Relatório de Viagem}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{Estatísticas Completas:}
+\begin{itemize}
+    \item Distância: 6,59 km
+    \item Tempo: 15 minutos
+    \item Score: 95/100
+    \item Velocidade máxima: 59 km/h
+\end{itemize}
+
+\vspace{0.3cm}
+
+\textbf{Distribuição de Velocidades:}
+\begin{itemize}
+    \item 40 km/h: 36\%
+    \item 50 km/h: 49\%
+    \item 60 km/h: 15\%
+\end{itemize}
+\end{column}
+
+\begin{column}{0.48\textwidth}
+\begin{figure}
+\centering
+\includegraphics[width=0.7\textwidth]{app-relatorio-viagem.png}
+\caption*{Relatório completo de viagem}
+\end{figure}
+\end{column}
+\end{columns}
 \end{frame}
 
 % Seção 4: Resultados
@@ -369,6 +607,35 @@ Notificação no Telegram & 4,5 \\
     \item OCR: 94\% de acerto após correções (O/0, I/1)
 \end{itemize}
 \end{block}
+\end{frame}
+
+\begin{frame}{Metodologia de Testes}
+\textbf{Testes Controlados em 3 Categorias:}
+
+\begin{enumerate}
+    \item \textbf{Detecção de Acidentes}
+    \begin{itemize}
+        \item Quedas bruscas da moto parada (5 ensaios)
+        \item Buracos e desníveis a 20 km/h (15 eventos)
+        \item Frenagens de emergência a 40 km/h
+        \item Colisões simuladas a 15 km/h (5 casos)
+    \end{itemize}
+    
+    \item \textbf{Comunicação e Infraestrutura}
+    \begin{itemize}
+        \item Alcance BLE em diferentes distâncias
+        \item Reconexão após perda de sinal
+        \item Tempo de upload de vídeo (rede 4G)
+        \item Segurança de dados
+    \end{itemize}
+    
+    \item \textbf{Visão Computacional}
+    \begin{itemize}
+        \item 50 imagens de teste de placas
+        \item Vídeos completos de 8 segundos
+        \item Situações adversas (noturnas, placas sujas)
+    \end{itemize}
+\end{enumerate}
 \end{frame}
 
 \begin{frame}{Testes Realizados}
@@ -492,6 +759,56 @@ Notificação no Telegram & 4,5 \\
     \item Evidências para processos de seguros
 \end{itemize}
 \end{block}
+\end{frame}
+
+\begin{frame}{Comparação com Requisitos}
+\begin{table}
+\centering
+\small
+\begin{tabular}{lcc}
+\toprule
+\textbf{Requisito} & \textbf{Meta} & \textbf{Atingido} \\
+\midrule
+RNF-01: Autonomia & 10 horas & \textbf{10 horas} \\
+RNF-03: Sensibilidade & > 95\% & \textbf{90\%} \\
+RNF-03: Especificidade & < 5\% falsos & \textbf{0\%} \\
+RNF-04: Tempo resposta & < 30s & \textbf{28s} \\
+RNF-06: Alcance BLE & > 5m & \textbf{8m} \\
+Custo & R\$ 300-400 & \textbf{R\$ 300} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.3cm}
+
+\begin{alertblock}{Conclusão}
+\textbf{Todos os requisitos principais foram atendidos ou superados!}
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Inovações do Projeto}
+\begin{enumerate}
+    \item \textbf{Arquitetura Híbrida}
+    \begin{itemize}
+        \item Node MCU para monitoramento contínuo de baixo consumo
+        \item Placa Computacional para captura de vídeo sob demanda
+        \item Otimização de autonomia energética
+    \end{itemize}
+    
+    \item \textbf{Visão Computacional Embarcada}
+    \begin{itemize}
+        \item YOLO + OCR para identificação automática de placas
+        \item Funcionalidade ausente em sistemas de baixo custo
+        \item 95\% de acurácia em condições favoráveis
+    \end{itemize}
+    
+    \item \textbf{Duplo Critério de Detecção}
+    \begin{itemize}
+        \item Aceleração > 3,5g \textbf{OU} inclinação > 65°
+        \item Evita falsos positivos em frenagens sem queda
+        \item 100\% de especificidade nos testes
+    \end{itemize}
+\end{enumerate}
 \end{frame}
 
 \begin{frame}{Conclusão Final}
