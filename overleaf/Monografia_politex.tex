@@ -422,51 +422,7 @@ avaliada e, quando necessário, ajustes foram realizados para cumpri-los
 
 \section{Árvore de Objetivos} Tendo definidos os requisitos, é útil
 apresentá-los de forma hierárquica sob a perspectiva dos objetivos do
-projeto. A árvore de objetivos apresentada na Figura~\ref{fig:arvore-objetivos} ilustra os objetivos
-gerais e específicos do sistema, relacionando-os aos requisitos
-correspondentes:
-
-\begin{figure}[htb]
-\centering
-\begin{tikzpicture}[node distance=2.5cm, auto, font=\small]
-  % Objetivo geral
-  \node[draw, rectangle, align=center, minimum width=8cm] (objetivo-geral)
-    {\textbf{Objetivo Geral}\\Sistema de detec\c{c}\~ao autom\'atica de acidentes de moto\\com alerta imediato};
-  % Objetivos espec\'ificos - n\'ivel 1
-  \node[draw, rectangle, below of=objetivo-geral, yshift=-0.8cm, align=center, minimum width=3.5cm] (detectar)
-    {\textbf{Detectar acidentes}\\Sensores inerciais};
-  \node[draw, rectangle, below left=2cm and 1.5cm of detectar, align=center, minimum width=2.8cm] (acelerometro)
-    {Aceler\^ometro\\(detectar impacto)};
-  \node[draw, rectangle, below right=2cm and 1.5cm of detectar, align=center, minimum width=2.8cm] (giroscopio)
-    {Girosc\'opio\\(detectar queda)};
-  \node[draw, rectangle, below of=detectar, yshift=-3cm, align=center, minimum width=3.5cm] (transmitir)
-    {\textbf{Transmitir alerta}\\(Comunica\c{c}\~ao)};
-  \node[draw, rectangle, below left=2cm and 1.5cm of transmitir, align=center, minimum width=3cm] (bluetooth)
-    {Bluetooth LE\\(Node MCU $\rightarrow$ App)};
-  \node[draw, rectangle, below right=2cm and 1.5cm of transmitir, align=center, minimum width=2.5cm] (internet)
-    {Internet\\(App $\rightarrow$ Contatos)};
-  \node[draw, rectangle, below of=transmitir, yshift=-3cm, align=center, minimum width=3.5cm] (registrar)
-    {\textbf{Registrar evid\^encia}\\(Vis\~ao computacional)};
-  \node[draw, rectangle, below left=2cm and 1.5cm of registrar, align=center, minimum width=2.8cm] (camera)
-    {C\^amera 160°\\(imagens/v\'ideo)};
-  \node[draw, rectangle, below right=2cm and 1.5cm of registrar, align=center, minimum width=2.8cm] (ocr)
-    {YOLO + OCR\\(placa ve\'iculo)};
-  % Setas de relacionamento
-  \draw[->, thick] (objetivo-geral) -- (detectar);
-  \draw[->, thick] (detectar) -- (acelerometro);
-  \draw[->, thick] (detectar) -- (giroscopio);
-  \draw[->, thick] (objetivo-geral) -- (transmitir);
-  \draw[->, thick] (transmitir) -- (bluetooth);
-  \draw[->, thick] (transmitir) -- (internet);
-  \draw[->, thick] (objetivo-geral) -- (registrar);
-  \draw[->, thick] (registrar) -- (camera);
-  \draw[->, thick] (registrar) -- (ocr);
-\end{tikzpicture}
-\caption{\'Arvore de objetivos do projeto, relacionando objetivos espec\'ificos aos requisitos correspondentes.}
-\label{fig:arvore-objetivos}
-\end{figure}
-
-Conforme a figura \ref{fig:arvore-objetivos}, o objetivo geral de prover
+projeto. O objetivo geral de prover
 um \textit{alerta imediato de acidente} desdobra-se em objetivos
 específicos: (1) detectar acidentes de forma confiável, o que
 remete ao uso combinado de acelerômetro e giroscópio para identificar
@@ -679,61 +635,11 @@ Além da detecção de acidentes, o sistema implementa funcionalidade de telemet
 
 \section{Arquitetura Geral do Sistema} \label{sec:arquitetura} Com a
 prova de conceito validada e as lições das fases evolutivas incorporadas, partimos para projetar a arquitetura
-integrada do sistema Vindex. A arquitetura, ilustrada na Figura
-\ref{fig:arquitetura}, pode ser entendida em três camadas principais:
+integrada do sistema Vindex. A arquitetura pode ser entendida em três camadas principais:
 hardware embarcado na motocicleta, aplicativo móvel do
 usuário e serviços em nuvem de suporte.
 
-\begin{figure}[p]
-  \centering
-  \begin{tikzpicture}[node distance=2cm, every node/.style={font=\footnotesize}]
-    % Coluna esquerda: Hardware embarcado
-    \node[draw, rectangle, align=center, minimum width=4cm, minimum height=1cm] (imu)
-      {\textbf{Sensor BMI160}\\Aceler\^ometro + Girosc\'opio};
-    
-    \node[draw, rectangle, below of=imu, align=center, minimum width=4cm, minimum height=1cm] (esp)
-      {\textbf{Node MCU}\\Monitora sensor\\Detecta acidentes};
-    
-    \node[draw, rectangle, below of=esp, align=center, minimum width=4cm, minimum height=1cm] (rpi)
-      {\textbf{Placa Computacional}\\Captura v\'ideo\\Upload nuvem};
-    
-    \node[draw, rectangle, below of=rpi, align=center, minimum width=4cm, minimum height=1cm] (cam)
-      {\textbf{C\^amera OV5647}\\160° FOV, 720p H.264};
-    
-    \node[draw, rectangle, below of=cam, align=center, minimum width=4cm, minimum height=1cm] (bat)
-      {\textbf{Bateria Li-ion 18650}\\3.7V + Conversor 5V};
-    
-    % Coluna direita: Smartphone e Nuvem
-    \node[draw, rectangle, right=6cm of esp, yshift=-1cm, align=center, minimum width=4cm, minimum height=1.2cm] (phone)
-      {\textbf{Smartphone iOS}\\App Vindex\\BLE + GPS};
-    
-    \node[draw, rectangle, below of=phone, yshift=-1cm, align=center, minimum width=4cm, minimum height=1.2cm] (cloud)
-      {\textbf{Servidor Supabase}\\Armazenamento\\Bot Telegram};
-    
-    % Conex\~oes verticais (hardware)
-    \draw[->, very thick] (imu) -- node[right] {I2C} (esp);
-    \draw[->, very thick] (esp) -- node[right] {GPIO} (rpi);
-    \draw[->, very thick] (rpi) -- node[right] {CSI} (cam);
-    \draw[->, very thick] (cam) -- (bat);
-    
-    % Conex\~oes em L da bateria para componentes
-    \draw[->, very thick] (bat.east) -| ([xshift=0.5cm]esp.east);
-    \draw[->, very thick] (bat.east) -| ([xshift=0.5cm]rpi.east);
-    
-    % Conex\~oes em U do Node MCU para smartphone (BLE)
-    \draw[<->, dashed, very thick] (esp.east) -- ++(1.5cm,0) |- node[pos=0.25, above] {BLE} (phone.west);
-    
-    % Conex\~ao em U do RPi para smartphone (Wi-Fi)
-    \draw[->, dashed, very thick] (rpi.east) -- ++(2cm,0) |- node[pos=0.25, above] {Wi-Fi} (phone.west);
-    
-    % Conex\~ao smartphone para nuvem
-    \draw[<->, dashed, very thick] (phone) -- node[right] {API} (cloud);
-  \end{tikzpicture}
-  \caption{Arquitetura do sistema Vindex. Hardware embarcado (esquerda): sensor BMI160 conectado ao Node MCU via I2C; Node MCU desperta Placa Computacional via GPIO; RPi controla c\^amera OV5647 via CSI e faz upload de v\'ideo via Wi-Fi. Smartphone (direita): recebe dados via BLE do Node MCU e envia alertas ao servidor Supabase via API REST. Bateria alimenta todos os componentes.}
-  \label{fig:arquitetura}
-\end{figure}
-
-No hardware embarcado (parte esquerda da figura), o sensor
+No hardware embarcado, o sensor
 inercial BMI160 monitora continuamente os movimentos da motocicleta,
 conectado via interface I2C ao microcontrolador Node MCU. Este
 microcontrolador fica em modo de baixo consumo, lendo os dados do sensor
