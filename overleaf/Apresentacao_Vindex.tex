@@ -318,7 +318,36 @@ RF-08 & Registro de telemetria contínua \\
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{Algoritmo de Detecção}
+% Seção Técnica Detalhada
+\section{Implementação Técnica}
+
+\begin{frame}{Firmware do Node MCU - Arquitetura}
+\begin{block}{Estrutura do Código}
+\textbf{Framework:} Arduino (C++) com FreeRTOS
+\end{block}
+
+\textbf{Duas tarefas principais:}
+
+\begin{enumerate}
+    \item \textbf{Tarefa de Leitura de Sensores} (10 ms)
+    \begin{itemize}
+        \item Configura BMI160 para amostragem a 100 Hz
+        \item Lê aceleração (X, Y, Z) e velocidade angular
+        \item Aplica filtro exponencial para estimar gravidade
+        \item Calcula magnitude resultante $|\vec{a}|$
+        \item Verifica critérios de detecção
+    \end{itemize}
+    
+    \item \textbf{Tarefa de Comunicação BLE}
+    \begin{itemize}
+        \item Envia dados de telemetria periodicamente
+        \item Notifica app em caso de acidente
+        \item Gerencia conexão e reconexão automática
+    \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Algoritmo de Detecção - Detalhado}
 \begin{block}{Critérios de Detecção}
 \textbf{Acidente detectado quando:}
 \begin{itemize}
@@ -329,14 +358,248 @@ RF-08 & Registro de telemetria contínua \\
 
 \vspace{0.3cm}
 
-\textbf{Fluxo de detecção:}
+\textbf{Processamento do Sinal:}
 \begin{enumerate}
     \item Leitura contínua do sensor BMI160 a 100 Hz
-    \item Filtragem para separar gravidade de aceleração dinâmica
-    \item Verificação de critérios (aceleração + rotação)
-    \item Timer de confirmação (100 ms)
-    \item Protocolo de alerta ativado
+    \item Filtragem: $\vec{a}_{din} = \vec{a}_{total} - \vec{g}$ (filtro exponencial)
+    \item Cálculo da magnitude: $|\vec{a}| = \sqrt{a_x^2 + a_y^2 + a_z^2}$
+    \item Integração do giroscópio para estimar ângulo de inclinação
+    \item Timer de confirmação (100 ms) para validar evento
+    \item Protocolo de alerta ativado se confirmado
 \end{enumerate}
+\end{frame}
+
+\begin{frame}{Fluxo de Ativação - Passo a Passo}
+\textbf{Sequência completa após detecção:}
+
+\begin{enumerate}
+    \item[\textbf{T=0s}] \textbf{Detecção:} Node MCU identifica acidente (0,5s)
+    \begin{itemize}
+        \item Critério: $|\vec{a}| > 3,5g$ OU inclinação > 65°
+    \end{itemize}
+    
+    \item[\textbf{T=0,5s}] \textbf{Despertar Placa Computacional:}
+    \begin{itemize}
+        \item Node MCU coloca GPIO em nível alto
+        \item MOSFET libera alimentação 5V para Placa Computacional
+        \item Placa Computacional inicia boot (6-8 segundos)
+    \end{itemize}
+    
+    \item[\textbf{T=1s}] \textbf{Notificação BLE:}
+    \begin{itemize}
+        \item Node MCU envia característica BLE ao smartphone
+        \item Dados: pico de $g$, lado do impacto, nível de bateria
+    \end{itemize}
+    
+    \item[\textbf{T=1,5s}] \textbf{Alerta no App:}
+    \begin{itemize}
+        \item App exibe notificação sonora/visual
+        \item Mensagem: "Acidente possivelmente detectado! Toque se você ESTÁ BEM."
+        \item Timer de 15 segundos para cancelamento
+    \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Fluxo de Ativação - Continuação}
+\begin{enumerate}
+    \item[\textbf{T=7s}] \textbf{Captura de Vídeo:}
+    \begin{itemize}
+        \item Placa Computacional salva buffer circular (8 segundos)
+        \item 5s anteriores + 3s posteriores ao acidente
+        \item Compressão H.264 para MP4 (~3,5 MB)
+    \end{itemize}
+    
+    \item[\textbf{T=16,5s}] \textbf{Timeout de Confirmação:}
+    \begin{itemize}
+        \item Usuário não cancelou = acidente real
+        \item App obtém localização GPS (CoreLocation)
+        \item Inicia processamento de imagem (YOLO + OCR)
+    \end{itemize}
+    
+    \item[\textbf{T=19,5s}] \textbf{Upload para Nuvem:}
+    \begin{itemize}
+        \item Placa Computacional envia vídeo para Supabase Storage
+        \item Tempo de upload: ~5 segundos em 4G
+        \item App envia dados do alerta via API REST
+    \end{itemize}
+    
+    \item[\textbf{T=24,5s}] \textbf{Trigger do Backend:}
+    \begin{itemize}
+        \item Supabase aciona função RPC
+        \item Bot Telegram formata mensagem
+    \end{itemize}
+    
+    \item[\textbf{T=28s}] \textbf{Notificação Final:}
+    \begin{itemize}
+        \item Guardião recebe alerta no Telegram
+        \item Mensagem com localização, hora, link do vídeo
+    \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Protocolo de Comunicação BLE}
+\begin{block}{Bluetooth Low Energy 5.0}
+\textbf{Características:}
+\begin{itemize}
+    \item Alcance: 8m sem obstáculos, 5m com jaqueta
+    \item Potência: -12 a +9 dBm
+    \item Sensibilidade: -94 dBm a 1 Mbps
+    \item Stack: NimBLE (42 KB RAM)
+\end{itemize}
+\end{block}
+
+\vspace{0.3cm}
+
+\textbf{Serviços GATT Implementados:}
+\begin{enumerate}
+    \item \textbf{Serviço de Telemetria}
+    \begin{itemize}
+        \item Característica: dados de aceleração, velocidade, eventos
+        \item Atualização: a cada 1 minuto
+    \end{itemize}
+    
+    \item \textbf{Serviço de Alerta}
+    \begin{itemize}
+        \item Característica: notificação de acidente
+        \item Dados: pico de $g$, lado do impacto, bateria
+        \item Modo: notificação push ao app
+    \end{itemize}
+    
+    \item \textbf{Serviço de Configuração}
+    \begin{itemize}
+        \item Ajuste de sensibilidade
+        \item Ativação/desativação de telemetria
+    \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Backend Supabase - Arquitetura}
+\begin{block}{Plataforma BaaS (Backend as a Service)}
+\textbf{Por que Supabase?}
+\begin{itemize}
+    \item Open-source (alternativa ao Firebase)
+    \item Hospedagem própria futura possível
+    \item API REST nativa + biblioteca Swift
+    \item Suporte a triggers e funções serverless
+\end{itemize}
+\end{block}
+
+\vspace{0.3cm}
+
+\textbf{Componentes Utilizados:}
+\begin{enumerate}
+    \item \textbf{Supabase Database}
+    \begin{itemize}
+        \item Tabela "events": registros de acidentes
+        \item Campos: device\_id, timestamp, location, video\_url, plate
+    \end{itemize}
+    
+    \item \textbf{Supabase Storage}
+    \begin{itemize}
+        \item Armazenamento de vídeos (bucket "videos")
+        \item Acesso via token de autenticação
+        \item Upload: ~5s para 3,5 MB em 4G
+    \end{itemize}
+    
+    \item \textbf{Database Triggers}
+    \begin{itemize}
+        \item Dispara função RPC ao inserir novo evento
+        \item Comunica bot Telegram via API
+    \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Bot Telegram - Integração}
+\begin{block}{Serviço de Notificação}
+\textbf{Implementação:}
+\begin{itemize}
+    \item Função serverless hospedada externamente
+    \item Inscrito em triggers do Supabase
+    \item Formata e envia mensagens via API do Telegram
+\end{itemize}
+\end{block}
+
+\vspace{0.3cm}
+
+\textbf{Fluxo de Pareamento:}
+\begin{enumerate}
+    \item Motorista gera código de pareamento no app
+    \item Guardião procura bot @Vindex no Telegram
+    \item Guardião informa código ao bot
+    \item Vínculo criado instantaneamente
+\end{enumerate}
+
+\vspace{0.3cm}
+
+\textbf{Mensagem de Alerta Contém:}
+\begin{itemize}
+    \item Texto padrão: "Alerta Vindex: possível acidente com [Nome] em [endereço], às [hora]"
+    \item Link do Google Maps com latitude/longitude
+    \item Link para vídeo no Supabase
+    \item Orientação: "Se não conseguir contato, ligue para emergência"
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Placa Computacional - Buffer Circular de Vídeo}
+\begin{block}{Implementação em Python}
+\textbf{Biblioteca:} Picamera2
+\end{block}
+
+\textbf{Funcionamento:}
+\begin{enumerate}
+    \item Câmera grava continuamente em baixa resolução
+    \item Frames armazenados em buffer circular na memória
+    \item Frames antigos descartados automaticamente
+    \item Ao receber sinal do Node MCU:
+    \begin{itemize}
+        \item Salva últimos 5 segundos do buffer
+        \item Continua gravando por mais 3 segundos
+        \item Total: 8 segundos de vídeo
+    \end{itemize}
+    \item Compressão H.264 usando GPU do Placa Computacional
+    \item Conversão para MP4 (tamanho final: ~3,5 MB)
+\end{enumerate}
+
+\vspace{0.3cm}
+
+\textbf{Otimizações:}
+\begin{itemize}
+    \item CPU reduzida para 700 MHz (economia de energia)
+    \item Serviços desnecessários desabilitados
+    \item Interface gráfica desligada
+    \item Tempo de boot: 6-8 segundos
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Visão Computacional - Pipeline YOLO + OCR}
+\begin{block}{Etapa 1: Detecção de Placa (YOLO)}
+\textbf{Modelo:} YOLOv3 incorporado via CoreML
+\begin{itemize}
+    \item Dataset de treinamento: ~4000 imagens de placas brasileiras
+    \item Tempo de treinamento: 18 horas
+    \item Tempo de inferência: ~0,6s por frame (iPhone 12)
+    \item Acurácia de detecção da região: 94\% (47/50 imagens)
+\end{itemize}
+\end{block}
+
+\vspace{0.3cm}
+
+\begin{block}{Etapa 2: Reconhecimento de Caracteres (OCR)}
+\textbf{Framework:} Apple Vision (nativo iOS)
+\begin{itemize}
+    \item Extrai texto da região detectada pelo YOLO
+    \item Tempo de processamento: ~0,6s por frame
+    \item Acurácia inicial: 85\%
+    \item Acurácia após correções: \textbf{94\%}
+    \begin{itemize}
+        \item Correções: troca de O/0, I/1, remoção de ruídos
+    \end{itemize}
+\end{itemize}
+\end{block}
+
+\vspace{0.3cm}
+
+\textbf{Tempo total de processamento:} ~1,2s por frame
 \end{frame}
 
 \begin{frame}{Fluxo de Alerta}
