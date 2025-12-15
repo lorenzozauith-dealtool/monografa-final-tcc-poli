@@ -3,13 +3,49 @@
 % Versão completa e profissional
 \documentclass[aspectratio=169]{beamer}
 
-% Tema e cores
-\usetheme{Madrid}
-\usecolortheme{default}
-\setbeamercolor{structure}{fg=blue!70!black}
-\setbeamercolor{title}{fg=blue!80!black}
+% Tema e cores - Design profissional
+\usetheme{CambridgeUS}
+\usecolortheme{dolphin}
+
+% Cores personalizadas Poli-USP
+\definecolor{poliblue}{RGB}{0,51,102}
+\definecolor{poligold}{RGB}{255,204,0}
+\definecolor{darkgray}{RGB}{64,64,64}
+
+\setbeamercolor{structure}{fg=poliblue}
+\setbeamercolor{title}{fg=poliblue,bg=white}
+\setbeamercolor{frametitle}{fg=white,bg=poliblue}
+\setbeamercolor{block title}{fg=white,bg=poliblue}
+\setbeamercolor{block body}{fg=black,bg=poliblue!10}
+\setbeamercolor{block title alerted}{fg=white,bg=red!75!black}
+\setbeamercolor{block body alerted}{fg=black,bg=red!10}
+\setbeamercolor{block title example}{fg=white,bg=green!50!black}
+\setbeamercolor{block body example}{fg=black,bg=green!10}
+
+% Remover símbolos de navegação
 \setbeamertemplate{navigation symbols}{}
-\setbeamertemplate{footline}[frame number]
+
+% Rodapé customizado
+\setbeamertemplate{footline}{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+% Tipografia melhorada
+\setbeamerfont{title}{size=\Large,series=\bfseries}
+\setbeamerfont{frametitle}{size=\large,series=\bfseries}
+\setbeamerfont{block title}{size=\normalsize,series=\bfseries}
 
 % Pacotes
 \usepackage[brazil]{babel}
@@ -21,11 +57,11 @@
 \usetikzlibrary{arrows,positioning}
 
 % Informações do documento
-\title[Vindex - Detecção de Acidentes]{Sistema de Detecção de Acidentes e Alerta Automático para Motociclistas}
-\subtitle{Projeto Vindex}
-\author[Lacerda, Zauith, Araújo]{Igor Teixeira Lacerda \\ Lorenzo Bighetti Zauith \\ Rodrigo Costa de Araújo}
-\institute[Poli-USP]{Escola Politécnica da Universidade de São Paulo \\ Departamento de Engenharia Elétrica}
-\date{Dezembro de 2025}
+\title[Vindex]{Sistema de Detecção de Acidentes e Alerta Automático para Motociclistas}
+\subtitle{\textbf{Projeto Vindex} \\ Trabalho de Conclusão de Curso}
+\author[Lacerda, Zauith, Araújo]{\textbf{Igor Teixeira Lacerda} \\ \textbf{Lorenzo Bighetti Zauith} \\ \textbf{Rodrigo Costa de Araújo}}
+\institute[Poli-USP]{Escola Politécnica da Universidade de São Paulo \\ Departamento de Engenharia Elétrica \\ Área: Eletrônica e Sistemas Computacionais}
+\date{\textbf{Dezembro de 2025} \\ \vspace{0.2cm} \small Orientador: Prof. Márcio Lobo Netto}
 
 \begin{document}
 
