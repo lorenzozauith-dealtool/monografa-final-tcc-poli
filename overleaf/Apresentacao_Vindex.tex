@@ -25,19 +25,18 @@
 % Remover símbolos de navegação
 \setbeamertemplate{navigation symbols}{}
 
-% Rodapé customizado
+% Rodapé customizado - ajustado para não sair da tela
 \setbeamertemplate{footline}{
   \leavevmode%
   \hbox{%
-  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
-    \usebeamerfont{author in head/foot}\insertshortauthor
+  \begin{beamercolorbox}[wd=.25\paperwidth,ht=2.25ex,dp=1ex,left]{author in head/foot}%
+    \hspace*{1ex}\usebeamerfont{author in head/foot}\tiny\insertshortauthor
   \end{beamercolorbox}%
-  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
-    \usebeamerfont{title in head/foot}\insertshorttitle
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\tiny\insertshorttitle
   \end{beamercolorbox}%
-  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
-    \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
-    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex}
+  \begin{beamercolorbox}[wd=.25\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\tiny\insertframenumber{}/\inserttotalframenumber\hspace*{1ex}
   \end{beamercolorbox}}%
   \vskip0pt%
 }
@@ -61,7 +60,7 @@
 \subtitle{\textbf{Projeto Vindex} \\ Trabalho de Conclusão de Curso}
 \author[Lacerda, Zauith, Araújo]{\textbf{Igor Teixeira Lacerda} \\ \textbf{Lorenzo Bighetti Zauith} \\ \textbf{Rodrigo Costa de Araújo}}
 \institute[Poli-USP]{Escola Politécnica da Universidade de São Paulo \\ Departamento de Engenharia Elétrica \\ Área: Eletrônica e Sistemas Computacionais}
-\date{\textbf{Dezembro de 2025} \\ \vspace{0.2cm} \small Orientador: Prof. Márcio Lobo Netto}
+\date{Dezembro de 2025}
 
 \begin{document}
 
