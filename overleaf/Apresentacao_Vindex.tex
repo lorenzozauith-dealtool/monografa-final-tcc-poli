@@ -1,0 +1,546 @@
+% Apresentação TCC - Projeto Vindex
+% Template Beamer para Escola Politécnica da USP
+\documentclass[aspectratio=169]{beamer}
+
+% Tema e cores
+\usetheme{Madrid}
+\usecolortheme{default}
+\setbeamercolor{structure}{fg=blue!70!black}
+\setbeamercolor{title}{fg=blue!80!black}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+
+% Pacotes
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{arrows,positioning}
+
+% Informações do documento
+\title[Vindex - Detecção de Acidentes]{Sistema de Detecção de Acidentes e Alerta Automático para Motociclistas}
+\subtitle{Projeto Vindex}
+\author[Lacerda, Zauith, Araújo]{Igor Teixeira Lacerda \\ Lorenzo Bighetti Zauith \\ Rodrigo Costa de Araújo}
+\institute[Poli-USP]{Escola Politécnica da Universidade de São Paulo \\ Departamento de Engenharia Elétrica}
+\date{Dezembro de 2025}
+
+\begin{document}
+
+% Slide 1: Título
+\begin{frame}
+\titlepage
+\end{frame}
+
+% Slide 2: Sumário
+\begin{frame}{Sumário}
+\tableofcontents
+\end{frame}
+
+% Seção 1: Introdução
+\section{Introdução}
+
+\begin{frame}{Contexto e Motivação}
+\begin{block}{Problema}
+\begin{itemize}
+    \item A cada 39 minutos, um motociclista morre no trânsito brasileiro
+    \item Taxa de mortalidade 30× maior que ocupantes de automóveis
+    \item Tempo de resposta crítico: \textbf{"hora de ouro"} (60 minutos)
+    \item 60\% mais chances de sobreviver se socorrido nos primeiros 30 minutos
+\end{itemize}
+\end{block}
+
+\begin{block}{Motivação}
+Reduzir o tempo entre o acidente e o atendimento à vítima através de \textbf{detecção automática} e \textbf{alerta imediato}.
+\end{block}
+\end{frame}
+
+\begin{frame}{Declaração do Problema}
+\begin{alertblock}{Questão Central}
+\textbf{Como detectar automaticamente um acidente envolvendo uma motocicleta e notificar, de forma confiável e imediata, os contatos de emergência ou serviços de resgate?}
+\end{alertblock}
+
+\vspace{0.5cm}
+
+\textbf{Subproblemas técnicos:}
+\begin{itemize}
+    \item Distinguir acidente real de eventos cotidianos (buracos, frenagens)
+    \item Garantir que o alerta chegue rapidamente mesmo em condições adversas
+    \item Fornecer informações adicionais para melhorar eficiência do socorro
+\end{itemize}
+\end{frame}
+
+% Seção 2: Objetivos
+\section{Objetivos}
+
+\begin{frame}{Objetivos do Projeto}
+\begin{block}{Objetivo Geral}
+Desenvolver um sistema embarcado de baixo custo para \textbf{detecção automática de acidentes motociclísticos} com alerta de emergência em tempo real.
+\end{block}
+
+\vspace{0.3cm}
+
+\begin{block}{Objetivos Específicos}
+\begin{enumerate}
+    \item \textbf{Detectar acidentes} usando sensores inerciais (acelerômetro + giroscópio)
+    \item \textbf{Transmitir alertas} via Bluetooth e internet para contatos de emergência
+    \item \textbf{Registrar evidências} visuais com câmera e visão computacional (YOLO + OCR)
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}{Requisitos Funcionais}
+\begin{table}
+\centering
+\small
+\begin{tabular}{cl}
+\toprule
+\textbf{RF} & \textbf{Descrição} \\
+\midrule
+RF-01 & Detecção de evento crítico (aceleração + rotação) \\
+RF-02 & Acionamento do módulo de captura \\
+RF-03 & Captura de imagens/vídeo (8 segundos) \\
+RF-04 & Transmissão ao smartphone via BLE \\
+RF-05 & Processamento no app (YOLO + OCR) \\
+RF-06 & Envio de alerta automático \\
+RF-07 & Interação com usuário (cancelamento) \\
+RF-08 & Registro de telemetria contínua \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}{Requisitos Não-Funcionais}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{Desempenho:}
+\begin{itemize}
+    \item Autonomia: 10 horas
+    \item Tempo de resposta: < 30 segundos
+    \item Sensibilidade: > 95\%
+    \item Especificidade: < 5\% falsos positivos
+\end{itemize}
+\end{column}
+
+\begin{column}{0.48\textwidth}
+\textbf{Qualidade:}
+\begin{itemize}
+    \item Robustez física (IP54)
+    \item Usabilidade intuitiva
+    \item Conectividade estável (BLE 5m)
+    \item Custo: R\$ 300-400
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+% Seção 3: Materiais e Métodos
+\section{Materiais e Métodos}
+
+\begin{frame}{Arquitetura do Sistema}
+\begin{block}{Três Camadas Principais}
+\begin{enumerate}
+    \item \textbf{Hardware Embarcado} (motocicleta)
+    \begin{itemize}
+        \item Node MCU: monitoramento contínuo, detecção de acidentes
+        \item Placa Computacional: captura de vídeo, upload para nuvem
+        \item Sensor BMI160: acelerômetro + giroscópio (IMU)
+        \item Câmera OV5647: 160° FOV, 720p
+    \end{itemize}
+    
+    \item \textbf{Aplicativo Móvel} (iOS)
+    \begin{itemize}
+        \item Conexão BLE contínua em background
+        \item Processamento de imagem (YOLO + OCR)
+        \item Envio de alertas ao backend
+    \end{itemize}
+    
+    \item \textbf{Serviços em Nuvem} (Supabase + Telegram)
+    \begin{itemize}
+        \item Armazenamento de vídeos
+        \item Bot Telegram para notificação do guardião
+    \end{itemize}
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}{Componentes de Hardware}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{Node MCU:}
+\begin{itemize}
+    \item RISC-V 32-bit, 160 MHz
+    \item BLE 5.0 integrado
+    \item Consumo: 5 µA (deep sleep)
+    \item Dimensões: 22,52 × 18 mm
+\end{itemize}
+
+\vspace{0.3cm}
+
+\textbf{Sensor BMI160:}
+\begin{itemize}
+    \item Acelerômetro: ±16g
+    \item Giroscópio: ±2000°/s
+    \item Taxa: 100 Hz
+\end{itemize}
+\end{column}
+
+\begin{column}{0.48\textwidth}
+\textbf{Placa Computacional:}
+\begin{itemize}
+    \item ARM Cortex-A53 1.0 GHz
+    \item 512 MB RAM
+    \item Wi-Fi + Bluetooth 4.2
+    \item Consumo: 200 mA (idle)
+\end{itemize}
+
+\vspace{0.3cm}
+
+\textbf{Câmera OV5647:}
+\begin{itemize}
+    \item 5 MP, 160° FOV
+    \item 720p @ 30 fps
+    \item Buffer circular de 8s
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Evolução do Projeto}
+\textbf{Processo iterativo com 5 fases:}
+
+\begin{enumerate}
+    \item \textbf{Fase I:} Tentativa de integração com Telegram nativo
+    \begin{itemize}
+        \item Fracasso: incompatibilidades iOS, restrições de privacidade
+    \end{itemize}
+    
+    \item \textbf{Fase II:} Solução via Bot Telegram + Supabase
+    \begin{itemize}
+        \item Sucesso: contornou restrições iOS
+    \end{itemize}
+    
+    \item \textbf{Fase III:} Tentativa com Node MCU-CAM
+    \begin{itemize}
+        \item Limitação: imagens estáticas insuficientes
+    \end{itemize}
+    
+    \item \textbf{Fase IV:} Experimentação com Node MCU-S3
+    \begin{itemize}
+        \item Limitação: memória insuficiente para vídeo de qualidade
+    \end{itemize}
+    
+    \item \textbf{Fase V:} Arquitetura final com upload para nuvem
+    \begin{itemize}
+        \item Solução: Placa Computacional + upload via Wi-Fi
+    \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Algoritmo de Detecção}
+\begin{block}{Critérios de Detecção}
+\textbf{Acidente detectado quando:}
+\begin{itemize}
+    \item Aceleração resultante $|\vec{a}| > 3,5g$ \textbf{OU}
+    \item Inclinação superior a 65° (variação angular abrupta)
+\end{itemize}
+\end{block}
+
+\vspace{0.3cm}
+
+\textbf{Fluxo de detecção:}
+\begin{enumerate}
+    \item Leitura contínua do sensor BMI160 a 100 Hz
+    \item Filtragem para separar gravidade de aceleração dinâmica
+    \item Verificação de critérios (aceleração + rotação)
+    \item Timer de confirmação (100 ms)
+    \item Protocolo de alerta ativado
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Fluxo de Alerta}
+\begin{enumerate}
+    \item \textbf{Detecção:} Node MCU detecta acidente (0,5s)
+    \item \textbf{Despertar:} Node MCU acorda Placa Computacional via GPIO
+    \item \textbf{Captura:} Placa Computacional salva vídeo de 8s (buffer circular)
+    \item \textbf{Notificação BLE:} Node MCU envia alerta ao smartphone
+    \item \textbf{Confirmação:} App exibe alerta sonoro/visual (15s para cancelar)
+    \item \textbf{Localização:} App obtém GPS atual
+    \item \textbf{Processamento:} YOLO detecta placa, OCR extrai caracteres
+    \item \textbf{Upload:} Vídeo enviado para Supabase (5s)
+    \item \textbf{Alerta:} Bot Telegram notifica guardião (4,5s)
+\end{enumerate}
+
+\vspace{0.3cm}
+\textbf{Tempo total médio: 28 segundos}
+\end{frame}
+
+\begin{frame}{Design do Case}
+\begin{block}{Características do Invólucro}
+\textbf{Projeto específico para o hardware:}
+\begin{itemize}
+    \item Ferramentas: TinkerCad + Inventor (AutoCAD)
+    \item Material: PLA (resistência, leveza, baixo custo)
+    \item Proteção: IP54 (poeira e respingos)
+    \item Vedação: anel de silicone nas junções
+\end{itemize}
+\end{block}
+
+\vspace{0.3cm}
+
+\textbf{Três furos estratégicos:}
+\begin{enumerate}
+    \item Região frontal: câmera
+    \item Lateral: botão de switch
+    \item Traseira: carregamento USB
+\end{enumerate}
+\end{frame}
+
+% Seção 4: Resultados
+\section{Resultados}
+
+\begin{frame}{Desempenho da Detecção}
+\begin{table}
+\centering
+\begin{tabular}{lc}
+\toprule
+\textbf{Métrica} & \textbf{Resultado} \\
+\midrule
+Cenários simulados & 10 acidentes \\
+Detecções corretas & 9 de 10 (90\%) \\
+Falsos positivos & 0 de 12h pilotagem (0\%) \\
+Sensibilidade & \textbf{90\%} \\
+Especificidade & \textbf{100\%} \\
+\midrule
+Tempo de resposta médio & \textbf{28 segundos} \\
+Autonomia & \textbf{10 horas} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.3cm}
+\textbf{Conclusão:} Sistema atende requisitos RNF-03 e RNF-04
+\end{frame}
+
+\begin{frame}{Tempo de Resposta Detalhado}
+\begin{table}
+\centering
+\begin{tabular}{lc}
+\toprule
+\textbf{Etapa} & \textbf{Tempo (s)} \\
+\midrule
+Detecção do acidente (Node MCU) & 0,5 \\
+Confirmação (usuário ou timeout) & 15,0 \\
+Processamento e envio no app & 3,0 \\
+Transmissão na nuvem (trigger + bot) & 5,0 \\
+Notificação no Telegram & 4,5 \\
+\midrule
+\textbf{Tempo total} & \textbf{28,0} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.3cm}
+\textbf{Meta RNF-04:} < 30 segundos ✓
+\end{frame}
+
+\begin{frame}{Qualidade das Evidências Visuais}
+\begin{block}{Imagens/Fotos (BLE)}
+\begin{itemize}
+    \item Resolução: 640×480 (< 50 kB)
+    \item Qualidade: suficiente para identificar veículos/cenário
+    \item Limitação: 2 casos noturnos com imagem escura (corrigido via software)
+\end{itemize}
+\end{block}
+
+\begin{block}{Vídeos (720p, 8s)}
+\begin{itemize}
+    \item Revelam dinâmica exata da queda e objetos ao redor
+    \item Tamanho: ~3,5 MB
+    \item Upload: 5 segundos em 4G
+\end{itemize}
+\end{block}
+
+\begin{block}{Detecção de Placa (YOLO + OCR)}
+\begin{itemize}
+    \item Acurácia: \textbf{95\%} em condições favoráveis
+    \item 50 imagens testadas: 47 placas identificadas corretamente
+    \item OCR: 94\% de acerto após correções (O/0, I/1)
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Testes Realizados}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{Testes de Detecção:}
+\begin{itemize}
+    \item Quedas bruscas: 5/5 detectadas
+    \item Buracos (20 km/h): 0 falsos alarmes
+    \item Frenagens (40 km/h): 0 falsos alarmes
+    \item Colisões (15 km/h): 4/5 detectadas
+\end{itemize}
+\end{column}
+
+\begin{column}{0.48\textwidth}
+\textbf{Testes de Comunicação:}
+\begin{itemize}
+    \item Alcance BLE: 8m (sem obstáculos)
+    \item Alcance BLE: 5m (com jaqueta)
+    \item Reconexão: 3s após perda
+    \item Upload vídeo: 5s (3,5 MB em 4G)
+\end{itemize}
+\end{column}
+\end{columns}
+
+\vspace{0.5cm}
+\begin{alertblock}{Resultado}
+\textbf{90\% de sensibilidade} e \textbf{100\% de especificidade} nos testes realizados
+\end{alertblock}
+\end{frame}
+
+% Seção 5: Conclusão
+\section{Conclusão}
+
+\begin{frame}{Contribuições Principais}
+\begin{enumerate}
+    \item Sistema de detecção combinando \textbf{aceleração (3,5g) + inclinação (65°)}
+    \begin{itemize}
+        \item Identifica colisões frontais e tombamentos laterais
+    \end{itemize}
+    
+    \item Arquitetura híbrida \textbf{Node MCU + Placa Computacional}
+    \begin{itemize}
+        \item Otimiza autonomia energética (10 horas)
+    \end{itemize}
+    
+    \item Visão computacional \textbf{YOLO + OCR} para identificação de placas
+    \begin{itemize}
+        \item Funcionalidade ausente em sistemas comerciais de baixo custo
+    \end{itemize}
+    
+    \item Validação em testes controlados
+    \begin{itemize}
+        \item 90\% detecção, 0\% falsos alarmes, 28s resposta
+    \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Limitações Identificadas}
+\begin{itemize}
+    \item \textbf{Transferência de vídeo:} requer cobertura de rede (pode falhar em áreas remotas)
+    
+    \item \textbf{Resolução de imagens BLE:} limitada a 640×480 (qualidade reduzida para análise forense)
+    
+    \item \textbf{Algoritmo de limiares fixos:} pode não capturar acidentes de baixa energia cinética
+    
+    \item \textbf{Dependência de smartphone:} ponto de falha se celular descarregado ou fora de alcance BLE
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Trabalhos Futuros}
+\begin{enumerate}
+    \item \textbf{Aprendizado de máquina embarcado}
+    \begin{itemize}
+        \item Detecção mais robusta, adaptação a estilos de pilotagem
+    \end{itemize}
+    
+    \item \textbf{Miniaturização em PCB dedicada}
+    \begin{itemize}
+        \item Redução de tamanho e consumo
+    \end{itemize}
+    
+    \item \textbf{Node MCU-S3 com aceleração de IA}
+    \begin{itemize}
+        \item Eliminar dependência da Placa Computacional
+    \end{itemize}
+    
+    \item \textbf{Versão Android do aplicativo}
+    \begin{itemize}
+        \item Ampliar base de usuários
+    \end{itemize}
+    
+    \item \textbf{Integração direta com SAMU/Bombeiros}
+    \begin{itemize}
+        \item Aumentar eficácia do socorro
+    \end{itemize}
+    
+    \item \textbf{Testes em larga escala}
+    \begin{itemize}
+        \item Coletar dados reais, refinar calibragem
+    \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Impacto Social}
+\begin{block}{Potencial de Salvar Vidas}
+\begin{itemize}
+    \item Redução significativa do tempo pré-hospitalar
+    \item Dispositivo pode cortar \textbf{dezenas de minutos} do tempo de resposta
+    \item Aumento substancial das chances de sobrevivência
+\end{itemize}
+\end{block}
+
+\vspace{0.3cm}
+
+\begin{block}{Benefícios Adicionais}
+\begin{itemize}
+    \item Registro de dados do acidente para análise
+    \item Cultura de responsabilização e aprendizado
+    \item Estatísticas mais precisas para autoridades
+    \item Evidências para processos de seguros
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Conclusão Final}
+\begin{block}{Viabilidade Técnica Demonstrada}
+Este trabalho demonstrou a viabilidade técnica de um \textbf{dispositivo acessível} (R\$ 300-400) para detecção automática de acidentes motociclísticos.
+\end{block}
+
+\vspace{0.5cm}
+
+\begin{alertblock}{Resultados Alcançados}
+\begin{itemize}
+    \item $\checkmark$ Detecção: 90\% de sensibilidade, 0\% falsos alarmes
+    \item $\checkmark$ Tempo de resposta: 28 segundos (meta: < 30s)
+    \item $\checkmark$ Autonomia: 10 horas
+    \item $\checkmark$ Visão computacional: 95\% acurácia OCR
+    \item $\checkmark$ Custo acessível: R\$ 300-400
+\end{itemize}
+\end{alertblock}
+
+\vspace{0.3cm}
+\textbf{Solução viável tecnicamente e pode contribuir para redução da mortalidade de motociclistas no trânsito brasileiro.}
+\end{frame}
+
+% Slide final: Perguntas
+\begin{frame}[plain]
+\begin{center}
+\Huge{\textbf{Obrigado!}}
+
+\vspace{1cm}
+
+\Large{Perguntas?}
+
+\vspace{1cm}
+
+\normalsize
+\textbf{Projeto Vindex}\\
+Sistema de Detecção de Acidentes e Alerta Automático para Motociclistas
+
+\vspace{0.5cm}
+
+Igor Teixeira Lacerda\\
+Lorenzo Bighetti Zauith\\
+Rodrigo Costa de Araújo
+
+\vspace{0.5cm}
+
+Escola Politécnica da USP\\
+Dezembro de 2025
+\end{center}
+\end{frame}
+
+\end{document}
