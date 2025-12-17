@@ -314,6 +314,8 @@ acidentes para análises estatísticas e apuração de causas; um sistema
 embarcado pode registrar dados do momento do acidente, atendendo também
 a essa necessidade secundária.
 
+Um agravante adicional é o problema da fuga do local do acidente. Segundo o Programa Respeito à Vida do Detran-SP, que realizou em 2020 o único levantamento público abrangente sobre o tema no estado de São Paulo, foram registrados 4.152 acidentes com fuga de janeiro a setembro de 2020, resultando em 331 vítimas fatais ou com ferimentos graves \cite{folhasp2020}. Os dados revelam que motociclistas representam 32\% das vítimas em casos de fuga, com taxa de mortalidade triplicada quando há fuga: 1 morte a cada 12,5 acidentes com fuga, comparado a 1 morte a cada 34,2 acidentes sem fuga. Em vias urbanas, a proporção é de 1 morte a cada 18,9 acidentes com fuga versus 1 a cada 57,8 sem fuga; nas rodovias, 3,6 acidentes com fuga para cada morte versus 12,3 sem fuga. Esses números evidenciam que a identificação automática de veículos envolvidos, por meio de visão computacional e reconhecimento de placas, torna-se não apenas um recurso complementar, mas uma funcionalidade essencial para aumentar as chances de responsabilização e justiça em casos de fuga, além de fornecer evidências cruciais para investigações e processos judiciais.
+
 Em suma, a necessidade abrange múltiplos públicos: para motociclistas e familiares, representa a garantia de socorro rápido em caso de acidente, mesmo quando o condutor estiver incapacitado de pedir ajuda; para autoridades e serviços médicos, significa o recebimento de alerta geolocalizado que permite otimizar o tempo-resposta; e para seguradoras e pesquisadores, constitui o registro de informações do acidente, incluindo dinâmica e imagens, que auxilia em processos de indenização e estudos de segurança viária.
 
 \section{Requisitos de Marketing} Antes de partir para os requisitos
@@ -810,7 +812,7 @@ Pi. Essa estratégia, implementada no protótipo final de forma
 simplificada (o Pi era ligado junto com todo o sistema, mas em futuras
 versões seria ligado sob demanda), garante que o consumo elevado da
 Placa Computacional não interfira na autonomia exceto nos momentos críticos. \item
-Sistema minimizado: No Placa Computacional OS removemos serviços
+Sistema minimizado: No sistema operacional da Placa Computacional removemos serviços
 desnecessários, desabilitamos interface gráfica e até desligamos saídas
 de status (como LED e HDMI) para reduzir consumo e acelerar a
 inicialização. Com isso, o tempo de boot do Pi desde o acionamento até
@@ -1385,6 +1387,8 @@ BMI160 – Application notes and calibration guide. Bosch Sensortec, 2016.
 \bibitem{abramet2025} ASSOCIAÇÃO BRASILEIRA DE MEDICINA DO TRÁFEGO (ABRAMET); ASSOCIAÇÃO BRASILEIRA DE MEDICINA DE EMERGÊNCIA (ABRAMEDE). Brasil registra uma vítima de trânsito nas emergências do SUS a cada dois minutos. Boletim técnico, 2025.
 
 \bibitem{agenciabrasil2025} AGÊNCIA BRASIL. Frota de motos cresce 42\% em dez anos e mortes aumentam. Agência Brasil, ago. 2025. Disponível em: \url{https://agenciabrasil.ebc.com.br}.
+
+\bibitem{folhasp2020} FOLHA DE S.PAULO. Fuga de motorista do local do acidente triplíca chance de morte da vítima. Levantamento Detran-SP/Respeito à Vida. Folha de S.Paulo, Cotidiano, 11 nov. 2020. Disponível em: \url{https://www1.folha.uol.com.br/cotidiano/2020/11/}.
 
 \bibitem{eceuropeia2018} EUROPEAN COMMISSION. The interoperable EU-wide eCall. Documentos institucionais sobre o serviço eCall 112, 2018. Disponível em: \url{https://ec.europa.eu/transport/themes/its/road/action_plan/ecall_en}.
 
