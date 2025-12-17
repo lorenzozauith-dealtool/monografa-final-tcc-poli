@@ -586,57 +586,11 @@ de 50 kB que demorava vários segundos, indicando que compressão ou resolução
 menor seriam importantes. Também constatamos a necessidade de um
 \textit{backend} para envio das notificações, dada a dificuldade de o
 app iOS disparar mensagens por conta própria devido a problemas com
-bibliotecas do Telegram. Essas lições foram incorporadas na etapa
-seguinte de desenvolvimento do protótipo completo.
+bibliotecas do Telegram. Essas lições foram incorporadas no desenvolvimento do protótipo final.
 
-\section{Evolução do Projeto e Decisões de Arquitetura} \label{sec:evolucao}
+\section{Arquitetura Geral do Sistema} \label{sec:arquitetura}
 
-O desenvolvimento do Projeto Vindex seguiu um processo iterativo com múltiplas fases de prototipagem, cada qual revelando limitações técnicas que motivaram mudanças significativas na arquitetura. A documentação transparente dessas fases é fundamental para justificar as decisões finais de projeto, demonstrando que a solução adotada não foi arbitrária, mas sim resultado de experimentação sistemática e aprendizado com falhas. Conforme destacam Gelmini, Panzani e Savaresi \cite{gelmini2019}, o desenvolvimento de sistemas de eCall para motocicletas apresenta desafios específicos que exigem abordagens adaptativas.
-
-\subsection{Fase I: Tentativa de Integração com Telegram Nativo}
-
-O trabalho iniciou-se em agosto com a tentativa de integrar a biblioteca TDLib (Telegram Database Library) ao ambiente Xcode para desenvolvimento iOS. O objetivo era permitir que o aplicativo Vindex enviasse mensagens de alerta diretamente através do Telegram, sem intermediários. Contudo, essa abordagem revelou-se um fracasso técnico significativo.
-
-A biblioteca TDLib apresentou inúmeras incompatibilidades com o ambiente de desenvolvimento Xcode, incluindo problemas de compilação, conflitos de dependências e erros persistentes de linkagem. Após aproximadamente três semanas de tentativas, incluindo consultas a fóruns especializados como o StackOverflow, a integração não foi possível. A razão fundamental reside nas diretrizes de privacidade dos sistemas operacionais móveis: tanto iOS quanto Android proíbem o envio automático de mensagens por aplicativos de terceiros através de serviços como Telegram, WhatsApp ou SMS, sem intervenção explícita do usuário. Uma solução alternativa seria incorporar o próprio Telegram como módulo dentro do aplicativo Vindex, mas essa abordagem foi abandonada devido à sua complexidade e aos erros persistentes.
-
-\subsection{Fase II: Solução via Bot do Telegram e Banco de Dados}
-
-Diante do fracasso da Fase I, desenvolveu-se uma solução alternativa baseada em um bot do Telegram denominado ``Alertas Vindex''. O sistema foi projetado para ser o mais simples possível do ponto de vista do usuário final: o motorista gera um código de pareamento no aplicativo; o contato guardião procura o bot @Vindex no Telegram e informa esse código; instantaneamente, o Telegram fica vinculado como contato de emergência.
-
-Essa arquitetura utiliza o banco de dados Supabase como intermediário. Quando o aplicativo detecta um acidente, ele notifica o backend no Supabase, que por sua vez aciona o bot para enviar o alerta ao guardião. Essa solução contornou elegantemente as restrições do iOS quanto a notificações push em aplicativos em desenvolvimento, que exigiriam uma conta de desenvolvedor paga de 99 dólares anuais com processo burocrático complexo para ativação em moeda brasileira.
-
-\subsection{Fase III: Problemas de Comunicação Bluetooth com iOS}
-
-A fase seguinte, em outubro, concentrou-se na comunicação entre o hardware embarcado e o aplicativo móvel, revelando problemas críticos com o Placa Computacional e o protocolo Bluetooth. Mesmo operando em modo headless (sem interface gráfica), o Placa Computacional apresentou limitações severas na comunicação via Bluetooth Low Energy (BLE).
-
-O primeiro problema identificado foi o tempo de inicialização: o RPi levava aproximadamente 15 segundos para ser ``acordado'' pelo nodeMCU (Node MCU) em simulações de acidente. Em um contexto real, veículos envolvidos já estariam a muitos metros de distância nesse intervalo. Tentativas de refinamento de software não conseguiram reduzir significativamente esse tempo de boot.
-
-O segundo problema, mais grave, relacionava-se à instabilidade da conexão Bluetooth do Placa Computacional. Após múltiplas tentativas com diferentes bibliotecas Python, incluindo \textit{bleak}, \textit{blueZ} e \textit{bless}, nenhuma delas conseguiu manter uma conexão ativa com o aplicativo iOS em segundo plano. Esse problema é amplamente documentado na comunidade de desenvolvimento iOS: o CoreBluetooth impõe restrições significativas quando o aplicativo está em background e o dispositivo bloqueado, não invocando callbacks para dispositivos não pareados ou sem CBUUIDs específicos configurados. Ao minimizar o aplicativo, a conexão entre hardware e software era instantaneamente eliminada, impossibilitando o envio de evidências quando o smartphone estivesse com a tela bloqueada. Conforme documentado pela Apple, o \textit{CBCentralManagerScanOptionAllowDuplicatesKey} é ignorado em background, coalescendo múltiplas descobertas em um único evento. Esse comportamento não ocorria com o nodeMCU Node MCU, que mantinha o monitoramento constante mesmo com o aplicativo em segundo plano devido ao seu suporte nativo mais robusto para BLE 5.0 e implementação de GATT server otimizada.
-
-\subsection{Fase IV: Experimentação com Node MCU-CAM e Node MCU-S3}
-
-Com o treinamento da rede neural YOLO concluído (utilizando um dataset de aproximadamente 4.000 imagens de placas padrão MERCOSUL e modelo antigo, com data augmentation para diversos ângulos e condições), partiu-se para testes alternativos de hardware. Inicialmente, o Node MCU-CAM apresentou resultados promissores: conexão estável, funcionamento em segundo plano e envio rápido de imagens para o aplicativo, onde o processamento com YOLO, OpenCV e OCR era executado.
-
-Entretanto, constatou-se que imagens estáticas, mesmo em modo burst, não capturavam adequadamente o contexto dinâmico de um acidente. Se o dispositivo fosse utilizado em movimento, mesmo a sequência de fotos não forneceria imagens adequadas para análise devido ao blur causado pela velocidade do veículo.
-
-Consequentemente, cogitou-se a troca para o Node MCU-S3 com câmera OV5647 de 5MP, visando implementar um buffer circular de vídeo de aproximadamente 5 segundos. A ideia era captar o acidente antes, durante e após o evento. Contudo, as limitações de memória do Node MCU-S3 (8 MB de PSRAM total) impediram essa abordagem: com qualidade mínima aceitável para OCR (640x480), era possível armazenar apenas 5 segundos de vídeo a 2 frames por segundo, resultando em qualidade insuficiente para reconhecimento de placas. Formatos alternativos como RAW, RGB565 e YUV422 foram testados sem sucesso, uma vez que o Node MCU-S3 não possui poder computacional para executar um encoder de vídeo.
-
-\subsection{Fase V: Arquitetura Final com Upload para Nuvem}
-
-A partir das lições aprendidas, ficou claro que seria necessário retornar ao Placa Computacional como único hardware capaz de gravar vídeo em buffer circular com qualidade suficiente para processamento OCR. O RPi opera com encoder H.264 nativo e tem capacidade de converter para MP4, gerando arquivos compactos adequados para análise rápida.
-
-Devido às limitações de transferência via Bluetooth do RPi (velocidade máxima de aproximadamente 45 KB/s via BLE, com frequentes perdas de pacotes, corrupção de dados e travamentos), e à impossibilidade de usar modo dual-mode (BLE + Bluetooth Clássico) devido às restrições MFi (Made for iPhone) da Apple, foi necessário repensar completamente o fluxo de dados.
-
-A solução adotada utiliza o Supabase não apenas para alertas, mas também para armazenamento de evidências em vídeo. O fluxo final funciona da seguinte forma: o Node MCU monitora continuamente o acelerômetro e giroscópio; ao detectar um acidente, com um delay de 6 segundos, sinaliza ao RPi para salvar os últimos 8 segundos do buffer circular; o RPi converte o vídeo para MP4 e faz upload para a nuvem; ao concluir o upload, o RPi notifica o Node MCU, que informa ao aplicativo que o vídeo está disponível. O usuário então pode baixar o vídeo da nuvem e o processamento de visão computacional inicia automaticamente.
-
-Esse fluxo completo leva aproximadamente 2 minutos ou menos. O vídeo comprimido é enviado em qualidade 720x30, com tamanho aproximado de 3,5 MB, irrisório para conexões de internet modernas e suficiente para que o OCR reconheça placas de veículos com precisão aceitável.
-
-\subsection{Funcionalidade de Telemetria}
-
-Além da detecção de acidentes, o sistema implementa funcionalidade de telemetria para monitoramento contínuo do comportamento do condutor. Conforme demonstrado por Mantouka \textit{et al.} \cite{mantouka2020}, sensores de smartphones são uma plataforma madura para coleta de dados telemétricos, com aplicações em segurança viária e seguros baseados em uso. A telemetria do Vindex coleta dados de aceleração, frenagem e velocidade, gerando um score de qualidade de pilotagem que pode ser útil para empregadores de motociclistas ou companhias de seguros. Esses dados são armazenados de forma que não podem ser apagados pelo usuário, garantindo integridade para análises posteriores. O aplicativo exibe estatísticas por viagem, incluindo um heatmap do trajeto indicando trechos onde a velocidade excedeu os limites urbanos.
-
-\section{Arquitetura Geral do Sistema} \label{sec:arquitetura} Com a
-prova de conceito validada e as lições das fases evolutivas incorporadas, partimos para projetar a arquitetura
+Com a prova de conceito validada, partimos para projetar a arquitetura
 integrada do sistema Vindex. A arquitetura pode ser entendida em três camadas principais:
 hardware embarcado na motocicleta, aplicativo móvel do
 usuário e serviços em nuvem de suporte.
