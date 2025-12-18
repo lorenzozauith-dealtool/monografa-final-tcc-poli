@@ -1145,10 +1145,10 @@ ocorreu em cerca de 15 eventos testados; o pico de aceleração registrado
 nesses casos raramente excedeu 2,5$g$, abaixo do limiar de detecção. \item
 Frenagens de emergência: Simulamos frenagens secas a 40 km/h em
 pista fechada. Os picos de desaceleração chegaram a 3,0$g$, mas como não
-houve variação angular significativa, o sistema interpretou como evento
-não-acidente (o algoritmo requer aceleração alta + queda subsequente ou
-inclinação abrupta). Isso é desejável para evitar falsos positivos em
-frenagens fortes sem queda. \item Colisão simulada: Amarramos o
+houve variação angular significativa (inclinação permaneceu abaixo de
+65°), o sistema interpretou como evento não-acidente. O algoritmo detecta
+apenas quedas (inclinação > 65°), não frenagens ou colisões sem queda.
+Isso é desejável para evitar falsos positivos em frenagens fortes sem queda. \item Colisão simulada: Amarramos o
 protótipo a um carrinho com roda e o lançamos contra um anteparo para
 simular um impacto a 15 km/h. O sistema detectou e acionou alerta em 4 de 5
 casos (em alguns, a desaceleração foi breve demais para acionar;
@@ -1173,7 +1173,7 @@ pós-processamento. Após aplicarmos nossas correções de formato (troca de
 O/0, I/1 e remoção de ruídos), a acurácia subiu para 94\%. Ou seja, o
 sistema consegue extrair placas legíveis na maioria dos casos, o que
 pode ser útil para identificação de terceiros envolvidos. \item Em
-vídeos completos de teste (cada um ~8 s, com 200 frames), o sistema não
+vídeos completos de teste (cada um ~12 s, com 300 frames), o sistema não
 processa tudo em tempo real (nem seria necessário). Nossa abordagem de
 selecionar 1 frame logo após o impacto e 1 frame 2 segundos depois
 mostrou-se suficiente para obter pelo menos uma imagem com a placa
@@ -1239,10 +1239,9 @@ elevar a sensibilidade a 95--100\%. \item Especificidade (evitar falsos positivo
 buracos, lombadas e frenagens fortes, não houve nenhum alerta falso.
 Isso indica especificidade de 100\% nos cenários testados, ou
 seja, o algoritmo foi conservador o bastante para não disparar sem
-necessidade. Um ponto de atenção é que configuramos a lógica com dupla
-confirmação (pico de $g$ e mudança de ângulo); se fosse apenas pico,
-poderíamos ter tido falsos alarmes em frenagens. Portanto, a estratégia
-mista se justificou. \item Confiabilidade do Alerta (RF-06/RF-07): Em todos os acidentes detectados, o alerta chegou ao
+necessidade. O critério de inclinação superior a 65° evita falsos
+alarmes em frenagens, pois frenagens não causam variação angular
+significativa. Portanto, o foco exclusivo em quedas se justificou. \item Confiabilidade do Alerta (RF-06/RF-07): Em todos os acidentes detectados, o alerta chegou ao
 menos a um contato de emergência. O tempo médio de notificação foi de
 28 segundos, com desvio padrão de 5 s entre os testes. Esses valores
 cumprem a meta RNF-04 (< 30 s). Em 7 dos 10 casos, o piloto-teste não
@@ -1250,12 +1249,11 @@ cancelou o alerta (simulando estar incapacitado), e a notificação foi
 enviada. Nos outros 3 casos, ele cancelou e de fato nenhuma mensagem foi
 disparada externamente, validando a funcionalidade de confirmação pelo
 usuário. \item Cobertura de Cenários: A detecção cobriu tanto
-colisões frontais quanto tombamentos laterais. Observamos que o
-\textit{algoritmo adaptativo} se mostrou importante: inicialmente,
-usávamos somente aceleração resultante > limiar, mas notamos que em
-tombamentos sem grande impacto (e.g., moto derrapando e deitando) a
-aceleração podia ser baixa porém a rotação alta – esses casos seriam
-perdidos sem o critério do giroscópio. \end{itemize}
+tombamentos laterais quanto quedas frontais e traseiras. O critério de
+inclinação superior a 65° mostrou-se eficaz para detectar diferentes
+tipos de quedas, independentemente da intensidade do impacto. Mesmo em
+tombamentos sem grande impacto (e.g., moto derrapando e deitando), a
+variação angular foi suficiente para acionar o alerta. \end{itemize}
 
 Em suma, o sistema atendeu RNF-03 ao apresentar >95\% de detecções (nos
 testes mais agressivos) e 0\% de falsos positivos, dentro da amostra
@@ -1302,7 +1300,7 @@ houve acidente e onde.
 capturadas (RF-03 e RF-05): \begin{itemize} \item As imagens/fotos transmitidas via~BLE tinham resolução de~640x480 para caber em~<50~kB.
 Mesmo assim, mostravam nitidamente pelo menos um veículo ou cenário do
 acidente. Em 2 casos noturnos, a imagem saiu escura; corrigimos
-aumentando brilho via software antes do envio. \item Os vídeos armazenados (720p 8s) revelaram detalhes importantes nas simulações,
+aumentando brilho via software antes do envio. \item Os vídeos armazenados (720p 12s) revelaram detalhes importantes nas simulações,
 como a dinâmica exata da queda e objetos ao redor. Esse registro pode
 ser útil para análise posterior ou comprovação de dinâmica para
 seguradoras. \item A detecção de placa funcionou bem quando a
@@ -1355,7 +1353,7 @@ e quais aprimoramentos podem ser explorados em trabalhos futuros.
 
 Este trabalho apresentou o desenvolvimento de um sistema embarcado de detecção automática de acidentes motociclísticos com alerta de emergência, denominado Projeto Vindex. Através da integração de sensores inerciais, comunicação sem fio e visão computacional, foi possível criar um protótipo funcional capaz de reconhecer acidentes e notificar contatos de forma autônoma.
 
-Contribuições principais: Desenvolvemos um sistema de detecção de acidentes que combina critérios de aceleração superior a 3,5 $g$ e inclinação superior a 65°, permitindo identificar tanto colisões frontais quanto tombamentos laterais. Implementamos arquitetura híbrida com Node MCU para monitoramento contínuo de baixo consumo e Placa Computacional para captura de vídeo sob demanda, otimizando autonomia energética. Integramos visão computacional com YOLO e OCR para identificação automática de placas de veículos envolvidos, funcionalidade ausente em sistemas comerciais de baixo custo. Validamos o sistema em testes controlados, atingindo 90\% de detecção de acidentes reais e 0\% de falsos alarmes, com tempo de resposta de 28 segundos e autonomia de 10 horas.
+Contribuições principais: Desenvolvemos um sistema de detecção de acidentes focado em quedas, utilizando critério de inclinação superior a 65° para identificar tombamentos laterais, quedas frontais e traseiras. Implementamos arquitetura híbrida com Node MCU para monitoramento contínuo de baixo consumo e Placa Computacional para captura de vídeo sob demanda, otimizando autonomia energética. Integramos visão computacional com YOLO e OCR para identificação automática de placas de veículos envolvidos, funcionalidade ausente em sistemas comerciais de baixo custo. Validamos o sistema em testes controlados, atingindo 90\% de detecção de acidentes reais e 0\% de falsos alarmes, com tempo de resposta de 28 segundos e autonomia de 10 horas.
 
 Limitações identificadas: O protótipo atual apresenta limitações que devem ser consideradas. A transferência de vídeo via Wi-Fi do Placa Computacional requer cobertura de rede, podendo falhar em áreas remotas. A resolução das imagens transmitidas via BLE foi limitada a 640x480 para viabilizar transferência rápida, reduzindo a qualidade para análise forense. O algoritmo de detecção baseado em limiares fixos pode não capturar acidentes de baixa energia cinética, como quedas em baixa velocidade. A dependência de smartphone do usuário para envio de alertas introduz ponto de falha caso o celular esteja descarregado ou fora de alcance BLE.
 
