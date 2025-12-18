@@ -599,32 +599,37 @@ No hardware embarcado, o sensor
 inercial BMI160 monitora continuamente os movimentos da motocicleta,
 conectado via interface I2C ao microcontrolador Node MCU. Este
 microcontrolador fica em modo de baixo consumo, lendo os dados do sensor
-e executando o algoritmo de detecção de acidentes localmente. Caso
-detecte um evento crítico, ele envia um pulso elétrico em um pino GPIO
-para acordar o Placa Computacional (que permanece em \textit{standby}
-para poupar energia). Em seguida, o Node MCU inicia a comunicação
-Bluetooth com o smartphone do usuário.
+e executando o algoritmo de detecção de acidentes localmente. O sistema
+utiliza um critério focado em quedas: detecta acidentes quando a inclinação
+supera 65 graus em qualquer direção, indicando que a motocicleta tombou.
+Caso detecte um evento crítico, o Node MCU executa duas ações simultâneas:
+envia notificação imediata via Bluetooth ao smartphone e, após um delay
+intencional de 6 segundos, sinaliza à Placa Computacional para salvar o
+vídeo do buffer circular.
 
-O módulo Placa Computacional (centro) atua quando despertado,
-controlando a câmera e gerenciando registros de vídeo/imagem. Uma vez
-acordado, o RPi salva os instantes relevantes: no protótipo, optou-se
-por gravar aproximadamente 8 segundos de vídeo (os 5 segundos anteriores
-e 3 segundos posteriores ao acidente, graças a um \textit{buffer}
-circular mantido em memória). A Placa Computacional então comprime o vídeo e
-inicia seu upload para um serviço em nuvem (quando possível). Em
-paralelo, pode capturar uma foto estática para envio rápido via BLE ao
-app.
+O módulo Placa Computacional atua quando acionado pelo Node MCU,
+controlando a câmera e gerenciando registros de vídeo. A Placa Computacional
+grava continuamente em um buffer circular, descartando frames antigos.
+Quando recebe o sinal do Node MCU (após o delay de 6 segundos), salva
+os últimos 12 segundos de vídeo: aproximadamente 6 segundos anteriores
+à queda e 6 segundos posteriores. Esse delay intencional é crucial para
+capturar o contexto completo do acidente, incluindo a causa (veículo
+fechando, buraco) e as consequências (motociclista no chão). A Placa Computacional
+então comprime o vídeo em formato MP4 usando codec H.264 (3,8-4 MB) e
+inicia o upload para o Supabase via conexão Wi-Fi com o hotspot do
+smartphone do usuário.
 
-No smartphone do usuário (parte direita), um aplicativo iOS
-dedicado permanece em segundo plano conectado ao dispositivo via BLE. Ao
-receber do Node MCU o sinal de que um acidente foi detectado, o app
-imediatamente busca obter a localização GPS atual e apresenta ao usuário
-um alerta sonoro/visual, conforme RF-07. Se o usuário não cancelar
-dentro do tempo estipulado (p.ex., 15 segundos), o app prossegue para
-notificar os contatos de emergência. Para tal, ele compila uma mensagem
-contendo as informações do acidente (coordenadas, hora, possivelmente a
-foto com destaque da placa detectada) e envia a um serviço
-\textit{backend} na nuvem.
+No smartphone do usuário, um aplicativo iOS
+dedicado permanece em segundo plano conectado ao dispositivo via BLE. O
+aplicativo mantém duas conexões simultâneas: Bluetooth com o Node MCU
+para comandos e alertas, e Wi-Fi hotspot compartilhado com a Placa Computacional
+para upload de vídeos. Ao receber do Node MCU o sinal de que um acidente
+foi detectado, o app imediatamente envia alerta para o Supabase, que
+dispara notificação instantânea no Telegram para o guardião. Em paralelo,
+o app apresenta ao usuário um alerta sonoro/visual, conforme RF-07.
+Se o usuário não cancelar dentro do tempo estipulado (15 segundos), o
+alerta é confirmado. O app compila as informações do acidente
+(coordenadas GPS, hora, dados do sensor) e cria um evento no banco de dados.
 
 Os \textbf{serviços em nuvem} (parte inferior) englobam um banco de
 dados e armazenamento de mídia (vídeos/imagens) mantidos em um servidor
@@ -717,14 +722,17 @@ interrupção de “queda livre” (queda livre detectada quando
 $a_{\text{res}}$ abaixo de 0.5$g$ por > 30 ms, como quando a moto decola
 em um salto ou o sensor perde suporte). Esse sinal de interrupção foi
 disponibilizado no Node MCU, porém nos testes raramente diferenciou cenário
-além do que já detectávamos via picos e giros. \item A calibração do
-giroscópio foi fundamental: implementamos no Node MCU que, se a moto
-permanecer parada (acelerações muito baixas) por pelo menos 5 segundos,
-é disparado o comando de \textit{fast-offset calibration} do BMI160 para
-zerar viés do giroscópio naquela orientação\cite{bosch2016c}. Isso
-ocorre tipicamente pouco depois de ligar o sistema, quando a moto está
-estacionada, garantindo que o ângulo integrado do giroscópio comece
-referenciado apropriadamente. \item O sensor foi fisicamente posicionado
+além do que já detectávamos via picos e giros. \item A calibração automática do
+giroscópio é fundamental para o funcionamento do sistema: implementamos
+no Node MCU que, se a moto permanecer parada (acelerações muito baixas)
+por pelo menos 5 segundos, é disparado o comando de \textit{fast-offset
+calibration} do BMI160 para definir aquela posição como referência angular
+(0°)\cite{bosch2016c}. Isso elimina a necessidade de alinhamento perfeito
+horizontal durante a instalação: o sistema compensa automaticamente se o
+suporte estiver "torto", definindo a posição inicial como referência e
+detectando inclinações superiores a 65° a partir desse ponto. Essa
+funcionalidade garante operação plug-and-play, sem necessidade de
+configuração manual pelo usuário. \item O sensor foi fisicamente posicionado
 próximo ao centro de gravidade da motocicleta (no protótipo, fixado na
 placa de circuito o mais central possível). Isso reduz efeitos de
 acelerações rotacionais se o sensor ficasse em uma extremidade.
@@ -773,18 +781,22 @@ inicialização. Com isso, o tempo de boot do Pi desde o acionamento até
 estar pronto para capturar vídeo ficou em torno de 6--8 segundos. \item
 Buffer contínuo de vídeo: Implementamos, em Python (usando a
 biblioteca Picamera2), um buffer circular que mantém na memória os
-frames recentes da câmera. A câmera fica ligada gravando em baixa
-resolução continuamente, mas descartando frames antigos. Quando o Node MCU
-sinaliza um acidente, um script salva em arquivo os últimos segundos do
-buffer (por exemplo, 5 s anteriores) e continua gravando por mais alguns
-segundos (3 s) para pegar o desfecho. \item Compressão e envio:
-Logo após salvar o vídeo (em formato H.264, 720p), o Placa Computacional inicia
-o upload para o servidor na nuvem via Wi-Fi do smartphone (usando
-tethering do iPhone conectado por BLE, que habilita temporariamente o
-hotspot). Para enviar ~3 MB de vídeo, medimos cerca de 5--6 segundos em
-rede 4G, considerado aceitável. Caso o upload demore ou não haja
-conexão, o vídeo fica armazenado localmente e o app smartphone tenta
-reenviar mais tarde. \end{itemize}
+frames recentes da câmera. A câmera grava continuamente em resolução
+720p a 25 FPS, descartando frames antigos. Quando o Node MCU sinaliza um
+acidente (após o delay intencional de 6 segundos), um script Python
+salva os últimos 12 segundos do buffer: aproximadamente 6 segundos
+anteriores à queda e 6 segundos posteriores, totalizando cerca de 300
+frames. Esse delay permite capturar o contexto completo do acidente,
+incluindo a causa e as consequências. \item Compressão e envio: Logo
+após salvar o vídeo, a Placa Computacional comprime em formato MP4 usando
+codec H.264 ao vivo, resultando em arquivo de 3,8-4 MB. O upload é
+realizado via conexão Wi-Fi com o hotspot pessoal do smartphone do
+usuário (iOS). A Placa Computacional conecta-se automaticamente ao hotspot
+configurado e aguarda conexão Wi-Fi antes de iniciar o monitoramento.
+Para enviar 4 MB de vídeo, o tempo de upload é de aproximadamente 10
+segundos em rede 5G. Caso o upload demore ou não haja conexão, o vídeo
+fica armazenado localmente e é empilhado na fila de sincronização,
+sendo enviado automaticamente quando a conexão for restabelecida. \end{itemize}
 
 Nos testes, o Placa Computacional cumpriu seu papel, embora seu consumo seja
 significativo: medimos ~200 mA em idle e picos de 500--600 mA durante
@@ -803,11 +815,12 @@ toda a frente da moto e boa parte das laterais, garantindo que,
 independentemente da direção do impacto, haja uma probabilidade alta de
 a câmera capturar parte da cena.
 
-Configuramos a câmera para operar em 1280x720 pixels a 30 FPS durante o
+Configuramos a câmera para operar em 1280x720 pixels a 25 FPS durante o
 \textit{buffering} (resolução suficiente para identificar veículos e
 eventos, mantendo baixo o volume de dados). Ao acionar a gravação,
-salvamos o vídeo em H.264 usando aceleração de hardware do Pi (GPU), o
-que minimiza o impacto na CPU.
+salvamos o vídeo em H.264 usando aceleração de hardware da Placa Computacional (GPU), o
+que minimiza o impacto na CPU. O vídeo resultante tem aproximadamente
+300 frames (12 segundos a 25 FPS) e tamanho de 3,8-4 MB após compressão.
 
 Testes mostraram que mesmo em condições noturnas com iluminação pública
 fraca, a câmera conseguia registrar placas refletivas de veículos
@@ -828,15 +841,35 @@ dispositivos (Node MCU e Placa Computacional). Essa bateria, em teoria, fornece
 desligado ~0,05 W + picos esporádicos do RPi ativo), a autonomia
 estimada é de aproximadamente 10 horas, atendendo RNF-01.
 
-Implementamos monitoramento do nível da bateria via um módulo inteligente de carregamento de bateria
-conectado ao Node MCU, permitindo enviar a porcentagem de carga ao
-app periodicamente. Também previmos um circuito de proteção para evitar
-descarga profunda, com a bateria se desconectando ao atingir aproximadamente 3,0 V.
+Implementamos monitoramento do nível da bateria via módulo INA219,
+conectado ao Node MCU via I2C. O INA219 mede simultaneamente corrente e
+tensão da bateria, permitindo cálculo preciso da porcentagem de carga e
+detecção de estado de carregamento. O Node MCU envia essas informações ao
+app periodicamente via BLE, exibindo indicador visual de bateria na
+interface. Também previmos um circuito de proteção para evitar descarga
+profunda, com a bateria se desconectando ao atingir aproximadamente 3,0 V.
 
 No futuro, para uso real, o dispositivo poderia ser ligado à bateria da
 moto para recarga, ou incluir um pequeno painel solar no case.
 Entretanto, na fase de monografia, optou-se por focar na operação
 autônoma com recarga manual diária.
+
+\subsection{Módulo INA219 - Monitoramento de Bateria}
+
+O módulo INA219 foi integrado ao sistema para monitoramento preciso do
+nível de bateria, substituindo a solução anterior baseada em divisor de
+tensão com resistores que apresentava problemas de aquecimento excessivo.
+O INA219 é um sensor de corrente e tensão de alta precisão que se
+conecta ao Node MCU via interface I2C, permitindo medição simultânea de
+corrente (em mA) e tensão (em V) da bateria.
+
+O Node MCU lê periodicamente os dados do INA219 e calcula a porcentagem
+de carga da bateria, enviando essas informações ao aplicativo iOS via
+BLE. O app exibe um indicador visual de bateria na interface, permitindo
+ao usuário monitorar o nível de carga em tempo real. Além disso, o
+INA219 permite detectar quando o sistema está sendo carregado (corrente
+aumentando), embora a implementação atual apresente instabilidades no
+reconhecimento do estado de carregamento, requerendo ajustes de firmware.
 
 \section{Desenvolvimento do Software Embarcado e Aplicativo}
 \label{sec:software} A implementação em software dividiu-se em três
@@ -850,37 +883,39 @@ disponibilidade de bibliotecas) com algumas otimizações de baixo nível.
 O código foi estruturado em tarefas FreeRTOS, permitindo concorrência
 entre leitura de sensores e comunicação BLE.
 
-A tarefa de \textbf{leitura de sensores} configura o BMI160 para
+A tarefa de leitura de sensores configura o BMI160 para
 amostragem a cada 10 ms (100 Hz). A cada ciclo, lê aceleração e
-velocidade angular atuais. Aplica-se um filtro exponencial para estimar
-a componente de gravidade ($\vec{g}$) e subtrai-la da leitura do
-acelerômetro, obtendo a aceleração dinâmica. Em seguida, calcula-se a
-magnitude resultante $|\vec{a}|$ e verifica-se: \begin{itemize} \item Se
-$|\vec{a}| > 3,5g$ \textbf{ou} se houve uma
-mudança súbita na orientação detectada via integração do giroscópio
-indicando inclinação superior a 65° em qualquer direção, então sinaliza-se um
-potencial acidente. \item Caso um potencial acidente seja detectado,
-inicia-se um pequeno timer de confirmação: aguarda-se 100 ms
-para verificar se as leituras se mantêm anômalas (picos seguidos de
-rápida queda a zero, por exemplo, sugerem que a moto parou abruptamente
-e tombou). Se confirmado, o firmware muda o estado para “acidente
-detectado” e prossegue ao protocolo de alerta. \end{itemize}
+velocidade angular atuais. O sistema integra os dados do giroscópio para
+estimar o ângulo de inclinação da motocicleta em relação à posição de
+referência (definida após a auto-calibração de 5 segundos). O critério
+de detecção é focado exclusivamente em quedas: \begin{itemize} \item Se
+a inclinação supera 65° em qualquer direção, sinaliza-se um
+potencial acidente. Esse limiar foi escolhido para detectar tombamentos
+laterais, quedas frontais e traseiras, mas evitar falsos positivos em
+curvas normais ou inclinações temporárias. \item Caso um potencial
+acidente seja detectado, inicia-se um pequeno timer de confirmação:
+aguarda-se 100 ms para verificar se a inclinação se mantém elevada,
+confirmando que a moto realmente tombou e não foi apenas uma inclinação
+momentânea. Se confirmado, o firmware muda o estado para "acidente
+detectado" e prossegue ao protocolo de alerta. \end{itemize}
+
+A filosofia do sistema é atuar como dispositivo de emergência: se o
+motociclista bate mas não cai da moto, ele está consciente e capaz de
+pedir ajuda. O sistema só intervem quando há queda, pois nesse cenário o
+motociclista pode estar incapacitado de chamar socorro.
 
 No protocolo de alerta, o Node MCU executa: \begin{enumerate} \item
-Despertar do Placa Computacional: coloca em nível alto o pino
-conectado ao gate do MOSFET que alimenta a Placa Computacional, ou envia pulso
-conforme circuito configurado. \item Envio BLE para app:
-notifica o smartphone via uma característica BLE de que um acidente
-ocorreu, incluindo dados como valor de pico de $g$, lado do impacto
-(deduzido do sinal do giroscópio) e nível de bateria atual. \item
-Aguardar resposta: o Node MCU espera uma resposta do app
-confirmando recebimento. Caso não receba (ex.: smartphone desconectado),
-tenta reenvio algumas vezes e, se ainda sem sucesso, guarda o evento
-numa memória flash para tentar entregar posteriormente. \item
-Manutenção do estado: após enviar o alerta, o Node MCU permanece
-acordado por algum tempo para repassar dados complementares. Por
-exemplo, conforme o Placa Computacional fizer upload do vídeo e informar o
-link, o Node MCU pode enviar esse link ao app via BLE. \end{enumerate}
+Notificação BLE: envia via Bluetooth ao smartphone uma característica
+BLE indicando que um acidente foi detectado, incluindo dados como ângulo
+de inclinação, lado do impacto (deduzido do sinal do giroscópio) e nível
+de bateria atual. \item Aguardar resposta: o Node MCU espera uma resposta
+do app confirmando recebimento. Caso não receba (ex.: smartphone
+desconectado), tenta reenvio algumas vezes e, se ainda sem sucesso,
+guarda o evento numa memória flash para tentar entregar posteriormente.
+\item Manutenção do estado: após enviar o alerta, o Node MCU permanece
+acordado por algum tempo para repassar dados complementares. Por exemplo,
+conforme o Placa Computacional fizer upload do vídeo e informar o link, o Node MCU
+pode enviar esse link ao app via BLE. \end{enumerate}
 
 Adicionalmente, implementamos telemetria contínua: quando não
 há acidente, a cada 1 minuto o Node MCU envia ao app dados como máximas
