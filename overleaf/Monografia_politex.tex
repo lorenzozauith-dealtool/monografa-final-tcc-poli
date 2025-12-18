@@ -960,14 +960,25 @@ bot no Telegram, o qual envia a mensagem ao chat do guardião. No app do
 motorista, por sua vez, exibe-se uma confirmação de que o alerta foi
 enviado com sucesso. Se por algum motivo não houver internet no
 telefone, o app armazena o alerta numa fila local e tenta reenviar
-periodicamente até conseguir conexão. \item Interface para Histórico e Telemetria: O aplicativo também apresenta uma tela com
-histórico de viagens (resumos de cada pilotagem e se houve eventos
-anômalos ou acidentes). Esses dados vêm parcialmente do dispositivo
-(telemetria básica) e do backend (por exemplo, registros de incidentes).
-É uma funcionalidade extra: por exemplo, um motociclista pode ver
-quantas vezes freou bruscamente em uma semana (indicador de direção
-defensiva), ou a família pode receber relatórios (se autorizado) da
-condução. \item Configurações e Perfis: Permite cadastrar o
+periodicamente até conseguir conexão. \item Interface para Histórico e Telemetria: O aplicativo implementa
+sistema completo de telemetria para monitoramento contínuo do
+comportamento de condução. O sistema utiliza dados de GPS integrados com
+uma API externa de limites de velocidade para classificar o comportamento
+do motorista e gerar relatórios de segurança. As métricas capturadas
+incluem: velocidade em tempo real, limite de velocidade da via (obtido
+via API), tempo de excesso de velocidade, classificação de vias por
+limite (40 km/h, 50 km/h, 60 km/h), e infrações segundo o Código de
+Trânsito Brasileiro. As infrações são classificadas em: leve (até 20\%
+acima do limite), grave (20\% a 50\% acima), e gravíssimo (acima de
+50\%). O sistema implementa o algoritmo RAP (\textit{Rapid Analysis
+Period}), que tolera excesso de velocidade por até 10 segundos antes de
+registrar como infração, permitindo ultrapassagens seguras sem marcar
+como comportamento de risco. O aplicativo gera relatórios em formato PDF
+localmente no dispositivo iOS, incluindo segmentação por faixa de
+velocidade, código de cores para análise de segurança, e mapa com pontos
+de excesso (heatmap de infrações). O sistema de mapas utiliza Apple Maps
+com mapa embarcado pré-instalado no iOS, consumindo dados mínimos (apenas
+coordenadas GPS). \item Configurações e Perfis: Permite cadastrar o
 contato guardião (gerando um código de pareamento para o bot Telegram do
 guardião), ajustar sensibilidade do sistema (podendo calibrar se
 necessário o limiar de detecção, embora deixamos fixo no padrão) e ver o
@@ -1016,19 +1027,26 @@ confirmar recebimento no app (caso tenha o app em modo guardião
 instalado) ou simplesmente tomar as ações cabíveis (ligar para serviços
 de emergência, etc.). \end{enumerate}
 
-A arquitetura em nuvem traz robustez e escalabilidade. Poderíamos ter
-optado por um modelo \textit{peer-to-peer} via Bluetooth clássico ou
-Wi-Fi Direct do RPi ao smartphone (eliminando a dependência de
-internet), mas em nossos testes isso se mostrou pouco prático
-(emparelhamento manual, limitação de alcance, etc.). Além disso, a
-internet permite notificar mesmo se o guardião estiver muito longe. Em
-termos de tempo real, a nuvem introduz poucos segundos de latência, o
-que não compromete o objetivo (uma vez que 30 s de resposta é o alvo).
-Por fim, a escolha pelo Supabase veio após testar primeiro o Firebase,
-mas migramos ao Supabase por ser open-source e permitir hospedagem
-própria futura (evitar custos fixos). Do ponto de vista de
-confidencialidade, os dados trafegam sobre HTTPS e o link do vídeo é
-protegido (necessário token válido para baixar).
+A arquitetura em nuvem traz robustez e escalabilidade. A escolha por
+dependência de internet foi motivada por limitações técnicas críticas:
+a Placa Computacional não consegue manter conexão Bluetooth estável com iOS
+quando o aplicativo está em background ou o iPhone bloqueado (4
+bibliotecas Bluetooth Linux testadas falharam), e o Bluetooth Clássico
+(10× mais rápido que BLE) é bloqueado pela Apple sem certificação MFi
+(Made for iPhone). Além disso, a premissa do projeto é uso urbano:
+motociclistas profissionais (entregadores) trabalham conectados o tempo
+todo, e a cobertura 4G/5G é ubíqua em cidades. O consumo de dados é
+irrelevante: 4 MB por acidente representa menos de 0,01\% de um plano
+mensal típico.
+
+O sistema implementa sincronização offline robusta: quando não há conexão,
+vídeos são armazenados localmente na Placa Computacional e empilhados na fila de
+upload. Ao reconectar, o sistema realiza sincronização massiva,
+enviando todos os vídeos pendentes de uma vez. Nenhuma evidência é
+perdida. A escolha pelo Supabase (em vez de Firebase) foi motivada por
+ser open-source e permitir hospedagem própria futura, evitando custos
+fixos. Do ponto de vista de confidencialidade, os dados trafegam sobre
+HTTPS e o link do vídeo é protegido (necessário token válido para baixar).
 
 \section{Construção do Protótipo e Ensaios} \label{sec:prototipo} Após
 implementar os módulos acima, procedeu-se à integração completa no
