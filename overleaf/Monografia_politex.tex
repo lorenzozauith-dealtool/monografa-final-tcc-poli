@@ -569,8 +569,8 @@ Neste capítulo são apresentados os componentes de hardware e software
 utilizados (materiais), bem como os métodos e estratégias de
 desenvolvimento empregados para construir e validar o sistema proposto.
 A abordagem metodológica seguiu um ciclo iterativo de projeto,
-prototipagem, teste e refinamento, conforme será evidenciado na seção de
-evolução do projeto (\ref{sec:evolucao}).
+prototipagem, teste e refinamento, culminando na arquitetura final
+detalhada nas seções seguintes.
 
 \section{Prova de Conceito} \label{sec:prova-conceito} A fase inicial do
 trabalho consistiu na prova de conceito (PoC), cujo objetivo
@@ -713,7 +713,7 @@ O Node MCU Super Mini constitui o núcleo de processamento embarcado do sistema 
 
 \textbf{Conectividade BLE 5.0:} O transceptor RF integrado suporta BLE 5.0 com Long Range e pot\^encia de -12 a +9 dBm. Sensibilidade de -94 dBm a 1 Mbps garante conex\~ao estável. O stack NimBLE ocupa apenas 42 KB de RAM. Antena PCB integrada com ganho de 2,1 dBi.
 
-\textbf{Interfaces:} I2C a 400 kHz para BMI160 (GPIO 21/22), GPIO 4 para wake-up do RPi, GPIOs 8/9 para LEDs via PWM 5 kHz, UART debug a 115200 baud (GPIO 1/3)
+\textbf{Interfaces:} I2C a 400 kHz para BMI160 (GPIO 21/22), GPIO 4 para wake-up do Placa Computacional, GPIOs 8/9 para LEDs via PWM 5 kHz, UART debug a 115200 baud (GPIO 1/3)
 e Wi-Fi 2.4~GHz integradas\cite{espressif2020}. Escolhemos este chip (na
 forma de um módulo “Super Mini” compacto de 18~mm x 25~mm) para ser o
 \textbf{nó sensor} devido a seu baixíssimo consumo em modo de espera e
@@ -740,7 +740,7 @@ comunicação BLE para envio de dados. Optamos por um algoritmo de
 detecção simples baseado em limiar de aceleração resultante e variação
 de ângulo (integral do giroscópio). Ao detectar um possível acidente, o
 Node MCU aciona imediatamente a linha de \textit{wake} do Placa Computacional
-(saída GPIO conectada a um pino de \textit{shutdown} do Pi configurado
+(saída GPIO conectada a um pino de \textit{shutdown} da Placa Computacional configurado
 para esse propósito) e então inicia o procedimento de notificação: envia
 via BLE um pacote sinalizando “acidente detectado” para o app e começa a
 transmitir dados básicos (valor de pico de $g$, por exemplo).
@@ -810,24 +810,24 @@ Alternativas consideradas incluíram o Placa Computacional 3A+ (mais potente,
 porém maior e de consumo maior) e módulos microcontroladores com câmera
 (Node MCU-CAM, Node MCU-S3 Eye), mas concluímos que a confiabilidade na
 gravação de vídeo e upload exigia um sistema operacional robusto. Assim,
-o RPi Zero 2 W integra a arquitetura final, mantendo-se inativo na maior
+o Placa Computacional integra a arquitetura final, mantendo-se inativo na maior
 parte do tempo (modo \textit{idle}/espera) e entrando em ação apenas
 quando necessário.
 
 Para otimizar o uso da Placa Computacional e cumprir RNF-01: \begin{itemize} \item
-Inicialização sob demanda: Configuramos o RPi para iniciar em
+Inicialização sob demanda: Configuramos o Placa Computacional para iniciar em
 \textit{boot} somente quando alimentado por uma linha de 5V controlada
 pelo Node MCU (via um transistor MOSFET atuando como chave). Ou seja, no
-estado normal, o Node MCU não alimenta o Pi, poupando a bateria; ao
+estado normal, o Node MCU não alimenta a Placa Computacional, poupando a bateria; ao
 detectar um acidente, o Node MCU libera a alimentação e aciona o boot do
 Pi. Essa estratégia, implementada no protótipo final de forma
-simplificada (o Pi era ligado junto com todo o sistema, mas em futuras
+simplificada (a Placa Computacional era ligado junto com todo o sistema, mas em futuras
 versões seria ligado sob demanda), garante que o consumo elevado da
 Placa Computacional não interfira na autonomia exceto nos momentos críticos. \item
 Sistema minimizado: No sistema operacional da Placa Computacional removemos serviços
 desnecessários, desabilitamos interface gráfica e até desligamos saídas
 de status (como LED e HDMI) para reduzir consumo e acelerar a
-inicialização. Com isso, o tempo de boot do Pi desde o acionamento até
+inicialização. Com isso, o tempo de boot da Placa Computacional desde o acionamento até
 estar pronto para capturar vídeo ficou em torno de 6--8 segundos. \item
 Buffer contínuo de vídeo: Implementamos, em Python (usando a
 biblioteca Picamera2), um buffer circular que mantém na memória os
@@ -852,7 +852,7 @@ Nos testes, o Placa Computacional cumpriu seu papel, embora seu consumo seja
 significativo: medimos ~200 mA em idle e picos de 500--600 mA durante
 compressão e upload de vídeo. Por isso, reforça-se que mantê-lo
 desligado quando possível é crucial. O protótipo final não implementou
-hardware para desligar completamente o Pi (devido a limitações de
+hardware para desligar completamente a Placa Computacional (devido a limitações de
 tempo), mas tal melhoria está documentada para trabalhos futuros.
 
 \subsection{Câmera Grande Angular 160°} Para a coleta de evidências
@@ -887,8 +887,8 @@ obstáculos).
 íons de lítio 18650 de 3,7 V (2500 mAh) como fonte de energia, conectada
 a um circuito \textit{step-up} que provê 5 V estáveis para os
 dispositivos (Node MCU e Placa Computacional). Essa bateria, em teoria, fornece
-~9,25 Wh; considerando consumo médio de ~0,9 W (Node MCU ~0,1 W + RPi
-desligado ~0,05 W + picos esporádicos do RPi ativo), a autonomia
+~9,25 Wh; considerando consumo médio de ~0,9 W (Node MCU ~0,1 W + Placa Computacional
+desligado ~0,05 W + picos esporádicos do Placa Computacional ativo), a autonomia
 estimada é de aproximadamente 10 horas, atendendo RNF-01.
 
 Implementamos monitoramento do nível da bateria via módulo INA219,
@@ -1332,9 +1332,9 @@ protegeu). A vedação se mostrou adequada sob chuva leve (simulamos
 borrifando água, nenhum infiltração observada). Assim, consideramos
 cumpridos os objetivos de resistência física (RNF-02). \item
 Consumo real: Em um teste de autonomia, deixamos o sistema
-ligado (com RPi dormindo, Node MCU transmitindo telemetria ocasional) por
+ligado (com Placa Computacional dormindo, Node MCU transmitindo telemetria ocasional) por
 10 horas antes que a bateria atinja o limite. Isso deverá validar a
-meta de 10h. Com pequenas otimizações (como desligar completamente o RPi
+meta de 10h. Com pequenas otimizações (como desligar completamente o Placa Computacional
 quando o motor da moto está off), certamente ultrapassaríamos 12h
 facilmente. \item Aderência social: Embora não um resultado
 técnico mensurável, comentamos que ao demonstrar o protótipo para alguns
@@ -1488,7 +1488,7 @@ Projeto Vindex}
 Fev--Mar & Revisão bibliográfica inicial (estado da arte), definição de escopo e requisitos; Aquisição dos componentes de hardware; Montagem de setup de bancada para PoC. \\
 Abr--Mai & Desenvolvimento do firmware Node MCU (leitura sensor, detecção básica); Testes de PoC com sensor e LED (simulando alerta); Início do desenvolvimento do app iOS (conexão BLE básica). \\
 Jun & Integração inicial Node MCU + app (receber notificação via BLE); Teste PoC com smartphone e envio de SMS manual; Apresentação parcial I (Resultados da PoC). \\
-Jul--Ago & Desenvolvimento do módulo Placa Computacional (captura de foto/vídeo); Integração Node MCU–RPi (sinal de wake via GPIO); Desenvolvimento do backend (configuração Supabase, bot Telegram). \\
+Jul--Ago & Desenvolvimento do módulo Placa Computacional (captura de foto/vídeo); Integração Node MCU–Placa Computacional (sinal de wake via GPIO); Desenvolvimento do backend (configuração Supabase, bot Telegram). \\
 Set & Implementação completa do aplicativo iOS (fluxo de alerta com cancelamento, envio ao backend); Montagem do protótipo físico (PCB, carcaça 3D); Início dos testes integrados (laboratório). \\
 Out & Testes de campo (simulações de acidente, ajustes de sensibilidade); Coleta de resultados quantitativos (tempos, acurácia); Apresentação parcial II (Protótipo funcional e primeiros resultados). \\
 Nov & Análise detalhada dos resultados, comparação com requisitos; Refinamento de detalhes (ajustes finais de código e documentação); Escrita da monografia final (capítulos de resultados e conclusão). \\
@@ -1601,5 +1601,7 @@ Este ap\^endice apresenta capturas de tela do aplicativo m\'ovel Vindex desenvol
 
 % Finaliza\c{c}\~ao do documento
 \end{document}
+
+
 
 
