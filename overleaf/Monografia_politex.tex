@@ -595,6 +595,56 @@ integrada do sistema Vindex. A arquitetura pode ser entendida em três camadas p
 hardware embarcado na motocicleta, aplicativo móvel do
 usuário e serviços em nuvem de suporte.
 
+\subsection{Fluxo Operacional Completo}
+
+O sistema opera em 7 fases sequenciais:
+
+\textbf{Fase 1 - Monitoramento Contínuo:} O Node MCU monitora continuamente
+o sensor BMI160 (giroscópio + acelerômetro) via I2C. A conexão Bluetooth
+com o aplicativo iOS é estável e funciona em segundo plano. Após 5
+segundos estacionário, o sistema executa auto-calibração automática,
+definindo a posição atual como referência angular (0°).
+
+\textbf{Fase 2 - Detecção de Acidente:} O sistema detecta quedas quando a
+inclinação supera 65 graus em qualquer direção. A referência angular é
+calibrada automaticamente, não dependendo de alinhamento perfeito. O
+sistema detecta especificamente quedas, não colisões sem queda.
+
+\textbf{Fase 3 - Disparo de Alertas (Tempo Zero):} Imediatamente após
+detectar a queda, o Node MCU envia notificação via BLE ao aplicativo iOS.
+O aplicativo envia alerta instantâneo para o Supabase (banco de dados), que
+dispara alerta de emergência no Telegram. O guardião é notificado
+instantaneamente (< 1 segundo).
+
+\textbf{Fase 4 - Gravação de Evidência (Delay de 6 Segundos):} Após um
+delay intencional de 6 segundos, o Node MCU sinaliza à Placa Computacional para
+salvar os últimos 12 segundos de vídeo do buffer circular. Esse delay é
+crucial para capturar o contexto completo: aproximadamente 6 segundos
+antes da queda (mostrando a causa) e 6 segundos depois (mostrando as
+consequências). Sem o delay, apenas o momento da queda seria capturado,
+perdendo o contexto.
+
+\textbf{Fase 5 - Processamento de Vídeo:} A Placa Computacional empacota o vídeo
+em formato MP4 usando codec H.264 (encoder ao vivo). Resolução: 720p a 25
+FPS. Duração: 12 segundos (~300 frames). Tamanho do arquivo: 3,8-4 MB.
+
+\textbf{Fase 6 - Upload e Sincronização:} A Placa Computacional envia o vídeo para
+o Supabase via conexão Wi-Fi com o hotspot pessoal do smartphone (iOS).
+Tempo de upload: aproximadamente 10 segundos em rede 5G. Após concluir, a
+Placa Computacional confirma o upload ao Node MCU com o nome do arquivo. O Node MCU
+confirma recebimento ao aplicativo iOS via BLE.
+
+\textbf{Fase 7 - Interface do Usuário:} O aplicativo cria evento com
+placeholder para múltiplas placas e detalhes. O nome do arquivo
+corresponde exatamente ao informado pela Placa Computacional. O usuário pode acessar
+detalhes, visualizar vídeo e baixar evidência. Download direto do
+Supabase para o dispositivo iOS leva aproximadamente 2 segundos.
+
+\textbf{Tempo total de execução:} Menos de 1 minuto em condições ideais de
+conectividade (5G).
+
+\subsection{Componentes da Arquitetura}
+
 No hardware embarcado, o sensor
 inercial BMI160 monitora continuamente os movimentos da motocicleta,
 conectado via interface I2C ao microcontrolador Node MCU. Este
