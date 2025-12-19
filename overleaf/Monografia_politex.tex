@@ -652,7 +652,7 @@ sistema detecta especificamente quedas, não colisões sem queda.
 detectar a queda, o Node MCU envia notificação via BLE ao aplicativo iOS.
 O aplicativo envia alerta instantâneo para o Supabase (banco de dados), que
 dispara alerta de emergência no Telegram. O guardião é notificado
-instantaneamente (< 1 segundo).
+instantaneamente ($<$ 1 segundo).
 
 \textbf{Fase 4 - Gravação de Evidência (Delay de 6 Segundos):} Após um
 delay intencional de 6 segundos, o Node MCU sinaliza à Placa Computacional para
@@ -799,7 +799,7 @@ interno capaz de detectar movimento significativo ou queda livre.
 Entretanto, preferimos aplicar nossos próprios critérios no firmware
 para melhor controle, mas mantivemos o sensor configurado para sinalizar
 interrupção de “queda livre” (queda livre detectada quando
-$a_{\text{res}}$ abaixo de 0.5$g$ por > 30 ms, como quando a moto decola
+$a_{\text{res}}$ abaixo de 0.5$g$ por $>$ 30 ms, como quando a moto decola
 em um salto ou o sensor perde suporte). Esse sinal de interrupção foi
 disponibilizado no Node MCU, porém nos testes raramente diferenciou cenário
 além do que já detectávamos via picos e giros. \item A calibração automática do
@@ -1176,7 +1176,7 @@ Frenagens de emergência: Simulamos frenagens secas a 40 km/h em
 pista fechada. Os picos de desaceleração chegaram a 3,0$g$, mas como não
 houve variação angular significativa (inclinação permaneceu abaixo de
 65°), o sistema interpretou como evento não-acidente. O algoritmo detecta
-apenas quedas (inclinação > 65°), não frenagens ou colisões sem queda.
+apenas quedas (inclinação $>$ 65°), não frenagens ou colisões sem queda.
 Isso é desejável para evitar falsos positivos em frenagens fortes sem queda. \item Colisão simulada: Amarramos o
 protótipo a um carrinho com roda e o lançamos contra um anteparo para
 simular um impacto a 15 km/h. O sistema detectou e acionou alerta em 4 de 5
@@ -1186,7 +1186,7 @@ também). \end{itemize}
 
 Os resultados de Tempo de Resposta: O sistema opera em duas fases
 distintas. O alerta de emergência ao guardião é enviado instantaneamente
-(< 1 segundo após detecção), cumprindo a meta RNF-04 de < 30 s. A
+($<$ 1 segundo após detecção), cumprindo a meta RNF-04 de $<$ 30 s. A
 disponibilização completa do vídeo de evidência leva aproximadamente 37,5
 segundos, incluindo delay intencional de 6 segundos para capturar contexto
 completo. Em cenários sem cobertura 5G, o upload do vídeo pode aumentar,
@@ -1225,7 +1225,7 @@ esperado. \item Tempo de Upload e Download: Medimos o tempo de
 upload do vídeo nos testes em campo com rede 5G: média de 10 s para 4
 MB. O download do vídeo pelo guardião (via link) levou 2 s em média.
 Esses tempos são adicionais à notificação inicial, mas como discutido, o
-alerta instantâneo (< 1 s) já foi enviado via Telegram. \item Segurança de Dados: Não implementamos criptografia ponta-a-ponta. Os vídeos sobem
+alerta instantâneo ($<$ 1 s) já foi enviado via Telegram. \item Segurança de Dados: Não implementamos criptografia ponta-a-ponta. Os vídeos sobem
 para a nuvem com restrição de acesso via token, e as mensagens trafegam
 em canais seguros do Telegram. Reconhecemos que, para uso real, seria
 desejável cifrar as evidências por privacidade; deixamos essa
@@ -1273,7 +1273,7 @@ alarmes em frenagens, pois frenagens não causam variação angular
 significativa. Portanto, o foco exclusivo em quedas se justificou. \item Confiabilidade do Alerta (RF-06/RF-07): Em todos os acidentes detectados, o alerta chegou ao
 menos a um contato de emergência. O tempo médio de notificação ao
 guardião via Telegram foi inferior a 1 segundo após a detecção,
-cumprindo amplamente a meta RNF-04 (< 30 s). Em 7 dos 10 casos, o
+cumprindo amplamente a meta RNF-04 ($<$ 30 s). Em 7 dos 10 casos, o
 piloto-teste não cancelou o alerta (simulando estar incapacitado), e a
 notificação foi enviada. Nos outros 3 casos, ele cancelou e de fato
 nenhuma mensagem foi disparada externamente, validando a funcionalidade de
@@ -1321,7 +1321,7 @@ Observa-se que o maior componente é a espera de confirmação do usuário
 diminuído, reduziria o tempo total, porém aumentaria risco de alertas
 indevidos quando o motociclista está bem (por exemplo, derruba a moto ao
 estacionar e consegue levantá-la de imediato). Optamos por 15 s como
-compromisso; ainda assim, a meta é < 30 s conforme RNF-04. Em situações ideais
+compromisso; ainda assim, a meta é $<$ 30 s conforme RNF-04. Em situações ideais
 (usuário inconsciente e ninguém cancela, rede 4G boa), o tempo de resposta
 será medido nos testes de campo.
 
