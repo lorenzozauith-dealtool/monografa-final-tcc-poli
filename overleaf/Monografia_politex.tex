@@ -83,8 +83,7 @@ por meio de sensores inerciais, enviar alertas de emergência com
 localização geográfica em tempo real e, adicionalmente, registrar
 imagens do momento da colisão como apoio secundário para diagnóstico ou
 documentação do ocorrido. O dispositivo é composto por um
-microcontrolador Placa Computacional, um microcontrolador Node MCU
-Super Mini, um sensor GY-BMI160 (acelerômetro e giroscópio) e uma câmera
+microcontrolador Placa Computacional, um microcontrolador Node MCU, um sensor GY-BMI160 (acelerômetro e giroscópio) e uma câmera
 grande angular de 160°, integrados em uma carcaça impressa em 3D
 projetada para resistir a impactos. A lógica de funcionamento baseia-se
 na análise de padrões de aceleração e variação angular para detectar
@@ -129,7 +128,7 @@ development of a low-cost embedded system, mounted on the motorcycle’s
 frame, capable of automatically detecting accidents using inertial
 sensors, sending real-time emergency alerts with geographical location,
 and additionally recording images of the collision moment as secondary
-support for diagnosis or documentation. The device comprises a Placa Computacional microcontroller, an Node MCU Super Mini microcontroller, a
+support for diagnosis or documentation. The device comprises a Placa Computacional microcontroller, an Node MCU microcontroller, a
 GY-BMI160 sensor (accelerometer and gyroscope), and a 160-degree
 wide-angle camera, all integrated into a 3D-printed enclosure designed
 to withstand impact. The system’s operational logic is based on
@@ -740,9 +739,9 @@ como as estratégias de teste e validação empregadas em cada etapa.
 
 Descrevemos os principais módulos de hardware do~protótipo, justificando as~escolhas e~apresentando parâmetros de~configuração.
 
-\subsection{Microcontrolador Node MCU Super Mini} 
+\subsection{Microcontrolador Node MCU} 
 
-O Node MCU Super Mini constitui o núcleo de processamento embarcado do sistema Vindex. Este microcontrolador, fabricado pela Espressif Systems, baseia-se em arquitetura RISC-V de 32 bits com clock de 160 MHz, oferecendo desempenho computacional robusto para processamento em tempo real dos dados sensoriais. As dimens\~oes ultracompactas de 22,52 x 18 mm permitem integra\c{c}\~ao discreta na estrutura da motocicleta.
+O Node MCU constitui o núcleo de processamento embarcado do sistema Vindex. Este microcontrolador, fabricado pela Espressif Systems, baseia-se em arquitetura RISC-V de 32 bits com clock de 160 MHz, oferecendo desempenho computacional robusto para processamento em tempo real dos dados sensoriais. As dimens\~oes ultracompactas de 22,52 x 18 mm permitem integra\c{c}\~ao discreta na estrutura da motocicleta.
 
 Especifica\c{c}\~oes de Memória: O dispositivo integra 400 KB de SRAM on-chip para execu\c{c}\~ao de código e buffers de dados, com 16 KB dedicados para cache de instru\c{c}\~oes. A memória flash SPI externa de 4 MB opera a 80 MHz em modo Quad-SPI, permitindo acesso rápido ao firmware. A parti\c{c}\~ao foi otimizada com 1 MB para firmware, 512 KB para OTA, 256 KB para NVS e 2,25 MB para SPIFFS.
 
@@ -750,7 +749,7 @@ Consumo Energético: Em modo deep sleep consome apenas 5 $\mu$A com RTC ativo. D
 
 Conectividade BLE 5.0: O transceptor RF integrado suporta BLE 5.0 com Long Range e pot\^encia de -12 a +9 dBm. Sensibilidade de -94 dBm a 1 Mbps garante conex\~ao estável. O stack NimBLE ocupa apenas 42 KB de RAM. Antena PCB integrada com ganho de 2,1 dBi.
 
-Interfaces: I2C a 400 kHz para BMI160 (GPIO 21/22), GPIO 4 para wake-up da Placa Computacional, GPIOs 8/9 para LEDs via PWM 5 kHz, UART debug a 115200 baud (GPIO 1/3) e Wi-Fi 2.4~GHz integradas\cite{espressif2020}. Escolhemos este chip (na forma de um módulo "Super Mini" compacto de 18~mm x 25~mm) para ser o nó sensor devido a seu baixíssimo consumo em modo de espera e capacidade de monitoramento contínuo do acelerômetro/giroscópio praticamente sem drenar a bateria. Alguns pontos críticos pesaram na decisão: \begin{itemize} \item Bluetooth LE embutido: Permite comunicação direta com o app móvel sem hardware adicional, atendendo RF-04 e RNF-06. A versão 5.0 do BLE suportada oferece maior alcance e pacote de dados mais extensos que versões anteriores, o que é útil para transmitir eventuais imagens pequenas. \item Baixo consumo e modo Deep Sleep: O Node MCU pode operar em modo deep sleep consumindo na ordem de poucos microampères, mantendo apenas o RTC ativo para despertar periodicamente ou por interrupção externa. Isso foi essencial para cumprir RNF-01 de autonomia. \item Suporte a periféricos e DMA: A necessidade de ler o sensor inercial a alta taxa (100 Hz ou mais) e eventualmente repassar dados à Placa Computacional requer capacidade de comunicação I2C/UART eficiente. O Node MCU possui controladores I2C dedicados e pode utilizar DMA para minimizar latências, garantindo desempenho em tempo real para detecção. \end{itemize}
+Interfaces: I2C a 400 kHz para BMI160 (GPIO 21/22), GPIO 4 para wake-up da Placa Computacional, GPIOs 8/9 para LEDs via PWM 5 kHz, UART debug a 115200 baud (GPIO 1/3) e Wi-Fi 2.4~GHz integradas\cite{espressif2020}. Escolhemos este chip (na forma de um módulo compacto de 18~mm x 25~mm) para ser o nó sensor devido a seu baixíssimo consumo em modo de espera e capacidade de monitoramento contínuo do acelerômetro/giroscópio praticamente sem drenar a bateria. Alguns pontos críticos pesaram na decisão: \begin{itemize} \item Bluetooth LE embutido: Permite comunicação direta com o app móvel sem hardware adicional, atendendo RF-04 e RNF-06. A versão 5.0 do BLE suportada oferece maior alcance e pacote de dados mais extensos que versões anteriores, o que é útil para transmitir eventuais imagens pequenas. \item Baixo consumo e modo Deep Sleep: O Node MCU pode operar em modo deep sleep consumindo na ordem de poucos microampères, mantendo apenas o RTC ativo para despertar periodicamente ou por interrupção externa. Isso foi essencial para cumprir RNF-01 de autonomia. \item Suporte a periféricos e DMA: A necessidade de ler o sensor inercial a alta taxa (100 Hz ou mais) e eventualmente repassar dados à Placa Computacional requer capacidade de comunicação I2C/UART eficiente. O Node MCU possui controladores I2C dedicados e pode utilizar DMA para minimizar latências, garantindo desempenho em tempo real para detecção. \end{itemize}
 pacote de dados mais extensos que versões anteriores, o que é útil para
 transmitir eventuais imagens pequenas. \item Baixo consumo e modo Deep Sleep: O Node MCU pode operar em modo \textit{deep sleep}
 consumindo na ordem de poucos microampères, mantendo apenas o RTC ativo
