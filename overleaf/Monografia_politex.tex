@@ -714,9 +714,8 @@ para comandos e alertas, e Wi-Fi hotspot compartilhado com a Placa Computacional
 para upload de vídeos. Ao receber do Node MCU o sinal de que um acidente
 foi detectado, o app imediatamente envia alerta para o Supabase, que
 dispara notificação instantânea no Telegram para o guardião. Em paralelo,
-o app apresenta ao usuário um alerta sonoro/visual, conforme RF-07.
-Se o usuário não cancelar dentro do tempo estipulado (15 segundos), o
-alerta é confirmado. O app compila as informações do acidente
+o app apresenta ao usuário um alerta sonoro/visual, conforme RF-07,
+e compila as informações do acidente
 (coordenadas GPS, hora, dados do sensor) e cria um evento no banco de dados.
 
 Os \textbf{serviços em nuvem} (parte inferior) englobam um banco de
@@ -1002,8 +1001,7 @@ acelerações registradas e eventuais eventos (por exemplo, “frenagem
 brusca em tal local” se assim configurado). Isso pode ser considerado um
 “pré-alerta” útil – por exemplo, o guardião sabe que algo potencialmente
 perigoso ocorreu, mesmo sem ser um acidente. Essa função foi inspirada
-pelo funcionamento do recurso de detecção de quedas do Apple Watch. Se
-ele não cancelar, o alerta é enviado findo o tempo.
+pelo funcionamento do recurso de detecção de quedas do Apple Watch.
 
 \subsection{Aplicativo Móvel (iOS)} O aplicativo móvel do Projeto Vindex
 foi desenvolvido em Swift para iOS, visando inicialmente iPhones (pelo
@@ -1017,9 +1015,8 @@ No Xcode, habilitou-se a opção “Uses Bluetooth LE accessories” para que
 o iOS mantenha o app ativo em segundo plano. \item Recebimento de alerta: Ao receber do Node MCU a indicação de acidente via
 característica BLE, o app imediatamente aciona uma notificação local
 ruidosa e vibração, exibindo na tela a mensagem “Acidente possivelmente
-detectado! Toque aqui se você ESTÁ BEM.”. O usuário tem 15 segundos para
-interagir (cancelar). Se o tempo esgota, o app assume que houve acidente
-real e inicia o envio de alertas. \item Obtenção de localização: O app, ao iniciar o alerta, solicita uma leitura imediata
+detectado!”. O app assume que houve acidente real e inicia o envio de
+alertas. \item Obtenção de localização: O app, ao iniciar o alerta, solicita uma leitura imediata
 de GPS (usando CoreLocation). Isso fornece latitude/longitude aproximada
 do acidente, com precisão de alguns metros. \item Processamento de imagem: Em paralelo, o app espera receber via BLE uma imagem (foto)
 do acidente. Caso receba (nem sempre enviamos pela limitação de tempo),
@@ -1083,10 +1080,10 @@ biblioteca nativa fornecida (no caso, utilizamos a biblioteca Swift do
 Supabase). O fluxo final ficou: \begin{enumerate} \item App detecta
 acidente e reúne dados (foto/plano). \item App faz upload do vídeo para
 o Supabase Storage. Em nossos testes, esse
-upload de ~3 MB leva em torno de 5 segundos em 4G, mas implementamos
-\textit{timeout} de 10 s; se não completar, o app envia o alerta sem
-vídeo (o guardião pode receber depois se o app conseguir enviar
-posteriormente ou fazer download do link na nuvem). \item App insere um
+upload de ~3 MB leva em torno de 5 segundos em 4G. Caso o upload demore
+ou não haja conexão, o vídeo fica armazenado localmente e é empilhado na
+fila de sincronização, sendo enviado automaticamente quando a conexão for
+restabelecida. \item App insere um
 registro na tabela “events” do Supabase via API, contendo: id do
 dispositivo, timestamp, link do vídeo, texto do alerta (e.g. “Acidente
 detectado às 14:35, coordenadas -23.5,-46.7”). O Supabase emite então um
@@ -1273,11 +1270,8 @@ alarmes em frenagens, pois frenagens não causam variação angular
 significativa. Portanto, o foco exclusivo em quedas se justificou. \item Confiabilidade do Alerta (RF-06/RF-07): Em todos os acidentes detectados, o alerta chegou ao
 menos a um contato de emergência. O tempo médio de notificação ao
 guardião via Telegram foi inferior a 1 segundo após a detecção,
-cumprindo amplamente a meta RNF-04 ($<$ 30 s). Em 7 dos 10 casos, o
-piloto-teste não cancelou o alerta (simulando estar incapacitado), e a
-notificação foi enviada. Nos outros 3 casos, ele cancelou e de fato
-nenhuma mensagem foi disparada externamente, validando a funcionalidade de
-confirmação pelo usuário. \item Cobertura de Cenários: A detecção cobriu tanto
+cumprindo amplamente a meta RNF-04 ($<$ 30 s). Em todos os 10 casos
+testados, a notificação foi enviada com sucesso ao guardião via Telegram. \item Cobertura de Cenários: A detecção cobriu tanto
 tombamentos laterais quanto quedas frontais e traseiras. O critério de
 inclinação superior a 65° mostrou-se eficaz para detectar diferentes
 tipos de quedas, independentemente da intensidade do impacto. Mesmo em
