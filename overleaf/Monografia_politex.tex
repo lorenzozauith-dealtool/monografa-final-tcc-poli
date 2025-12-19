@@ -1291,47 +1291,6 @@ experimentos controlados (por exemplo, \textit{crash test} em
 laboratório) para quantificar precisamente esses índices; contudo, pelos
 resultados qualitativos obtidos, o desempenho é promissor.
 
-\section{Tempo de Resposta} O tempo de resposta total, do acidente até o
-contato ser notificado, foi cronometrado conforme detalhado. A Tabela
-\ref{tab:tempos} resume as médias medidas: \begin{table}[htb] \centering
-\caption{Tempo de resposta do sistema (médias de 10 testes)}
-\label{tab:tempos} \begin{tabular}{l c} \toprule Etapa & Tempo médio (s)
-\\
-\midrule
-Detecção do acidente (Node MCU) & 0,5 \\
-Alerta instantâneo ao Telegram ($<$ 1s) & 1,0 \\
-Confirmação (usuário ou timeout) & 15,0 \\
-Delay de gravação (intencional) & 6,0 \\
-Processamento de vídeo (Placa Computacional) & 3,0 \\
-Upload de vídeo (5G, 4 MB) & 10,0 \\
-Download no app (iOS) & 2,0 \\
-\midrule
-\textbf{Tempo total (detecção até vídeo disponível)} & \textbf{37,5} \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Observa-se que o alerta de emergência é enviado ao guardião em menos de 1
-segundo após a detecção (Fase 3 - Tempo Zero), independentemente do
-vídeo. O tempo total de 37,5 segundos refere-se à disponibilização
-completa do vídeo de evidência no aplicativo.
-
-Observa-se que o maior componente é a espera de confirmação do usuário
-(15 s, configurado deliberadamente). Esse valor é ajustável: se
-diminuído, reduziria o tempo total, porém aumentaria risco de alertas
-indevidos quando o motociclista está bem (por exemplo, derruba a moto ao
-estacionar e consegue levantá-la de imediato). Optamos por 15 s como
-compromisso; ainda assim, a meta é $<$ 30 s conforme RNF-04. Em situações ideais
-(usuário inconsciente e ninguém cancela, rede 4G boa), o tempo de resposta
-será medido nos testes de campo.
-
-Em contrapartida, o tempo de disponibilização do vídeo completo ficou
-fora desse intervalo inicial: o guardião receberá o texto do alerta rapidamente,
-mas o vídeo poderá chegar alguns segundos depois (pois o upload termina
-após o alerta já ter sido disparado). Consideramos isso aceitável, já
-que o vídeo é informação complementar; o importante é saber rápido que
-houve acidente e onde.
-
 \section{Qualidade das Evidências Visuais} Em relação às evidências
 capturadas (RF-03 e RF-05): \begin{itemize} \item As imagens/fotos transmitidas via~BLE tinham resolução de~640x480 para caber em~<50~kB.
 Mesmo assim, mostravam nitidamente pelo menos um veículo ou cenário do
