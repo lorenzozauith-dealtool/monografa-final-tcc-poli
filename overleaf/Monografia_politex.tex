@@ -344,7 +344,7 @@ RF-01 & \textbf{Detecção de evento crítico}: O dispositivo embarcado (Node MC
 \midrule
 RF-02 & \textbf{Acionamento do módulo de captura}: Ao detectar um evento de acidente (critério de detecção atendido), o Node MCU deverá gerar um sinal de ativação via GPIO para ``acordar'' o microcontrolador Placa Computacional, que normalmente permanece em modo de baixo consumo. \\
 \midrule
-RF-03 & \textbf{Captura de imagens/vídeo}: O Placa Computacional, ao ser despertado, deverá realizar o registro do contexto do acidente. Isso inclui capturar, em modo \textit{burst}, uma sequência curta de imagens (ou um vídeo de poucos segundos) através da câmera grande angular, de forma a obter registro visual do momento do impacto e instantes subsequentes. \\
+RF-03 & \textbf{Captura de imagens/vídeo}: A Placa Computacional, ao ser despertada, deverá realizar o registro do contexto do acidente. Isso inclui capturar, em modo \textit{burst}, uma sequência curta de imagens (ou um vídeo de poucos segundos) através da câmera grande angular, de forma a obter registro visual do momento do impacto e instantes subsequentes. \\
 \midrule
 RF-04 & \textbf{Transmissão ao smartphone}: Os dados capturados (imagens ou vídeo, e dados do evento como aceleração pico, horário, etc.) deverão ser enviados do dispositivo embarcado para o smartphone do usuário via conexão Bluetooth Low Energy (BLE). \\
 \bottomrule
@@ -578,7 +578,7 @@ foi verificar a viabilidade técnica fundamental antes de partir para a constru�
 
 Para isso, a PoC foi realizada inicialmente sem a montagem física definitiva, utilizando os módulos em bancada para validação individual de cada componente.
 
-Os resultados da PoC foram animadores: o sensor inercial mostrava picos claros de aceleração e variações de giro nas simulações de acidente, a câmera do Placa Computacional capturava imagens rapidamente, e o BLE permitiu
+Os resultados da PoC foram animadores: o sensor inercial mostrava picos claros de aceleração e variações de giro nas simulações de acidente, a câmera da Placa Computacional capturava imagens rapidamente, e o BLE permitiu
 transferir uma foto de resolução VGA em poucos segundos para o
 smartphone. Aprendemos, contudo, que seria necessário otimizar alguns
 pontos como a transferência via BLE de uma imagem \textit{raw}
@@ -695,7 +695,7 @@ envia notificação imediata via Bluetooth ao smartphone e, após um delay
 intencional de 6 segundos, sinaliza à Placa Computacional para salvar o
 vídeo do buffer circular.
 
-O módulo Placa Computacional atua quando acionado pelo Node MCU,
+A Placa Computacional atua quando acionada pelo Node MCU,
 controlando a câmera e gerenciando registros de vídeo. A Placa Computacional
 grava continuamente em um buffer circular, descartando frames antigos.
 Quando recebe o sinal do Node MCU (após o delay de 6 segundos), salva
@@ -751,7 +751,7 @@ O Node MCU Super Mini constitui o núcleo de processamento embarcado do sistema 
 
 \textbf{Conectividade BLE 5.0:} O transceptor RF integrado suporta BLE 5.0 com Long Range e pot\^encia de -12 a +9 dBm. Sensibilidade de -94 dBm a 1 Mbps garante conex\~ao estável. O stack NimBLE ocupa apenas 42 KB de RAM. Antena PCB integrada com ganho de 2,1 dBi.
 
-\textbf{Interfaces:} I2C a 400 kHz para BMI160 (GPIO 21/22), GPIO 4 para wake-up do Placa Computacional, GPIOs 8/9 para LEDs via PWM 5 kHz, UART debug a 115200 baud (GPIO 1/3)
+\textbf{Interfaces:} I2C a 400 kHz para BMI160 (GPIO 21/22), GPIO 4 para wake-up da Placa Computacional, GPIOs 8/9 para LEDs via PWM 5 kHz, UART debug a 115200 baud (GPIO 1/3)
 e Wi-Fi 2.4~GHz integradas\cite{espressif2020}. Escolhemos este chip (na
 forma de um módulo “Super Mini” compacto de 18~mm x 25~mm) para ser o
 \textbf{nó sensor} devido a seu baixíssimo consumo em modo de espera e
@@ -765,7 +765,7 @@ transmitir eventuais imagens pequenas. \item Baixo consumo e modo Deep Sleep: O 
 consumindo na ordem de poucos microampères, mantendo apenas o RTC ativo
 para despertar periodicamente ou por interrupção externa. Isso foi
 essencial para cumprir RNF-01 de autonomia. \item Suporte a periféricos e DMA: A necessidade de ler o sensor inercial a alta taxa
-(100 Hz ou mais) e eventualmente repassar dados ao Placa Computacional requer
+(100 Hz ou mais) e eventualmente repassar dados à Placa Computacional requer
 capacidade de comunicação I2C/UART eficiente. O Node MCU possui
 controladores I2C dedicados e pode utilizar DMA para minimizar
 latências, garantindo desempenho em tempo real para detecção.
@@ -777,7 +777,7 @@ de leitura de sensores e detecção, rodando a cada 10 ms, e uma tarefa de
 comunicação BLE para envio de dados. Optamos por um algoritmo de
 detecção simples baseado em limiar de aceleração resultante e variação
 de ângulo (integral do giroscópio). Ao detectar um possível acidente, o
-Node MCU aciona imediatamente a linha de \textit{wake} do Placa Computacional
+Node MCU aciona imediatamente a linha de \textit{wake} da Placa Computacional
 (saída GPIO conectada a um pino de \textit{shutdown} da Placa Computacional configurado
 para esse propósito) e então inicia o procedimento de notificação: envia
 via BLE um pacote sinalizando “acidente detectado” para o app e começa a
@@ -836,7 +836,7 @@ filtro passa-baixas no código para separar a componente estática
 destacar apenas mudanças bruscas. Esse processamento simples foi
 executado no Node MCU sem dificuldades.
 
-\subsection{Placa Computacional} O Placa Computacional Zero
+\subsection{Placa Computacional} A Placa Computacional
 2 W atua como \textbf{módulo de captura de imagem e computação} mais
 pesado. Suas especificações (CPU Broadcom quad-core ARM Cortex-A53 1.0
 GHz, 512 MB RAM, Bluetooth 4.2, Wi-Fi b/g/n) permitem rodar um sistema
@@ -844,23 +844,23 @@ operacional Linux e executar tarefas que seriam inviáveis no
 microcontrolador, como tratamento de imagem e conexão com serviços web.
 Escolhemos este modelo por equilibrar baixo consumo e tamanho reduzido
 com capacidade de rodar algoritmos de visão e aplicativos de rede.
-Alternativas consideradas incluíram o Placa Computacional 3A+ (mais potente,
+Alternativas consideradas incluíram a Placa Computacional 3A+ (mais potente,
 porém maior e de consumo maior) e módulos microcontroladores com câmera
 (Node MCU-CAM, Node MCU-S3 Eye), mas concluímos que a confiabilidade na
 gravação de vídeo e upload exigia um sistema operacional robusto. Assim,
-o Placa Computacional integra a arquitetura final, mantendo-se inativo na maior
+a Placa Computacional integra a arquitetura final, mantendo-se inativa na maior
 parte do tempo (modo \textit{idle}/espera) e entrando em ação apenas
 quando necessário.
 
 Para otimizar o uso da Placa Computacional e cumprir RNF-01: \begin{itemize} \item
-Inicialização sob demanda: Configuramos o Placa Computacional para iniciar em
+Inicialização sob demanda: Configuramos a Placa Computacional para iniciar em
 \textit{boot} somente quando alimentado por uma linha de 5V controlada
 pelo Node MCU (via um transistor MOSFET atuando como chave). Ou seja, no
 estado normal, o Node MCU não alimenta a Placa Computacional, poupando a bateria; ao
 detectar um acidente, o Node MCU libera a alimentação e aciona o boot do
 Pi. Essa estratégia, implementada no protótipo final de forma
-simplificada (a Placa Computacional era ligado junto com todo o sistema, mas em futuras
-versões seria ligado sob demanda), garante que o consumo elevado da
+simplificada (a Placa Computacional era ligada junto com todo o sistema, mas em futuras
+versões seria ligada sob demanda), garante que o consumo elevado da
 Placa Computacional não interfira na autonomia exceto nos momentos críticos. \item
 Sistema minimizado: No sistema operacional da Placa Computacional removemos serviços
 desnecessários, desabilitamos interface gráfica e até desligamos saídas
@@ -886,15 +886,15 @@ segundos em rede 5G. Caso o upload demore ou não haja conexão, o vídeo
 fica armazenado localmente e é empilhado na fila de sincronização,
 sendo enviado automaticamente quando a conexão for restabelecida. \end{itemize}
 
-Nos testes, o Placa Computacional cumpriu seu papel, embora seu consumo seja
+Nos testes, a Placa Computacional cumpriu seu papel, embora seu consumo seja
 significativo: medimos ~200 mA em idle e picos de 500--600 mA durante
-compressão e upload de vídeo. Por isso, reforça-se que mantê-lo
-desligado quando possível é crucial. O protótipo final não implementou
+compressão e upload de vídeo. Por isso, reforça-se que mantê-la
+desligada quando possível é crucial. O protótipo final não implementou
 hardware para desligar completamente a Placa Computacional (devido a limitações de
 tempo), mas tal melhoria está documentada para trabalhos futuros.
 
 \subsection{Câmera Grande Angular 160°} Para a coleta de evidências
-visuais, utilizamos uma câmera compatível com o Placa Computacional baseada no
+visuais, utilizamos uma câmera compatível com a Placa Computacional baseada no
 sensor OmniVision OV5647 de 5 Megapixels (a mesma especificação da
 câmera oficial Pi v1). Escolhemos acoplar a essa câmera uma lente do
 tipo \textit{fisheye} de 160° de campo de visão, ampliando
@@ -926,7 +926,7 @@ obstáculos).
 a um circuito \textit{step-up} que provê 5 V estáveis para os
 dispositivos (Node MCU e Placa Computacional). Essa bateria, em teoria, fornece
 ~9,25 Wh; considerando consumo médio de ~0,9 W (Node MCU ~0,1 W + Placa Computacional
-desligado ~0,05 W + picos esporádicos do Placa Computacional ativo), a autonomia
+desligada ~0,05 W + picos esporádicos da Placa Computacional ativa), a autonomia
 estimada é de aproximadamente 10 horas, atendendo RNF-01.
 
 Implementamos monitoramento do nível da bateria via módulo INA219,
@@ -961,7 +961,7 @@ reconhecimento do estado de carregamento, requerendo ajustes de firmware.
 
 \section{Desenvolvimento do Software Embarcado e Aplicativo}
 \label{sec:software} A implementação em software dividiu-se em três
-frentes: firmware do Node MCU, scripts e programas no Placa Computacional, e
+frentes: firmware do Node MCU, scripts e programas na Placa Computacional, e
 aplicativo iOS. Destacamos particularidades e metodologias
 utilizadas em cada qual.
 
@@ -1002,7 +1002,7 @@ desconectado), tenta reenvio algumas vezes e, se ainda sem sucesso,
 guarda o evento numa memória flash para tentar entregar posteriormente.
 \item Manutenção do estado: após enviar o alerta, o Node MCU permanece
 acordado por algum tempo para repassar dados complementares. Por exemplo,
-conforme o Placa Computacional fizer upload do vídeo e informar o link, o Node MCU
+conforme a Placa Computacional fizer upload do vídeo e informar o link, o Node MCU
 pode enviar esse link ao app via BLE. \end{enumerate}
 
 Adicionalmente, implementamos telemetria contínua: quando não
@@ -1147,9 +1147,9 @@ cada módulo de hardware e seu papel no sistema:
 \subsection{Integração dos Módulos} Os componentes foram montados em
 uma estrutura única: utilizou-se uma placa de circuito impresso
 artesanal para fixar o Node MCU, o sensor BMI160 e um regulador de
-tensão step-up. O Placa Computacional, por sua vez, fica acoplado acima
+tensão step-up. A Placa Computacional, por sua vez, fica acoplada acima
 (usamos espaçadores e conexões de arame para ligar a linha de
-\textit{wake} e a alimentação comum). A câmera está conectada ao
+\textit{wake} e a alimentação comum). A câmera está conectada à
 Placa Computacional via cabo flat na interface CSI. A bateria Li-ion fica
 alojada em compartimento próprio, com acesso externo para recarga.
 
@@ -1379,7 +1379,7 @@ cumpridos os objetivos de resistência física (RNF-02). \item
 Consumo real: Em um teste de autonomia, deixamos o sistema
 ligado (com Placa Computacional dormindo, Node MCU transmitindo telemetria ocasional) por
 10 horas antes que a bateria atinja o limite. Isso deverá validar a
-meta de 10h. Com pequenas otimizações (como desligar completamente o Placa Computacional
+meta de 10h. Com pequenas otimizações (como desligar completamente a Placa Computacional
 quando o motor da moto está off), certamente ultrapassaríamos 12h
 facilmente. \item Aderência social: Embora não um resultado
 técnico mensurável, comentamos que ao demonstrar o protótipo para alguns
